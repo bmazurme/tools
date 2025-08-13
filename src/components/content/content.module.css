@@ -1,0 +1,29 @@
+.page {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+  height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+  min-width: 100px;
+  background-color: antiquewhite;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: yellowgreen;
+  height: 100px;
+  width: 100px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  background-color: steelblue;
+}

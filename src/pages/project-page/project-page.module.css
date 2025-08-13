@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: cadetblue;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: tomato;
+  margin: 0;
+  padding: 0;
+}
