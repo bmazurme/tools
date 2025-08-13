@@ -2,9 +2,6 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
 
-import type { BlockType } from '../../components/block';
-import type { ItemType } from '../../components/item';
-
 type BlocksState = {
   data: {
     blocks: BlockType[],
@@ -21,7 +18,7 @@ export const initialStateRainRoofsBlock: BlocksState = {
           {
             id: 0,
             name: 'item',
-            column: 'block_0',
+            column: 0,
             index: 0,
           },
         ],
@@ -69,7 +66,7 @@ const slice = createSlice({
       ...state,
       data: {
         blocks: state.data.blocks.map((block) => blockId === block.id 
-        ? { ...block, items: [...block.items, { id: nextId, name: 'item', column: `block_${blockId}`, index: block.items.length } ] }
+        ? { ...block, items: [...block.items, { id: nextId, name: 'item', column: blockId, index: block.items.length } ] }
         : block),
       },
     };
@@ -91,9 +88,8 @@ const slice = createSlice({
       state,
       { payload: { dragIndex, hoverIndex, item } }: PayloadAction<{ dragIndex: number, hoverIndex: number, item: ItemType }>,
     ) => {
-      console.log(item);
       const blocks = state.data.blocks.map((b) => {
-        if (b.id === Number(item.column.split('_')[1])) {
+        if (b.id === item.column) {
           const dragItem = b.items.find((x: ItemType) => x.id === item.id);
           dragIndex = b.items.findIndex((x: ItemType) => x.id === item.id);
   
@@ -109,7 +105,6 @@ const slice = createSlice({
           return b;
         }
       });
-      console.log(blocks);
 
       return { ...state, data: { blocks } };
     }, 
@@ -131,17 +126,17 @@ const slice = createSlice({
       state,
       { payload: { blockId, itemId, targetBlockId } }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number; }>,
     ) => {
-        const current = [...state.data.blocks].find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
+      const current = [...state.data.blocks].find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
 
-        const _blocks: BlockType[] = [...state.data.blocks].map((block) => {
-          if (block.id === blockId) {
-            return { ...block, items: block.items.filter((it) => it.id !== current.id) };
-          } else if (block.id === targetBlockId) {
-            return { ...block, items: [...block.items, { ...current, column: `block_${block.id}` }] };
-          } else {
-            return block
-          }
-        });
+      const _blocks: BlockType[] = [...state.data.blocks].map((block) => {
+        if (block.id === blockId) {
+          return { ...block, items: block.items.filter((it) => it.id !== current.id) };
+        } else if (block.id === targetBlockId) {
+          return { ...block, items: [...block.items, { ...current, column: block.id }] };
+        } else {
+          return block
+        }
+      });
 
       return {
         ...state,
@@ -161,6 +156,6 @@ export const {
   removeRainRoofItem,
   refreshRainRoofItems,
 } = slice.actions;
-export default slice.reducer;
 
+export default slice.reducer;
 export const rainRoofsSelector = (state: RootState) => state.rainRoofs.data;
