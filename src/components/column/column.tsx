@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { useAppDispatch } from '../../hooks';
 import { addRainRoofItem, removeRainRoofBlock } from '../../store';
+import { TARGET_TYPE } from '../../config';
 
 type ColumnType = {
   children: ReactNode;
@@ -12,24 +13,22 @@ type ColumnType = {
 export default function Column({ children, blockId }: ColumnType) {
   const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept: 'items',
-    drop: () => ({ name: `block_${blockId}` }),
+    accept: TARGET_TYPE.ITEMS,
+    drop: () => ({ blockId }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
-    canDrop: (item: unknown) => {
+    canDrop: (item: ItemType) => {
       if (typeof item !== 'object' || item === null) {
         return false;
       }
 
-      if (!('currentColumnName' in item)) {
+      if (!('column' in item)) {
         return false;
       }
 
-      const currentColumnName = item.currentColumnName as string;
-
-      return currentColumnName.split('_')[0] === 'block';
+      return typeof item.column === 'number'; /// !!!
     },
   });
 
