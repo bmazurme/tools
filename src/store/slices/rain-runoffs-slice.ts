@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
 
-import type { BlockType } from '../../components/block';
-
 type BlocksState = {
   data: {
     blocks: BlockType[],
@@ -47,6 +45,6 @@ const slice = createSlice({
 });
 
 export const { addRainRunoffBlock } = slice.actions;
-export default slice.reducer;
 
+export default slice.reducer;
 export const rainRunoffsSelector = (state: RootState) => state.rainRunoffs.data;
