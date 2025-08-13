@@ -10,7 +10,6 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 export default function Board() {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
-  // console.log(blocks);
   const onHandleAddBlock = () => dispatch(addRainRoofBlock({}));
   const returnBlocksForColumn = () => blocks.map((block, index) => (
     <Block
