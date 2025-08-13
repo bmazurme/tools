@@ -3,27 +3,14 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import { changeItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../store';
 import { useAppDispatch } from '../hooks';
-
-export type ItemType = {
-  id: number;
-  name: string;
-  column: string;
-  index: number;
-};
+import { TARGET_TYPE } from '../config';
 
 export default function Item({ item, index }:{ item: ItemType; index: number }) {
   const dispatch = useAppDispatch();
-
-  const moveCardHandler = async (dragIndex: number, hoverIndex: number, item: ItemType & { currentColumnName: string }) => {
-    dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item: {
-      id: item.id, name: item.name, column: item.currentColumnName,
-      index: item.index,
-    } }));
-  };
-
   const ref = useRef<HTMLDivElement>(null);
+
   const [, drop] = useDrop({
-    accept: 'items',
+    accept: TARGET_TYPE.ITEMS,
     hover(item: ItemType, monitor) {
       if (!ref.current) {
         return;
@@ -49,28 +36,23 @@ export default function Item({ item, index }:{ item: ItemType; index: number }) 
         return;
       }
 
-      moveCardHandler(dragIndex, hoverIndex, item);
+      dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item }));
       item.index = hoverIndex;
     },
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'items',
-    item: {
-      index, name: item.name, currentColumnName: item.column, id: item.id,
-    },
+    type: TARGET_TYPE.ITEMS,
+    item: { ...item, index },
     end: (_item, monitor) => {
       const dropResult = monitor.getDropResult();
 
       if (dropResult) {
-        const { name } = dropResult as { name: string };
+        const { blockId: targetBlockId } = dropResult as { blockId: number };
 
-        if (name && name.split('_')[0] === 'block') {
-          const blockId = Number(_item.currentColumnName!.split('_')[1]);
-          const targetBlockId = Number(name!.split('_')[1]);
-
-          if (blockId !== targetBlockId) {
-            dispatch(changeItemColumn({ blockId, targetBlockId, itemId: _item.id }));
+        if (typeof targetBlockId === 'number') { /// !!!
+          if (_item.column !== targetBlockId) {
+            dispatch(changeItemColumn({ blockId: _item.column, targetBlockId, itemId: _item.id }));
           }
         }
       }
@@ -87,7 +69,7 @@ export default function Item({ item, index }:{ item: ItemType; index: number }) 
     <div ref={ref} className="item" style={{ opacity }}>
       {`${item.id} - item - ${item.name}`}
         <button
-          onClick={() => dispatch(removeRainRoofItem({ itemId: item.id, blockId: Number(item.column?.split('_')[1]) }))
+          onClick={() => dispatch(removeRainRoofItem({ itemId: item.id, blockId: item.column }))
           }
           title="Удалить строку"
         >
