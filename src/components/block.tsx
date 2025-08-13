@@ -3,22 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 
 import Column from './column/column';
-import Item,  { type ItemType } from './item';
+import Item from './item';
 
 import { useAppSelector, useAppDispatch } from '../hooks';
 import { rainRoofsSelector, movedRainRoofBlock } from '../store';
-
-export type BlockType = {
-  id: number;
-  name: string;
-  items: ItemType[];
-}
-export type BlocksType = BlockType[];
+import { TARGET_TYPE } from '../config';
 
 export default function Block({ block, index }: { block: BlockType; index: number }) {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
-  console.log(blocks);
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
@@ -30,7 +23,7 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
   };
 
   const [, drop] = useDrop({
-    accept: 'blocks',
+    accept: TARGET_TYPE.BLOCKS,
     hover(itm: { index: number }, monitor) {
       if (!ref.current) {
         return;
@@ -60,7 +53,7 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
   });
 
   const [{ isDragging }, drag] = useDrag({
-    type: 'blocks',
+    type: TARGET_TYPE.BLOCKS,
     item: { index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
