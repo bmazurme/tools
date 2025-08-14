@@ -24,10 +24,6 @@ export default function Column({ children, blockId }: ColumnType) {
         return false;
       }
 
-      if (!('column' in item)) {
-        return false;
-      }
-
       return typeof item.column === 'number'; /// !!!
     },
   });
