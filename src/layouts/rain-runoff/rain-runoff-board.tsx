@@ -2,15 +2,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import Block from './block';
+import Block from './rain-runoff-block';
 
-import { addRainRoofBlock, rainRoofsSelector } from '../store';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { addRainRunoffBlock, rainRunoffsSelector } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 export default function Board() {
   const dispatch = useAppDispatch();
-  const { blocks } = useAppSelector(rainRoofsSelector);
-  const onHandleAddBlock = () => dispatch(addRainRoofBlock({}));
+  const { blocks } = useAppSelector(rainRunoffsSelector);
   const returnBlocksForColumn = () => blocks.map((block, index) => (
     <Block
       key={uuidv4()}
@@ -24,7 +23,7 @@ export default function Board() {
       {returnBlocksForColumn()}
       <button
         title="Добавить блок"
-        onClick={onHandleAddBlock}
+        onClick={() => dispatch(addRainRunoffBlock({}))}
       >
         Добавить блок
       </button>
