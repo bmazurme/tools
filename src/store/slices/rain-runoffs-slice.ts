@@ -4,8 +4,8 @@ import type { RootState } from '..';
 
 type BlocksState = {
   data: {
-    blocks: BlockType[],
-  },
+    blocks: BlockType[];
+  };
 };
 
 export const initialRainRunoffsStateBlock: BlocksState = {
