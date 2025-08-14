@@ -2,14 +2,20 @@ import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 
-import Column from './column/column';
-import Item from './item';
+import Column from './rain-runoff-column';
+import Item from './rain-runoff-item';
 
-import { useAppSelector, useAppDispatch } from '../hooks';
-import { rainRoofsSelector, movedRainRoofBlock } from '../store';
-import { TARGET_TYPE } from '../config';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { movedRainRoofBlock, rainRoofsSelector } from '../../store';
+import { TARGET_TYPE } from '../../config';
 
-export default function Block({ block, index }: { block: BlockType; index: number }) {
+export default function Block({
+  block,
+  index,
+}: {
+  block: BlockType;
+  index: number;
+}) {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
   const ref = useRef<HTMLDivElement>(null);
@@ -35,7 +41,8 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
         return;
       }
       const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset()!;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
@@ -61,15 +68,10 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
   });
 
   const returnItemsForColumn = (block: BlockType) => {
-    return block.items
-    .map((item: ItemType, idx: number) => (
-      <Item
-        key={uuidv4()}
-        index={idx}
-        item={item}
-      />
+    return block.items.map((item: ItemType, idx: number) => (
+      <Item key={uuidv4()} index={idx} item={item} />
     ));
-  }
+  };
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
@@ -83,9 +85,7 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
       className="block"
     >
       {`block_${block.id}`}
-      <Column blockId={block.id}>
-        {returnItemsForColumn(block)}
-      </Column>
+      <Column blockId={block.id}>{returnItemsForColumn(block)}</Column>
     </div>
   );
 }
