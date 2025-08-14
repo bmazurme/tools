@@ -7,10 +7,10 @@ import DocumentPage from './pages/document-page/document-page';
 import DocumentAddPage from './pages/document-add-page/document-add-page';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 
-import RainRunoff from './layouts/RainRunoff';
-import RainRoof from './layouts/RainRoof';
+import RainRunoff from './layouts/rain-runoff/rain-runoff';
+import RainRoof from './layouts/rain-roof/rain-roof';
 
-import './App.css'
+import './app.css'
 
 function App() {
   return (
