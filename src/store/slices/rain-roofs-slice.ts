@@ -1,11 +1,11 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
 
 type BlocksState = {
   data: {
-    blocks: BlockType[],
-  },
+    blocks: BlockType[];
+  };
 };
 
 export const initialStateRainRoofsBlock: BlocksState = {
@@ -55,7 +55,7 @@ const slice = createSlice({
     }),
     addRainRoofItem: (
       state,
-      { payload: { blockId } }: PayloadAction<{ blockId: number; }>,
+      { payload: { blockId } }: PayloadAction<{ blockId: number }>,
     ) => {
       const nextId = state.data.blocks.reduce((a, x) => {
         const m = x.items.length > 0 ? Math.max(...x.items.map((obj) => obj.id)) : 0;
@@ -63,30 +63,30 @@ const slice = createSlice({
       }, 0);
 
       return {
-      ...state,
-      data: {
-        blocks: state.data.blocks.map((block) => blockId === block.id 
-        ? { ...block, items: [...block.items, { id: nextId, name: 'item', column: blockId, index: block.items.length } ] }
-        : block),
-      },
-    };
+        ...state,
+        data: {
+          blocks: state.data.blocks.map((block) => blockId === block.id 
+          ? { ...block, items: [...block.items, { id: nextId, name: 'item', column: blockId, index: block.items.length } ] }
+          : block),
+        },
+      };
     },
     removeRainRoofItem: (
       state,
-      { payload: { itemId, blockId } }: PayloadAction<{ itemId: number; blockId: number; }>,
+      { payload: { itemId, blockId } }: PayloadAction<{ itemId: number; blockId: number }>,
     ) => {      
       return {
-      ...state,
-      data: {
-        blocks: state.data.blocks.map((block) => blockId === block.id 
-        ? { ...block, items: block.items.filter((x) => x.id !== itemId) }
-        : block),
-      },
-    };
+        ...state,
+        data: {
+          blocks: state.data.blocks.map((block) => blockId === block.id 
+          ? { ...block, items: block.items.filter((x) => x.id !== itemId) }
+          : block),
+        },
+      };
     }, 
     refreshRainRoofItems: (
       state,
-      { payload: { dragIndex, hoverIndex, item } }: PayloadAction<{ dragIndex: number, hoverIndex: number, item: ItemType }>,
+      { payload: { dragIndex, hoverIndex, item } }: PayloadAction<{ dragIndex: number; hoverIndex: number; item: ItemType }>,
     ) => {
       const blocks = state.data.blocks.map((b) => {
         if (b.id === item.column) {
@@ -124,11 +124,11 @@ const slice = createSlice({
     ) => ({ ...state, data: { blocks: state.data.blocks.filter((block) => block.id !== blockId) } }),
     changeItemColumn: (
       state,
-      { payload: { blockId, itemId, targetBlockId } }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number; }>,
+      { payload: { blockId, itemId, targetBlockId } }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number }>,
     ) => {
       const current = [...state.data.blocks].find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
 
-      const _blocks: BlockType[] = [...state.data.blocks].map((block) => {
+      const blocks: BlockType[] = [...state.data.blocks].map((block) => {
         if (block.id === blockId) {
           return { ...block, items: block.items.filter((it) => it.id !== current.id) };
         } else if (block.id === targetBlockId) {
@@ -138,10 +138,7 @@ const slice = createSlice({
         }
       });
 
-      return {
-        ...state,
-        data: { blocks: _blocks },
-      };
+      return { ...state, data: { blocks } };
     },
 
   },
