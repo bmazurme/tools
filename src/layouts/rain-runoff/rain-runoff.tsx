@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 
-import Board from '../components/board';
+import Board from './rain-runoff-board';
 
 export default function RainRunoffPage() {
   const { projectId, id } = useParams();
