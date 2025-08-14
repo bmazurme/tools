@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { changeItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../store';
-import { useAppDispatch } from '../hooks';
-import { TARGET_TYPE } from '../config';
+import { changeItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../../store';
+import { useAppDispatch } from '../../hooks';
+import { TARGET_TYPE } from '../../config';
 
-export default function Item({ item, index }:{ item: ItemType; index: number }) {
+export default function Item({ item, index }: { item: ItemType; index: number }) {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -69,8 +69,7 @@ export default function Item({ item, index }:{ item: ItemType; index: number }) 
     <div ref={ref} className="item" style={{ opacity }}>
       {`${item.id} - item - ${item.name}`}
         <button
-          onClick={() => dispatch(removeRainRoofItem({ itemId: item.id, blockId: item.column }))
-          }
+          onClick={() => dispatch(removeRainRoofItem({ itemId: item.id, blockId: item.column })) }
           title="Удалить строку"
         >
           Удалить строку
