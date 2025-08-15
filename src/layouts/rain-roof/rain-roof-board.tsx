@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Button } from '@gravity-ui/uikit';
 
 import Block from './rain-roof-block';
 
 import { addRainRoofBlock, rainRoofsSelector } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-export default function Board() {
+export default function RainRoofBoard() {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
   const returnBlocksForColumn = () => blocks.map((block, index) => (
@@ -21,12 +22,14 @@ export default function Board() {
   return (
     <DndProvider backend={HTML5Backend}>
       {returnBlocksForColumn()}
-      <button
+      <Button
+        view="action"
+        size="m"
         title="Добавить блок"
         onClick={() => dispatch(addRainRoofBlock({}))}
       >
         Добавить блок
-      </button>
+      </Button>
     </DndProvider>
   );
 }
