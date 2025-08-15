@@ -1,22 +1,23 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import Item from '../../components/item/item';
 
-import { changeItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../../store';
+import { changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../../store';
 import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
 
-export default function Item({ item, index }: { item: ItemType; index: number }) {
+export default function RainRoofItem({ item, index }: { item: ItemType; index: number }) {
   const dispatch = useAppDispatch();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    hover(item: ItemType, monitor) {
+    hover(_item: ItemType, monitor) {
       if (!ref.current) {
         return;
       }
 
-      const dragIndex = item.index!;
+      const dragIndex = _item.index;
       const hoverIndex = index;
 
       if (dragIndex === hoverIndex) {
@@ -25,19 +26,23 @@ export default function Item({ item, index }: { item: ItemType; index: number })
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset()!;
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const clientOffset = monitor.getClientOffset();
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
+      if (clientOffset?.y) {
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+
+        dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item: _item }));
+        // eslint-disable-next-line no-param-reassign
+        _item.index = hoverIndex;
       }
-
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item }));
-      item.index = hoverIndex;
     },
   });
 
@@ -52,7 +57,7 @@ export default function Item({ item, index }: { item: ItemType; index: number })
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            dispatch(changeItemColumn({ blockId: _item.column, targetBlockId, itemId: _item.id }));
+            dispatch(changeRainRoofItemColumn({ blockId: _item.column, targetBlockId, itemId: _item.id }));
           }
         }
       }
@@ -62,18 +67,15 @@ export default function Item({ item, index }: { item: ItemType; index: number })
     }),
   });
 
+  const onHandleRemoveItem = () => dispatch(removeRainRoofItem(item));
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
   return (
-    <div ref={ref} className="item" style={{ opacity }}>
-      {`${item.id} - item - ${item.name}`}
-        <button
-          onClick={() => dispatch(removeRainRoofItem({ itemId: item.id, blockId: item.column })) }
-          title="Удалить строку"
-        >
-          Удалить строку
-        </button>
-    </div>
+    <li ref={ref} className="item" style={{ opacity }}>
+      <Item action={onHandleRemoveItem}>
+        {`${item.id} - item - ${item.name}`}
+      </Item>
+    </li>
   );
 }
