@@ -2,14 +2,22 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: cadetblue;
+  /* background-color: cadetblue; */
 }
 
 .title {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: tomato;
+  /* background-color: tomato; */
   margin: 0;
   padding: 0;
+}
+
+.modal {
+  /* width: 120px;
+  height: 120px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
