@@ -2,14 +2,15 @@ import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 
+import Block from '../../components/block/block';
 import Column from './rain-roof-column';
 import Item from './rain-roof-item';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { movedRainRoofBlock, rainRoofsSelector } from '../../store';
+import { movedRainRoofBlock, rainRoofsSelector, removeRainRoofBlock } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
-export default function Block({ block, index }: { block: BlockType; index: number }) {
+export default function RainRoofBlock({ block, index }: { block: BlockType; index: number }) {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
   const ref = useRef<HTMLDivElement>(null);
@@ -24,31 +25,37 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.BLOCKS,
-    hover(itm: { index: number }, monitor) {
+    hover(item: { index: number }, monitor) {
       if (!ref.current) {
         return;
       }
-      const dragIndex = itm.index!;
+      
+      const dragIndex = item.index;
       const hoverIndex = index;
 
       if (dragIndex === hoverIndex) {
         return;
       }
+
       const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset()!;
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const clientOffset = monitor.getClientOffset();
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
+      if (clientOffset?.y) {
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+
+        moveBlockHandler(dragIndex, hoverIndex);
+        // eslint-disable-next-line no-param-reassign
+        item.index = hoverIndex;
       }
-
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      moveBlockHandler(dragIndex, hoverIndex);
-      itm.index = hoverIndex;
     },
   });
 
@@ -60,9 +67,8 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
     }),
   });
 
-  const returnItemsForColumn = (block: BlockType) => {
-    return block.items
-    .map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = (items: ItemType[]) => {
+    return items.map((item: ItemType, idx: number) => (
       <Item
         key={uuidv4()}
         index={idx}
@@ -73,6 +79,7 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
+  const onHandleRemoveBlock = () => dispatch(removeRainRoofBlock({ blockId: block.id }));
 
   drag(drop(ref));
 
@@ -82,9 +89,9 @@ export default function Block({ block, index }: { block: BlockType; index: numbe
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      {`block_${block.id}`}
+      <Block action={onHandleRemoveBlock} value={`block_${block.id}`}/>
       <Column blockId={block.id}>
-        {returnItemsForColumn(block)}
+        {returnItemsForColumn(block.items)}
       </Column>
     </div>
   );
