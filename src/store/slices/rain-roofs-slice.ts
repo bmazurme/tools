@@ -73,13 +73,13 @@ const slice = createSlice({
     },
     removeRainRoofItem: (
       state,
-      { payload: { itemId, blockId } }: PayloadAction<{ itemId: number; blockId: number }>,
+      { payload: { id, column } }: PayloadAction<ItemType>,
     ) => {      
       return {
         ...state,
         data: {
-          blocks: state.data.blocks.map((block) => blockId === block.id 
-          ? { ...block, items: block.items.filter((x) => x.id !== itemId) }
+          blocks: state.data.blocks.map((block) => column === block.id 
+          ? { ...block, items: block.items.filter((x) => x.id !== id) }
           : block),
         },
       };
@@ -122,10 +122,11 @@ const slice = createSlice({
       state,
       { payload: { blockId } },
     ) => ({ ...state, data: { blocks: state.data.blocks.filter((block) => block.id !== blockId) } }),
-    changeItemColumn: (
+    changeRainRoofItemColumn: (
       state,
       { payload: { blockId, itemId, targetBlockId } }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number }>,
     ) => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const current = [...state.data.blocks].find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
 
       const blocks: BlockType[] = [...state.data.blocks].map((block) => {
@@ -140,14 +141,13 @@ const slice = createSlice({
 
       return { ...state, data: { blocks } };
     },
-
   },
 });
 
 export const {
   addRainRoofBlock,
   movedRainRoofBlock,
-  changeItemColumn,
+  changeRainRoofItemColumn,
   removeRainRoofBlock,
   addRainRoofItem,
   removeRainRoofItem,
