@@ -1,17 +1,9 @@
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router-dom';
 
 export default function DocumentPage() {
   return (
     <div>
-      <div>
-        <div>
-          Document title [edit] [delete]
-        </div>
-      </div>
-      
-      <div>
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }
