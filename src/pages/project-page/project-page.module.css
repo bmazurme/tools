@@ -1,17 +1,13 @@
 .content {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  /* background-color: cadetblue; */
-}
+  gap: 16px;
+  /* align-items: flex-start; */
+  padding: 24px;
 
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* background-color: tomato; */
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
+
+  /* overflow: auto; */
 }
 
 .modal {
