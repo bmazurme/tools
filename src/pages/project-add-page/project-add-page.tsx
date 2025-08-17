@@ -12,7 +12,7 @@ export default function ProjectAddPage() {
   return (
     <Content menu={[]} sidebar>
       <div className="content">
-        <Button view="flat" size="l" onClick={() => navigate(-1)}>
+        <Button view="flat" size="m" onClick={() => navigate(-1)}>
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
