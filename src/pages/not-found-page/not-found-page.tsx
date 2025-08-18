@@ -2,7 +2,7 @@ import Content from '../../components/content/content';
 
 export default function NotFoundPage() {
   return (
-    <Content menu={[]}>
+    <Content>
       404
     </Content>
   );
