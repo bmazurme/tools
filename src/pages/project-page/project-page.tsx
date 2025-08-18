@@ -8,9 +8,9 @@ import style from './project-page.module.css';
 
 export default function ProjectPage() {
   const navigate = useNavigate();
-  
+
   return (
-    <Content menu={[]} sidebar>
+    <Content sidebar>
       <div className="content">
         <Button view="flat" size="m" onClick={() => navigate(-1)}>
           <Icon data={ArrowLeft} size={18} />
