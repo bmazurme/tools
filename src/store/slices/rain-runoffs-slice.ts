@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
@@ -54,32 +53,39 @@ const slice = createSlice({
       return {
         ...state,
         data: {
-          blocks: state.data.blocks.map((block) => blockId === block.id 
-          ? { ...block, items: [...block.items, { id: nextId, name: 'item', column: blockId, index: block.items.length } ] }
-          : block),
+          blocks: state.data.blocks.map((block) => (blockId === block.id
+            ? {
+              ...block,
+              items: [...block.items, {
+                id: nextId, name: 'item', column: blockId, index: block.items.length,
+              }],
+            }
+            : block)),
         },
       };
     },
     refreshRainRunoffItems: (
       state,
-      { payload: { dragIndex, hoverIndex, item } }: PayloadAction<{ dragIndex: number; hoverIndex: number; item: ItemType }>,
+      {
+        payload: { dragIndex, hoverIndex, item },
+      }: PayloadAction<{ dragIndex: number; hoverIndex: number; item: ItemType }>,
     ) => {
-            const blocks = state.data.blocks.map((b) => {
+      const blocks = state.data.blocks.map((b) => {
         if (b.id === item.column) {
           const dragItem = b.items.find((x: ItemType) => x.id === item.id);
+          // eslint-disable-next-line no-param-reassign
           dragIndex = b.items.findIndex((x: ItemType) => x.id === item.id);
-  
+
           if (dragItem) {
             const newItems = [...b.items];
             const [movedItem] = newItems.splice(dragIndex, 1);
             newItems.splice(hoverIndex, 0, movedItem);
-  
+
             return { ...b, items: newItems.map((x, i) => ({ ...x, index: i })) };
           }
           return b;
-        } else {
-          return b;
         }
+        return b;
       });
 
       return { ...state, data: { blocks } };
@@ -92,38 +98,45 @@ const slice = createSlice({
       const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
       coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
 
-      return { ...state, data: { blocks: coppiedStateArray.map((item, i) => ({ ...item, index: i })) } };
+      return {
+        ...state,
+        data: { blocks: coppiedStateArray.map((item, i) => ({ ...item, index: i })) },
+      };
     },
     removeRainRunoffBlock: (
       state,
       { payload: { blockId } },
-    ) => ({ ...state, data: { blocks: state.data.blocks.filter((block) => block.id !== blockId) } }),
+    ) => ({
+      ...state,
+      data: { blocks: state.data.blocks.filter((block) => block.id !== blockId) },
+    }),
     removeRainRunoffItem: (
       state,
       { payload: { id, column } }: PayloadAction<ItemType>,
     ) => ({
       ...state,
       data: {
-        blocks: state.data.blocks.map((block) => column === block.id 
-        ? { ...block, items: block.items.filter((x) => x.id !== id) }
-        : block),
+        blocks: state.data.blocks.map((block) => (column === block.id
+          ? { ...block, items: block.items.filter((x) => x.id !== id) }
+          : block)),
       },
     }),
     changeRainRunoffItemColumn: (
       state,
-      { payload: { blockId, itemId, targetBlockId } }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number }>,
+      {
+        payload: { blockId, itemId, targetBlockId },
+      }: PayloadAction<{ blockId: number; itemId: number; targetBlockId: number }>,
     ) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const current = [...state.data.blocks].find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
+      const current = [...state.data.blocks]
+        .find((b) => b.id === blockId)!.items.find((it) => it.id === itemId)!;
 
       const blocks: BlockType[] = [...state.data.blocks].map((block) => {
         if (block.id === blockId) {
           return { ...block, items: block.items.filter((it) => it.id !== current.id) };
-        } else if (block.id === targetBlockId) {
+        } if (block.id === targetBlockId) {
           return { ...block, items: [...block.items, { ...current, column: block.id }] };
-        } else {
-          return block
         }
+        return block;
       });
 
       return { ...state, data: { blocks } };
@@ -139,7 +152,7 @@ export const {
   addRainRunoffItem,
   movedRainRunoffBlock,
   changeRainRunoffItemColumn,
- } = slice.actions;
+} = slice.actions;
 
 export default slice.reducer;
 export const rainRunoffsSelector = (state: RootState) => state.rainRunoffs.data;
