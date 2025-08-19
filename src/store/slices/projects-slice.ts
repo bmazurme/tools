@@ -3,13 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import type { RootState } from '..';
 
-type ProjectType = {
-  id: number;
-  name: string;
-  description: string;
-  address: string;
-};
-
 type ProjectsState = {
   data: ProjectType[];
 };
