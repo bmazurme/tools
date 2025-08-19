@@ -1,4 +1,6 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate, useParams } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Button, Icon, Select, Text, TextInput,
 } from '@gravity-ui/uikit';
@@ -6,24 +8,31 @@ import { ArrowLeft } from '@gravity-ui/icons';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Content from '../../components/content/content';
-import { addDocument, documentsSelector } from '../../store';
+import { addDocument, documentsSelector, type DocumentType } from '../../store';
+import fields from './document-add-page.fields';
+
+type FormPayload = Omit<DocumentType, 'id'>;
 
 export default function DocumentAddPage() {
   const dispatch = useAppDispatch();
   const documents = useAppSelector(documentsSelector);
   const navigate = useNavigate();
   const { projectId } = useParams();
+  const {
+    control, handleSubmit, register, formState: { errors },
+  } = useForm<FormPayload>({
+    defaultValues: {
+      name: '',
+      type: '',
+    },
+  });
 
-  const onSubmit = () => {
+  const onSubmit = ({ name, type: [selectedType] }: FormPayload) => {
     dispatch(addDocument({
       data: {
         id: documents.length,
-        name: ` Документ ${documents.length}`,
-        type: {
-          id: documents.length % 2 ? 1 : 0,
-          name: documents.length % 2 ? 'WS' : 'S',
-          link: documents.length % 2 ? 'rain-roof' : 'rain-runoff',
-        },
+        name,
+        type: selectedType,
       },
     }));
     navigate(`/project/${projectId}/document/${documents.length}/rain-roof`);
@@ -31,34 +40,65 @@ export default function DocumentAddPage() {
 
   return (
     <Content sidebar>
-      <div className="content">
+      <form className="content" onSubmit={handleSubmit(onSubmit)}>
         <Button view="flat" size="m" onClick={() => navigate(-1)}>
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
 
         <Text variant="header-1">Добавить документ</Text>
-        <TextInput placeholder="Placeholder" label="Название" size="l" />
-        <Select
-          placeholder="Custom filter"
-          size="l"
-          width="max"
-        >
-          <Select.Option value="val_1">
-            Value 1
-          </Select.Option>
-        </Select>
-        <TextInput placeholder="Placeholder" label="Описание" size="l" />
+
+        {fields.map((input) => (
+          <Controller
+            key={input.name}
+            name={input.name as keyof FormPayload}
+            rules={{
+              pattern: input.pattern,
+              required: input.required,
+            }}
+            control={control}
+            render={({ field, fieldState }) => (
+              field.name !== 'type'
+                ? (
+                  <TextInput
+                    {...field}
+                    {...input}
+                    size="l"
+                    type="text"
+                    error={fieldState.error?.message}
+                  />
+                )
+                : (
+                  <Select
+                    placeholder="Custom filter"
+                    size="l"
+                    width="max"
+                    {...register}
+                    onUpdate={field.onChange}
+                    errorMessage={fieldState.error?.message}
+                    validationState={errors?.type ? 'invalid' : undefined}
+                  >
+                    <Select.Option value="val_1">
+                      rain-roof
+                    </Select.Option>
+                    <Select.Option value="val_2">
+                      rain-runoff
+                    </Select.Option>
+                  </Select>
+                )
+            )}
+          />
+        ))}
 
         <div className="buttons">
-          <Button view="action" size="l" onClick={onSubmit}>
+          <Button view="action" size="l" type="submit">
             Сохранить
           </Button>
           <Button view="flat" size="l" onClick={() => navigate('/projects')}>
             Отменить
           </Button>
         </div>
-      </div>
+      </form>
     </Content>
   );
 }
