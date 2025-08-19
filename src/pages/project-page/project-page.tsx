@@ -4,8 +4,6 @@ import { ArrowLeft } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
 
-import style from './project-page.module.css';
-
 export default function ProjectPage() {
   const navigate = useNavigate();
 
@@ -16,11 +14,11 @@ export default function ProjectPage() {
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
-        <div className={style.main}>
+
+        <div className="project_main">
           <Text variant="header-1">Project Page</Text>
           <Outlet />
         </div>
-
       </div>
     </Content>
   );
