@@ -1,26 +1,21 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Icon,
   Pagination,
   type PaginationProps,
-  Table,
   Text,
   type TableActionConfig,
   type TableDataItem,
-  withTableActions,
 } from '@gravity-ui/uikit';
 import { Plus, TrashBin } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
+import { MyTable } from '../documents-page/documents-page';
 
-import { useAppSelector } from '../../hooks';
-import { projectsSelector } from '../../store';
-
-import style from './projects-page.module.css';
-
-const MyTable = withTableActions(Table);
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { projectsSelector, removeProject } from '../../store';
 
 const columns = [
   { id: 'id', name: '#', width: 60 },
@@ -29,21 +24,14 @@ const columns = [
 
 export default function ProjectsPage() {
   const navigate = useNavigate();
-  const { projectPage } = useParams();
+  const dispatch = useAppDispatch();
   const projects = useAppSelector(projectsSelector);
-  const [state, setState] = React.useState({ page: 1, pageSize: 100 });
-
+  const [state, setState] = useState({ page: 1, pageSize: 10 });
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
-  const getRowActions = (_item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
-    // {
-    //   text: 'Редактировать',
-    //   handler: () => navigate(`/project/${item.id}`),
-    //   theme: 'normal',
-    //   icon: <Icon data={Pencil} size={18} />,
-    // },
+  const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
     {
       text: 'Удалить',
-      handler: () => {},
+      handler: () => dispatch(removeProject({ id: item.id })),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
@@ -61,25 +49,20 @@ export default function ProjectsPage() {
           Добавить проект
         </Button>
 
-        <div className={style.main}>
-          <MyTable
-            className="table"
-            data={projects}
-            columns={columns}
-            getRowActions={getRowActions}
-            onRowClick={handleRowClick}
-          />
+        <MyTable
+          className="table"
+          data={projects.slice((state.page - 1) * 10, state.page * 10)}
+          columns={columns}
+          getRowActions={getRowActions}
+          onRowClick={handleRowClick}
+        />
 
-          {state.page}
-          {' '}
-          -
-          {state.pageSize}
-          {' '}
-          -
-          {projectPage}
-          <Pagination page={1} pageSize={100} total={1000} onUpdate={handleUpdate} />
-        </div>
-
+        <Pagination
+          page={state.page}
+          pageSize={state.pageSize}
+          total={projects.length}
+          onUpdate={handleUpdate}
+        />
       </div>
     </Content>
   );
