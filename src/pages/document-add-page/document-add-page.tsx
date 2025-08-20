@@ -94,10 +94,11 @@ export default function DocumentAddPage() {
           <Button view="action" size="l" type="submit">
             Сохранить
           </Button>
-          <Button view="flat" size="l" onClick={() => navigate('/projects')}>
+          <Button view="flat" size="l" onClick={() => navigate(-1)}>
             Отменить
           </Button>
         </div>
+
       </form>
     </Content>
   );
