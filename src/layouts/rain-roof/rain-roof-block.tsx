@@ -29,7 +29,7 @@ export default function RainRoofBlock({ block, index }: { block: BlockType; inde
       if (!ref.current) {
         return;
       }
-      
+
       const dragIndex = item.index;
       const hoverIndex = index;
 
@@ -67,15 +67,13 @@ export default function RainRoofBlock({ block, index }: { block: BlockType; inde
     }),
   });
 
-  const returnItemsForColumn = (items: ItemType[]) => {
-    return items.map((item: ItemType, idx: number) => (
-      <Item
-        key={uuidv4()}
-        index={idx}
-        item={item}
-      />
-    ));
-  }
+  const returnItemsForColumn = (items: ItemType[]) => items.map((item: ItemType, idx: number) => (
+    <Item
+      key={uuidv4()}
+      index={idx}
+      item={item}
+    />
+  ));
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
@@ -89,7 +87,7 @@ export default function RainRoofBlock({ block, index }: { block: BlockType; inde
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveBlock} value={`block_${block.id}`}/>
+      <Block action={onHandleRemoveBlock} value={`block_${block.id}`} />
       <Column blockId={block.id}>
         {returnItemsForColumn(block.items)}
       </Column>
