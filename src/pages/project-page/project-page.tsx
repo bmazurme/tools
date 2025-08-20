@@ -19,6 +19,7 @@ export default function ProjectPage() {
           <Text variant="header-1">Project Page</Text>
           <Outlet />
         </div>
+
       </div>
     </Content>
   );
