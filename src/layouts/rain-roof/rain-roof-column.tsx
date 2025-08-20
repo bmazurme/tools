@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
 
