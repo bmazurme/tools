@@ -57,7 +57,11 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            dispatch(changeRainRunoffItemColumn({ blockId: _item.column, targetBlockId, itemId: _item.id }));
+            dispatch(changeRainRunoffItemColumn({
+              blockId: _item.column,
+              targetBlockId,
+              itemId: _item.id,
+            }));
           }
         }
       }
@@ -73,7 +77,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item action={onHandleRemoveItem}>
+      <Item removeAction={onHandleRemoveItem} editAction={() => {}}>
         {`${item.id} - item - ${item.name}`}
       </Item>
     </li>
