@@ -70,7 +70,8 @@ export default function DocumentAddPage() {
                 )
                 : (
                   <Select
-                    placeholder="Custom filter"
+                    label="Тип документа"
+                    // placeholder="Тип документа"
                     size="l"
                     width="max"
                     {...register}
