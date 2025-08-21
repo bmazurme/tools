@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { Button, Icon, Text, TextInput } from '@gravity-ui/uikit';
+import {
+  Button, Icon, Text, TextInput,
+} from '@gravity-ui/uikit';
 import { ArrowLeft } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
