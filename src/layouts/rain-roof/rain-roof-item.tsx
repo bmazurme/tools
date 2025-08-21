@@ -1,5 +1,9 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+
+import {
+  Button, Modal, TextInput, Text,
+} from '@gravity-ui/uikit';
 import Item from '../../components/item/item';
 
 import { changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../../store';
@@ -7,6 +11,8 @@ import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
 
 export default function RainRoofItem({ item, index }: { item: ItemType; index: number }) {
+  const [open, setOpen] = useState(false);
+
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
@@ -57,7 +63,11 @@ export default function RainRoofItem({ item, index }: { item: ItemType; index: n
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            dispatch(changeRainRoofItemColumn({ blockId: _item.column, targetBlockId, itemId: _item.id }));
+            dispatch(changeRainRoofItemColumn({
+              blockId: _item.column,
+              targetBlockId,
+              itemId: _item.id,
+            }));
           }
         }
       }
@@ -73,9 +83,24 @@ export default function RainRoofItem({ item, index }: { item: ItemType; index: n
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item action={onHandleRemoveItem}>
+      <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
         {`${item.id} - item - ${item.name}`}
       </Item>
+      <Modal open={open} disableOutsideClick>
+        <div className="dialog">
+          <Text variant="header-1">Расчетный расход дождевых вод Q, л/с, с водосборной площади</Text>
+          <TextInput placeholder="Водосборная площадь, F" size="l" />
+          <TextInput placeholder="Интенсивность дождя q5, л/с" size="l" />
+          <TextInput placeholder="n - параметр, принимаемый согласно СП 32.13330" size="l" />
+          <TextInput placeholder="q20 - интенсивность дождя, л/с" size="l" />
+          <TextInput placeholder="slope" size="l" />
+
+          <div className="buttons">
+            <Button view="action" size="l">Сохранить</Button>
+            <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
+          </div>
+        </div>
+      </Modal>
     </li>
   );
 }
