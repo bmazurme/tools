@@ -9,7 +9,7 @@ import {
   type TableActionConfig,
   type TableDataItem,
 } from '@gravity-ui/uikit';
-import { Plus, TrashBin } from '@gravity-ui/icons';
+import { Pencil, Plus, TrashBin } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
 import { MyTable } from '../documents-page/documents-page';
@@ -29,6 +29,12 @@ export default function ProjectsPage() {
   const [state, setState] = useState({ page: 1, pageSize: 10 });
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
   const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
+    {
+      text: 'Редактировать',
+      handler: () => {},
+      theme: 'normal',
+      icon: <Icon data={Pencil} size={18} />,
+    },
     {
       text: 'Удалить',
       handler: () => dispatch(removeProject({ id: item.id })),
