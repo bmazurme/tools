@@ -11,7 +11,7 @@ export const initialStateTheme: ThemeState = {
 };
 
 const slice = createSlice({
-  name: 'documents',
+  name: 'theme',
   initialState: initialStateTheme,
   reducers: {
     toggleTheme: (
