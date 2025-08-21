@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import documentsReducer from './slices/documents-slice';
 import projectsReducer from './slices/projects-slice';
 import themeReducer from './slices/theme-slice';
+import sidebarReducer from './slices/sidebar-slice';
 
 import rainRoofsReducer from './slices/rain-roofs-slice';
 import rainRunoffsReducer from './slices/rain-runoffs-slice';
@@ -16,6 +17,7 @@ export const store = configureStore({
     rainRoofs: rainRoofsReducer,
     rainRunoffs: rainRunoffsReducer,
     theme: themeReducer,
+    sidebar: sidebarReducer,
   },
 });
 
