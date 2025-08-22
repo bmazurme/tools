@@ -1,14 +1,15 @@
+import type { ReactNode } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import { Minus, Pencil } from '@gravity-ui/icons';
 
 export default function Item({ children, removeAction, editAction }:
-  { children: string; removeAction: () => void; editAction: () => void; }) {
+  { children: ReactNode; removeAction: () => void; editAction: () => void; }) {
   return (
     <>
       { children }
       <div className="item_tools">
         <Button
-          view="outlined"
+          view="flat"
           size="s"
           title="Редактировать строку"
           onClick={editAction}
@@ -19,7 +20,7 @@ export default function Item({ children, removeAction, editAction }:
           />
         </Button>
         <Button
-          view="outlined"
+          view="flat"
           size="s"
           onClick={removeAction}
           title="Удалить строку"
