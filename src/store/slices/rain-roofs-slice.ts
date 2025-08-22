@@ -2,6 +2,12 @@ import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '..';
 
+type BlockType = {
+  id: number;
+  name: string;
+  items: (ItemType & RainFlowRoof)[];
+}
+
 type BlocksState = {
   data: {
     blocks: BlockType[];
@@ -20,6 +26,14 @@ export const initialStateRainRoofsBlock: BlocksState = {
             name: 'item',
             column: 0,
             index: 0,
+            areaRoof: 123,
+            q5: 234,
+            q20: 345,
+            n: 456,
+            slope: 567,
+            flow: 678,
+            areaFacade: 789,
+            sumRoofArea: 0,
           },
         ],
       },
@@ -69,7 +83,18 @@ const slice = createSlice({
             ? {
               ...block,
               items: [...block.items, {
-                id: nextId, name: 'item', column: blockId, index: block.items.length,
+                id: nextId,
+                name: 'item',
+                column: blockId,
+                index: block.items.length,
+                areaRoof: 0,
+                q5: 0,
+                q20: 0,
+                n: 0,
+                slope: 0,
+                flow: 0,
+                areaFacade: 0,
+                sumRoofArea: 0,
               }],
             }
             : block)),
@@ -84,6 +109,20 @@ const slice = createSlice({
       data: {
         blocks: state.data.blocks.map((block) => (column === block.id
           ? { ...block, items: block.items.filter((x) => x.id !== id) }
+          : block)),
+      },
+    }),
+    updateRainRoofItem: (
+      state,
+      { payload }: PayloadAction<(ItemType & RainFlowRoof)>,
+    ) => ({
+      ...state,
+      data: {
+        blocks: state.data.blocks.map((block) => (payload.column === block.id
+          ? {
+            ...block,
+            items: block.items.map((x) => (x.id === payload.id ? payload : x)),
+          }
           : block)),
       },
     }),
@@ -163,6 +202,7 @@ export const {
   addRainRoofItem,
   removeRainRoofItem,
   refreshRainRoofItems,
+  updateRainRoofItem,
 } = slice.actions;
 
 export default slice.reducer;
