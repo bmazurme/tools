@@ -1,16 +1,21 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import { v4 as uuidv4 } from 'uuid';
+import { Label } from '@gravity-ui/uikit';
+import Item from '../../components/item/item';
+import RainRoofModal from './rain-roof-modal';
 
 import {
-  Button, Modal, TextInput, Text,
-} from '@gravity-ui/uikit';
-import Item from '../../components/item/item';
-
-import { changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem } from '../../store';
+  changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem,
+} from '../../store';
 import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
 
-export default function RainRoofItem({ item, index }: { item: ItemType; index: number }) {
+type FormPayload = ItemType & RainFlowRoof;
+
+export default function RainRoofItem({ item, index }:
+  { item: (ItemType & RainFlowRoof); index: number }) {
   const [open, setOpen] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -18,7 +23,7 @@ export default function RainRoofItem({ item, index }: { item: ItemType; index: n
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    hover(_item: ItemType, monitor) {
+    hover(_item: (ItemType & RainFlowRoof), monitor) {
       if (!ref.current) {
         return;
       }
@@ -81,26 +86,16 @@ export default function RainRoofItem({ item, index }: { item: ItemType; index: n
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
+  const keys: (keyof FormPayload)[] = ['index', 'name', 'areaRoof', 'q5', 'q20', 'n', 'slope', 'flow'];
+
   return (
     <li ref={ref} className="item" style={{ opacity }}>
       <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
-        {`${item.id} - item - ${item.name}`}
+        <ul className="fields">
+          {keys.map((key) => <Label key={uuidv4()} theme="clear" className="field">{item[key]}</Label>)}
+        </ul>
       </Item>
-      <Modal open={open} disableOutsideClick>
-        <div className="dialog">
-          <Text variant="header-1">Расчетный расход дождевых вод Q, л/с, с водосборной площади</Text>
-          <TextInput placeholder="Водосборная площадь, F" size="l" />
-          <TextInput placeholder="Интенсивность дождя q5, л/с" size="l" />
-          <TextInput placeholder="n - параметр, принимаемый согласно СП 32.13330" size="l" />
-          <TextInput placeholder="q20 - интенсивность дождя, л/с" size="l" />
-          <TextInput placeholder="slope" size="l" />
-
-          <div className="buttons">
-            <Button view="action" size="l">Сохранить</Button>
-            <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
-          </div>
-        </div>
-      </Modal>
+      <RainRoofModal item={item} open={open} setOpen={setOpen} />
     </li>
   );
 }
