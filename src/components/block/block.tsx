@@ -10,7 +10,7 @@ export default function Block({ action, value }: { action: () => void; value: st
         value={value}
       />
       <Button
-        view="outlined"
+        view="flat"
         size="m"
         onClick={action}
         title="Удалить блок"
