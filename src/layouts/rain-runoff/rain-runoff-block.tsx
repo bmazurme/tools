@@ -67,15 +67,13 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
     }),
   });
 
-  const returnItemsForColumn = (items: ItemType[]) => {
-    return items.map((item: ItemType, idx: number) => (
-      <Item
-        key={uuidv4()}
-        index={idx}
-        item={item}
-      />
-    ));
-  };
+  const returnItemsForColumn = (items: ItemType[]) => items.map((item: ItemType, idx: number) => (
+    <Item
+      key={uuidv4()}
+      index={idx}
+      item={item}
+    />
+  ));
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
@@ -89,7 +87,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveRunoffBlock} value={`block_${block.id}`}/>
+      <Block action={onHandleRemoveRunoffBlock} value={`block_${block.id}`} />
       <Column blockId={block.id}>
         {returnItemsForColumn(block.items)}
       </Column>
