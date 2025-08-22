@@ -1,8 +1,11 @@
+/* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
 
+import Column from '../../components/column/column';
+
 import { useAppDispatch } from '../../hooks';
-import { addRainRoofItem, removeRainRoofBlock } from '../../store';
+import { addRainRunoffItem } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 type ColumnType = {
@@ -10,7 +13,7 @@ type ColumnType = {
   blockId: number;
 };
 
-export default function Column({ children, blockId }: ColumnType) {
+export default function RainRunoffColumn({ children, blockId }: ColumnType) {
   const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
@@ -39,6 +42,7 @@ export default function Column({ children, blockId }: ColumnType) {
       return '';
     }
   };
+  const onHandleAddItem = () => dispatch(addRainRunoffItem({ blockId }));
 
   return (
     <div
@@ -46,22 +50,12 @@ export default function Column({ children, blockId }: ColumnType) {
       className="column"
       style={{ backgroundColor: getBackgroundColor() }}
     >
-       <div>
-        column
-        <button
-          onClick={() => dispatch(addRainRoofItem({ blockId }))}
-          title="Добавить строку"
-        >
-          Добавить строку
-        </button>
-       </div>
-        <button
-          onClick={() => dispatch(removeRainRoofBlock({ blockId }))}
-          title="Удалить блок"
-        >
-          -
-        </button>
-      {children}
+      <Column action={onHandleAddItem}>
+        column-header
+      </Column>
+      <ul className="column_list">
+        {children}
+      </ul>
     </div>
   );
 }
