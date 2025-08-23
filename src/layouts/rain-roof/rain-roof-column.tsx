@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
-
+import { Label } from '@gravity-ui/uikit';
 import Column from '../../components/column/column';
 
 import { useAppDispatch } from '../../hooks';
@@ -51,7 +51,16 @@ export default function RainRoofColumn({ children, blockId }: ColumnType) {
       style={{ backgroundColor: getBackgroundColor() }}
     >
       <Column action={onHandleAddItem}>
-        column-header
+        <div className="fields">
+          <Label theme="clear" className="field">#</Label>
+          <Label theme="clear" className="field">Name</Label>
+          <Label theme="clear" className="field">F</Label>
+          <Label theme="clear" className="field">q5</Label>
+          <Label theme="clear" className="field">q20</Label>
+          <Label theme="clear" className="field">n</Label>
+          <Label theme="clear" className="field">Slope</Label>
+          <Label theme="clear" className="field">Q</Label>
+        </div>
       </Column>
       <ul className="column_list">
         {children}
