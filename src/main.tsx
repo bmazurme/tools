@@ -1,22 +1,24 @@
-import { StrictMode } from 'react'
-import { BrowserRouter } from 'react-router'
-import { createRoot } from 'react-dom/client'
-import { Provider } from 'react-redux'
+import { StrictMode } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
 
-import App from './app.tsx'
-import { store } from './store/index.ts'
+import ThemeWrapper from './components/theme-wrapper/theme-wrapper';
+import App from './app';
+import { store } from './store';
 
-
-import './index.css';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
+import './styles/index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeWrapper>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeWrapper>
     </Provider>
   </StrictMode>,
-)
+);
