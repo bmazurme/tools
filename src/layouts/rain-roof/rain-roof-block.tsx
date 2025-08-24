@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
@@ -10,7 +11,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { movedRainRoofBlock, rainRoofsSelector, removeRainRoofBlock } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
-export default function RainRoofBlock({ block, index }: { block: BlockType; index: number }) {
+type ExtendedBlockType = Omit<BlockType, 'items'> & {
+  items: (ItemType & RainFlowRoof)[];
+}
+
+export default function RainRoofBlock({ block, index }
+  : { block: ExtendedBlockType; index: number }) {
   const dispatch = useAppDispatch();
   const { blocks } = useAppSelector(rainRoofsSelector);
   const ref = useRef<HTMLDivElement>(null);
@@ -67,7 +73,7 @@ export default function RainRoofBlock({ block, index }: { block: BlockType; inde
     }),
   });
 
-  const returnItemsForColumn = (items: ItemType[]) => items.map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = (items: (ItemType & RainFlowRoof)[]) => items.map((item: ItemType & RainFlowRoof, idx: number) => (
     <Item
       key={uuidv4()}
       index={idx}
