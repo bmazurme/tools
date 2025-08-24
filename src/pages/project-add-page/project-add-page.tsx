@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 import {
   Button, Icon, Text, TextInput,
 } from '@gravity-ui/uikit';
@@ -10,34 +9,23 @@ import { ArrowLeft } from '@gravity-ui/icons';
 import Content from '../../components/content/content';
 import fields from './project-add-page.fields';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { addProject, projectsSelector } from '../../store';
+import { useCreateProjectMutation } from '../../store';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
 export default function ProjectAddPage() {
-  const dispatch = useAppDispatch();
-  const projects = useAppSelector(projectsSelector);
+  const [createProject] = useCreateProjectMutation();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<FormPayload>({
     defaultValues: {
-      name: '',
-      description: '',
-      address: '',
+      name: '', description: '', address: '',
     },
   });
 
-  const onSubmit = (data: FormPayload) => {
-    dispatch(addProject({
-      data: {
-        id: projects.length,
-        name: `Проект ${data.name}`,
-        address: `Проект ${data.address}`,
-        description: uuidv4(),
-      },
-    }));
-    navigate(`/project/${projects.length}/document/1/rain-roof`);
+  const onSubmit = async (data: FormPayload) => {
+    const { data: project } = await createProject(data) as unknown as { data: ProjectType };
+    navigate(`/project/${project.id}`);
   };
 
   return (
