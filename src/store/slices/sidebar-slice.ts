@@ -25,6 +25,5 @@ const slice = createSlice({
 });
 
 export const { toggleCompact } = slice.actions;
-
 export default slice.reducer;
 export const sidebarSelector = (state: RootState) => state.sidebar.data;

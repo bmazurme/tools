@@ -1,16 +1,17 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
+
+import { projectsApiEndpoints } from '../api/projects-api/endpoints/index';
 
 import type { RootState } from '..';
 
 type ProjectsState = {
   data: ProjectType[];
+  total: number;
 };
 
 export const initialStateProjects: ProjectsState = {
-  data: Array.from({ length: 201 }, (_x, i) => ({
-    id: i, name: `Проект ${i}`, description: uuidv4(), address: '',
-  })),
+  data: [],
+  total: 0,
 };
 
 const slice = createSlice({
@@ -39,9 +40,26 @@ const slice = createSlice({
       data: state.data.map((x) => (x.id !== data.id ? data : x)),
     }),
   },
+
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        projectsApiEndpoints.endpoints.getProjectsByPage.matchFulfilled,
+        (state, action) => ({ ...state, data: action.payload.data, total: action.payload.total }),
+      )
+      .addMatcher(
+        projectsApiEndpoints.endpoints.removeProject.matchFulfilled,
+        (state, action) => ({
+          ...state,
+          data: state.data.filter((x: ProjectType) => x.id !== action.meta.arg.originalArgs),
+          total: action.payload.total,
+        }),
+      );
+  },
 });
 
 export const { addProject, removeProject } = slice.actions;
 
 export default slice.reducer;
 export const projectsSelector = (state: RootState) => state.projects.data;
+export const projectsTotalSelector = (state: RootState) => state.projects.total;
