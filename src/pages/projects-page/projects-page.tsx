@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Button,
   Icon,
@@ -14,37 +14,60 @@ import { Pencil, Plus, TrashBin } from '@gravity-ui/icons';
 import Content from '../../components/content/content';
 import { MyTable } from '../documents-page/documents-page';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { projectsSelector, removeProject } from '../../store';
+import { useAppSelector } from '../../hooks';
+import {
+  projectsSelector, projectsTotalSelector, useRemoveProjectMutation,
+} from '../../store';
+import { useGetProjectsByPageMutation } from '../../store/api';
 
 const columns = [
-  { id: 'id', name: '#', width: 60 },
   { id: 'name', name: 'Название проекта', width: '100%' },
+  { id: 'id', name: 'id', width: 60 },
 ];
 
 export default function ProjectsPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const projects = useAppSelector(projectsSelector);
-  const [state, setState] = useState({ page: 1, pageSize: 10 });
+  const total = useAppSelector(projectsTotalSelector);
+  const [state, setState] = useState({ page: searchParams.get('page') ? Number(searchParams.get('page')) : 1, pageSize: 10 });
+  const [getProjects] = useGetProjectsByPageMutation();
+  const [removeProject] = useRemoveProjectMutation();
+
+  const updateData = async (page: number) => {
+    await getProjects(page);
+  };
+
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
   const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
     {
       text: 'Редактировать',
-      handler: () => {},
+      handler: () => { navigate(`/project/${item.id}/edit`); },
       theme: 'normal',
       icon: <Icon data={Pencil} size={18} />,
     },
     {
       text: 'Удалить',
-      handler: () => dispatch(removeProject({ id: item.id })),
+      handler: () => removeProject(item.id),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
   ];
 
+  const handleChange = (name: string, value: string) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      [name]: value,
+    });
+  };
+
   const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => setState((prevState) => ({ ...prevState, page, pageSize }));
   const handleRowClick = (rowData: TableDataItem) => navigate(`/project/${rowData.id}`);
+
+  useEffect(() => {
+    handleChange('page', `${state.page}`);
+    updateData(+state.page);
+  }, [state.page]);
 
   return (
     <Content sidebar>
@@ -57,7 +80,7 @@ export default function ProjectsPage() {
 
         <MyTable
           className="table"
-          data={projects.slice((state.page - 1) * 10, state.page * 10)}
+          data={projects}
           columns={columns}
           getRowActions={getRowActions}
           onRowClick={handleRowClick}
@@ -66,7 +89,7 @@ export default function ProjectsPage() {
         <Pagination
           page={state.page}
           pageSize={state.pageSize}
-          total={projects.length}
+          total={total}
           onUpdate={handleUpdate}
         />
       </div>
