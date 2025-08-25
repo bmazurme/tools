@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button, Icon, Text, TextInput,
@@ -5,9 +6,18 @@ import {
 import { ArrowLeft } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
+import { useGetUserMeMutation, usersSelector } from '../../store';
+import { useAppSelector } from '../../hooks';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const user = useAppSelector(usersSelector);
+  const [getUser] = useGetUserMeMutation();
+  console.log(user);
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Content sidebar>
