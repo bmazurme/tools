@@ -30,7 +30,7 @@ export default function ProjectsPage() {
   const navigate = useNavigate();
   const projects = useAppSelector(projectsSelector);
   const total = useAppSelector(projectsTotalSelector);
-  const [state, setState] = useState({ page: searchParams.get('page') ? Number(searchParams.get('page')) : 1, pageSize: 10 });
+  const [state, setState] = useState({ page: Number(searchParams.get('page')) || 1, pageSize: 10 });
   const [getProjects] = useGetProjectsByPageMutation();
   const [removeProject] = useRemoveProjectMutation();
 
@@ -41,13 +41,13 @@ export default function ProjectsPage() {
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
   const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
     {
-      text: 'Редактировать',
+      text: 'Редактировать проект',
       handler: () => { navigate(`/project/${item.id}/edit`); },
       theme: 'normal',
       icon: <Icon data={Pencil} size={18} />,
     },
     {
-      text: 'Удалить',
+      text: 'Удалить проект',
       handler: () => removeProject(item.id),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
