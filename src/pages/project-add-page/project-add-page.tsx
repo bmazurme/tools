@@ -24,8 +24,12 @@ export default function ProjectAddPage() {
   });
 
   const onSubmit = async (data: FormPayload) => {
-    const { data: project } = await createProject(data) as unknown as { data: ProjectType };
-    navigate(`/project/${project.id}`);
+    try {
+      const { data: project } = await createProject(data) as unknown as { data: ProjectType };
+      navigate(`/project/${project.id}`);
+    } catch (error) {
+      console.error('Ошибка при создании проекта:', error);
+    }
   };
 
   return (
