@@ -6,9 +6,9 @@ import {
 } from '@gravity-ui/uikit';
 import { ArrowLeft } from '@gravity-ui/icons';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
 import Content from '../../components/content/content';
 import { addDocument, documentsSelector, type DocumentType } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import fields from './document-add-page.fields';
 
 type FormPayload = Omit<DocumentType, 'id'>;
