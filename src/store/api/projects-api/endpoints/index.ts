@@ -1,8 +1,8 @@
-import projectApi from '../index';
+import projectsApi from '../index';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
-const projectsApiEndpoints = projectApi
+const projectsApiEndpoints = projectsApi
   .enhanceEndpoints({
     addTagTypes: ['Projects'],
   })
