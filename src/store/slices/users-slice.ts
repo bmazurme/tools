@@ -22,6 +22,18 @@ const slice = createSlice({
       .addMatcher(
         usersApiEndpoints.endpoints.getUserMe.matchFulfilled,
         (state, action) => ({ ...state, data: action.payload }),
+      )
+      .addMatcher(
+        usersApiEndpoints.endpoints.updateUser.matchFulfilled,
+        (state, action) => ({ ...state, data: action.payload }),
+      )
+      .addMatcher(
+        usersApiEndpoints.endpoints.toggleTheme.matchFulfilled,
+        (state, action) => ({ ...state, data: action.payload }),
+      )
+      .addMatcher(
+        usersApiEndpoints.endpoints.toggleCompact.matchFulfilled,
+        (state, action) => ({ ...state, data: action.payload }),
       );
   },
 });
