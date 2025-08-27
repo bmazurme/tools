@@ -1,15 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  Button, Icon, Text, TextInput,
-} from '@gravity-ui/uikit';
-import { ArrowLeft } from '@gravity-ui/icons';
+import { Button, Text, TextInput } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
+import BackButton from '../../components/back-button/back-button';
 import { useUpdateUserMutation } from '../../store';
 import useUser from '../../hooks/use-user';
-import { BACK_BUTTON_PROPS, TEXT_INPUT_PROPS } from '../../config';
+import { TEXT_INPUT_PROPS } from '../../config';
 
 type FormPayload = { status: string; email: string };
 
@@ -53,10 +51,7 @@ export default function ProfilePage() {
   return (
     <Content sidebar>
       <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
-          <Icon data={ArrowLeft} size={18} />
-          Назад
-        </Button>
+        <BackButton />
 
         <div className="project_main">
           <Text variant="header-1">Профиль</Text>
