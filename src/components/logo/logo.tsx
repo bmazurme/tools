@@ -5,12 +5,9 @@ import React, { type HTMLAttributeAnchorTarget } from 'react';
 import { withNaming } from '@bem-react/classname';
 import { Icon, type IconProps } from '@gravity-ui/uikit';
 
-// import { LogoProps } from '../types';
-// import { block } from '../utils/cn';
-
 import './logo.scss';
 
-export const NAMESPACE = 'gn-';
+const NAMESPACE = 'gn-';
 export const block = withNaming({ n: NAMESPACE, e: '__', m: '_' });
 
 const b = block('logo');

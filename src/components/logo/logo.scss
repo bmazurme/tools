@@ -1,9 +1,8 @@
-@use './variables';
 $ns: 'gn-';
 
 @use './mixins';
 
-$block: '.#{variables.$ns}logo';
+$block: '.#{$ns}logo';
 
 #{$block} {
   display: flex;
