@@ -5,8 +5,6 @@ import { projectsApi, documentsApi, usersApi } from './api/index';
 import documentsReducer from './slices/documents-slice';
 import projectsReducer from './slices/projects-slice';
 import usersReducer from './slices/users-slice';
-import themeReducer from './slices/theme-slice';
-import sidebarReducer from './slices/sidebar-slice';
 
 import rainRoofsReducer from './slices/rain-roofs-slice';
 import rainRunoffsReducer from './slices/rain-runoffs-slice';
@@ -23,8 +21,6 @@ export const store = configureStore({
     projects: projectsReducer,
     rainRoofs: rainRoofsReducer,
     rainRunoffs: rainRunoffsReducer,
-    theme: themeReducer,
-    sidebar: sidebarReducer,
     users: usersReducer,
     [projectsApi.reducerPath]: projectsApi.reducer,
     [documentsApi.reducerPath]: documentsApi.reducer,
