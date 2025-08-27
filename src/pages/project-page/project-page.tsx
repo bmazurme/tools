@@ -1,19 +1,14 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { Button, Icon, Text } from '@gravity-ui/uikit';
-import { ArrowLeft } from '@gravity-ui/icons';
+import { Outlet } from 'react-router-dom';
+import { Text } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
+import BackButton from '../../components/back-button/back-button';
 
 export default function ProjectPage() {
-  const navigate = useNavigate();
-
   return (
     <Content sidebar>
       <div className="content">
-        <Button view="flat" size="m" onClick={() => navigate(-1)}>
-          <Icon data={ArrowLeft} size={18} />
-          Назад
-        </Button>
+        <BackButton />
 
         <div className="project_main">
           <Text variant="header-1">Project Page</Text>
