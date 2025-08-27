@@ -10,6 +10,7 @@ import Content from '../../components/content/content';
 import { addDocument, documentsSelector, type DocumentType } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import fields from './document-add-page.fields';
+import { BACK_BUTTON_PROPS, TEXT_INPUT_PROPS } from '../../config';
 
 type FormPayload = Omit<DocumentType, 'id'>;
 
@@ -27,6 +28,7 @@ export default function DocumentAddPage() {
     },
   });
 
+  const handleBack = () => navigate(-1);
   const onSubmit = ({ name, type: [selectedType] }: FormPayload) => {
     dispatch(addDocument({
       data: {
@@ -41,7 +43,7 @@ export default function DocumentAddPage() {
   return (
     <Content sidebar>
       <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <Button view="flat" size="m" onClick={() => navigate(-1)}>
+        <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
@@ -63,8 +65,7 @@ export default function DocumentAddPage() {
                   <TextInput
                     {...field}
                     {...input}
-                    size="l"
-                    type="text"
+                    {...TEXT_INPUT_PROPS}
                     error={fieldState.error?.message}
                   />
                 )
@@ -95,7 +96,7 @@ export default function DocumentAddPage() {
           <Button view="action" size="l" type="submit">
             Сохранить
           </Button>
-          <Button view="flat" size="l" onClick={() => navigate(-1)}>
+          <Button view="flat" size="l" onClick={handleBack}>
             Отменить
           </Button>
         </div>
