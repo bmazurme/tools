@@ -10,6 +10,7 @@ import Content from '../../components/content/content';
 import fields from './project-add-page.fields';
 
 import { useCreateProjectMutation } from '../../store';
+import { BACK_BUTTON_PROPS, TEXT_INPUT_PROPS } from '../../config';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
@@ -22,7 +23,7 @@ export default function ProjectAddPage() {
       name: '', description: '', address: '',
     },
   });
-
+  const handleBack = () => navigate(-1);
   const onSubmit = async (data: FormPayload) => {
     try {
       const { data: project } = await createProject(data) as unknown as { data: ProjectType };
@@ -35,7 +36,7 @@ export default function ProjectAddPage() {
   return (
     <Content sidebar>
       <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <Button view="flat" size="m" onClick={() => navigate(-1)}>
+        <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
@@ -54,8 +55,7 @@ export default function ProjectAddPage() {
               <TextInput
                 {...field}
                 {...input}
-                size="l"
-                type="text"
+                {...TEXT_INPUT_PROPS}
                 error={fieldState.error?.message}
               />
             )}
@@ -66,7 +66,7 @@ export default function ProjectAddPage() {
           <Button view="action" size="l" type="submit">
             Сохранить
           </Button>
-          <Button view="flat" size="l" onClick={() => navigate(-1)}>
+          <Button view="flat" size="l" onClick={handleBack}>
             Отменить
           </Button>
         </div>
