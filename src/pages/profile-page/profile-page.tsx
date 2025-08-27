@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -8,32 +7,38 @@ import {
 import { ArrowLeft } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
-import { useGetUserMeMutation, useUpdateUserMutation } from '../../store';
+import { useUpdateUserMutation } from '../../store';
 import useUser from '../../hooks/use-user';
+import { BACK_BUTTON_PROPS, TEXT_INPUT_PROPS } from '../../config';
 
-type FormPayload = { status: string };
+type FormPayload = { status: string; email: string };
 
 const fields = [
+  {
+    name: 'email',
+    label: 'Email',
+    disabled: true,
+  },
   {
     name: 'status',
     label: 'Статус',
     pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
+      value: /^[A-Za-zА-Яа-я0-9., -]{0,50}$/,
       message: 'Name is invalid',
     },
-    autoComplete: 'status',
   },
 ];
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const user = useUser();
-  const [getUser] = useGetUserMeMutation();
   const [updateUser] = useUpdateUserMutation();
 
-  const { control, handleSubmit, reset } = useForm<FormPayload>({
+  const handleBack = () => navigate(-1);
+  const { control, handleSubmit } = useForm<FormPayload>({
     defaultValues: {
-      status: user?.status,
+      status: user?.status || '',
+      email: user?.email || '',
     },
   });
 
@@ -45,17 +50,10 @@ export default function ProfilePage() {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-  useEffect(() => {
-    reset({ status: user?.status });
-  }, [user?.status]);
-
   return (
     <Content sidebar>
       <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <Button view="flat" size="m" onClick={() => navigate(-1)}>
+        <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
           <Icon data={ArrowLeft} size={18} />
           Назад
         </Button>
@@ -76,8 +74,7 @@ export default function ProfilePage() {
               <TextInput
                 {...field}
                 {...input}
-                size="l"
-                type="text"
+                {...TEXT_INPUT_PROPS}
                 error={fieldState.error?.message}
               />
             )}
@@ -88,7 +85,7 @@ export default function ProfilePage() {
           <Button view="action" size="l" type="submit">
             Сохранить
           </Button>
-          <Button view="flat" size="l" onClick={() => navigate(-1)}>
+          <Button view="flat" size="l" onClick={handleBack}>
             Отменить
           </Button>
         </div>
