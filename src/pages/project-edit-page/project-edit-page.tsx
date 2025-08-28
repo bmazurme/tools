@@ -2,23 +2,20 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  Button, Icon, Text, TextInput,
-} from '@gravity-ui/uikit';
-import { ArrowLeft } from '@gravity-ui/icons';
+import { Button, Text, TextInput } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
+import BackButton from '../../components/back-button/back-button';
 import fields from './project-edit-page.fields';
 
 import { useGetProjectMutation, useUpdateProjectMutation } from '../../store';
-import { BACK_BUTTON_PROPS, TEXT_INPUT_PROPS } from '../../config';
+import { TEXT_INPUT_PROPS } from '../../config';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
 export default function ProjectEditPage() {
   const { projectId: projectIdString } = useParams();
   const projectId = parseInt(projectIdString || '', 10);
-
   const [getProject] = useGetProjectMutation();
   const [updateProject] = useUpdateProjectMutation();
   const navigate = useNavigate();
@@ -43,12 +40,8 @@ export default function ProjectEditPage() {
     const fetchData = async () => {
       if (projectId) {
         const result = await getProject(projectId);
-
-        reset({
-          name: result.data?.name || '',
-          description: result.data?.description || '',
-          address: result.data?.address || '',
-        });
+        const { name = '', description = '', address = '' } = result.data || {};
+        reset({ name, description, address });
       }
     };
 
@@ -58,12 +51,9 @@ export default function ProjectEditPage() {
   return (
     <Content sidebar>
       <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
-          <Icon data={ArrowLeft} size={18} />
-          Назад
-        </Button>
-
+        <BackButton />
         <Text variant="header-1">Редактировать проект</Text>
+
         {fields.map((input) => (
           <Controller
             key={input.name}
