@@ -34,7 +34,7 @@ export default function ProjectsPage() {
   const [getProjects] = useGetProjectsByPageMutation();
   const [removeProject] = useRemoveProjectMutation();
 
-  const updateData = async (page: number) => {
+  const fetchData = async (page: number) => {
     await getProjects(page);
   };
 
@@ -66,7 +66,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     handleChange('page', `${state.page}`);
-    updateData(+state.page);
+    fetchData(+state.page);
   }, [state.page]);
 
   return (
