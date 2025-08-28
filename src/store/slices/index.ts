@@ -3,3 +3,4 @@ export * from './projects-slice';
 export * from './rain-roofs-slice';
 export * from './rain-runoffs-slice';
 export * from './users-slice';
+export * from './types-slice';
