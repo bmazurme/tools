@@ -71,7 +71,6 @@
   display: flex;
   flex-direction: column;
   width: 236px;
-  /* min-width: 100px; */
 }
 .compact {
   width: 56px;
