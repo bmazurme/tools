@@ -1,13 +1,18 @@
+import React, { type ReactNode } from 'react';
 import { ThemeProvider } from '@gravity-ui/uikit';
 
-import { useAppSelector } from '../../hooks';
-import { themeSelector } from '../../store';
+import useUser from '../../hooks/use-user';
 
-export default function ThemeWrapper({ children }: { children: React.ReactNode }) {
-  const isDark = useAppSelector(themeSelector);
+interface ThemeWrapperProps {
+  children: ReactNode;
+}
+
+export default function ThemeWrapper({ children }: ThemeWrapperProps) {
+  const user = useUser();
+  const theme = React.useMemo(() => (user?.isDark ? 'dark' : 'light'), [user?.isDark]);
 
   return (
-    <ThemeProvider theme={isDark ? 'dark' : 'light'}>
+    <ThemeProvider theme={theme}>
       {children}
     </ThemeProvider>
   );
