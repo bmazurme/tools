@@ -30,3 +30,12 @@ type RainFlowRoof = {
   sumRoofArea: number;
   flow: number;
 };
+
+type UserType = {
+  id: number;
+  email: string;
+  isActive: boolean;
+  status: string;
+  isDark: boolean;
+  isCompact: boolean;
+}
