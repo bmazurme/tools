@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 import {
   Button, Select, Text, TextInput,
 } from '@gravity-ui/uikit';
@@ -10,7 +9,6 @@ import {
 import Content from '../../components/content/content';
 import BackButton from '../../components/back-button/back-button';
 import {
-  documentsSelector,
   typesSelector,
   useCreateDocumentMutation,
   useGetTypesMutation,
@@ -23,7 +21,6 @@ import { TEXT_INPUT_PROPS } from '../../config';
 type FormPayload = Omit<DocumentType, 'id'>;
 
 export default function DocumentAddPage() {
-  const documents = useAppSelector(documentsSelector);
   const types = useAppSelector(typesSelector);
   const [createDocument] = useCreateDocumentMutation();
   const [getTypes] = useGetTypesMutation();
@@ -36,15 +33,13 @@ export default function DocumentAddPage() {
       name: '', type: '',
     },
   });
-  // console.log(types);
 
   const handleBack = () => navigate(-1);
   const onSubmit = async ({ name, type }: FormPayload) => {
     const result = await createDocument({
       name, type, project: projectId!,
     });
-    console.log(result);
-    navigate(`/project/${projectId}/document/${result?.data.id}/${result.data?.type.link}`);
+    navigate(`/project/${projectId}/document/${result?.data?.id}/${result.data?.type.link}`);
   };
 
   return (
@@ -75,7 +70,6 @@ export default function DocumentAddPage() {
                 : (
                   <Select
                     label="Тип документа"
-                    // placeholder="Тип документа"
                     size="l"
                     width="max"
                     {...register}
@@ -83,16 +77,9 @@ export default function DocumentAddPage() {
                     errorMessage={fieldState.error?.message}
                     validationState={errors?.type ? 'invalid' : undefined}
                     onOpenChange={async () => await getTypes()}
-                    // onChange={handleChange}
                     // eslint-disable-next-line max-len
                     options={types.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
-                  >
-                    {/* {types.map((item) => (
-                      <Select.Option value={item.link} key={uuidv4()}>
-                        {item.name}
-                      </Select.Option>
-                    ))} */}
-                  </Select>
+                  />
                 )
             )}
           />
