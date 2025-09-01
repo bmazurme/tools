@@ -1,23 +1,25 @@
 import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import ProjectPage from './pages/project-page/project-page';
-import ProjectAddPage from './pages/project-add-page/project-add-page';
-import ProjectsPage from './pages/projects-page/projects-page';
-import DocumentPage from './pages/document-page/document-page';
-import DocumentsPage from './pages/documents-page/documents-page';
-import DocumentAddPage from './pages/document-add-page/document-add-page';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 
 import './app.css';
 
 const RainRunoff = lazy(() => import('./layouts/rain-runoff/rain-runoff'));
 const RainRoof = lazy(() => import('./layouts/rain-roof/rain-roof'));
+const ProjectPage = lazy(() => import('./pages/project-page/project-page'));
+const ProjectsPage = lazy(() => import('./pages/projects-page'));
+const ProjectAddPage = lazy(() => import('./pages/project-add-page'));
+const ProjectEditPage = lazy(() => import('./pages/project-edit-page'));
+const DocumentAddPage = lazy(() => import('./pages/document-add-page'));
+const DocumentPage = lazy(() => import('./pages/document-page'));
+const DocumentsPage = lazy(() => import('./pages/documents-page'));
+const ProfilePage = lazy(() => import('./pages/profile-page'));
 
 function App() {
   return (
     <Routes>
-      <Route path="projects/:projectPage?" element={(<ProjectsPage />)} />
+      <Route path="projects/:pageId?" element={(<ProjectsPage />)} />
       <Route path="projects/add" element={(<ProjectAddPage />)} />
 
       <Route
@@ -26,6 +28,7 @@ function App() {
       />
       <Route path="project/:projectId" element={(<DocumentsPage />)} />
       <Route path="project/:projectId/add" element={(<DocumentAddPage />)} />
+      <Route path="project/:projectId/edit" element={(<ProjectEditPage />)} />
 
       <Route path="project/:projectId" element={(<ProjectPage />)}>
         <Route
@@ -37,6 +40,8 @@ function App() {
           <Route path="rain-runoff" element={(<RainRunoff />)} />
         </Route>
       </Route>
+
+      <Route path="profile" element={(<ProfilePage />)} />
 
       <Route path="*" element={(<NotFoundPage />)} />
     </Routes>
