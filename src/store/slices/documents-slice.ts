@@ -14,11 +14,13 @@ export type DocumentType = {
 type DocumentsState = {
   data: DocumentType[];
   total: number;
+  document: DocumentType | null;
 };
 
 export const initialStateDocuments: DocumentsState = {
   data: [],
   total: 0,
+  document: null,
 };
 
 const slice = createSlice({
@@ -41,6 +43,12 @@ const slice = createSlice({
         (state, action) => ({ ...state, data: action.payload.data, total: action.payload.total }),
       )
       .addMatcher(
+        documentsApiEndpoints.endpoints.getDocument.matchFulfilled,
+        (state, action) => ({
+          ...state, data: state.data, total: state.total, document: action.payload,
+        }),
+      )
+      .addMatcher(
         documentsApiEndpoints.endpoints.removeDocument.matchFulfilled,
         (state, action) => ({
           ...state,
@@ -55,4 +63,5 @@ const slice = createSlice({
 
 export default slice.reducer;
 export const documentsSelector = (state: RootState) => state.documents.data;
+export const documentSelector = (state: RootState) => state.documents.document;
 export const documentsTotalSelector = (state: RootState) => state.documents.total;
