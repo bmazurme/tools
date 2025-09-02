@@ -2,6 +2,8 @@ import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import NotFoundPage from './pages/not-found-page/not-found-page';
+import SigninPage from './pages/signin-page/signin-page';
+import MainPage from './pages/main-page/main-page';
 
 import './app.css';
 
@@ -43,6 +45,8 @@ function App() {
 
       <Route path="profile" element={(<ProfilePage />)} />
 
+      <Route path="/" element={(<MainPage />)} />
+      <Route path="signin" element={(<SigninPage />)} />
       <Route path="*" element={(<NotFoundPage />)} />
     </Routes>
   );
