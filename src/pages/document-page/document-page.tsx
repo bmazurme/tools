@@ -4,8 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Outlet, useParams } from 'react-router-dom';
 import { TextInput } from '@gravity-ui/uikit';
 
-import { useGetDocumentMutation } from '../../store';
-// import { useAppSelector } from '../../hooks';
+import { useGetDocumentMutation, useUpdateDocumentMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 
 type FormPayload = { name: string };
@@ -26,7 +25,7 @@ const fields = [
 export default function DocumentPage() {
   const { id } = useParams();
   const [getDocument] = useGetDocumentMutation();
-  // const document = useAppSelector(documentSelector);
+  const [updateDocument] = useUpdateDocumentMutation();
 
   const { control, reset } = useForm<FormPayload>({
     defaultValues: { name: '' },
@@ -36,6 +35,18 @@ export default function DocumentPage() {
     if (id) {
       const result = await getDocument(Number(id));
       reset({ name: result.data?.name });
+    }
+  };
+
+  const onSubmit = async () => {
+    try {
+      if (id) {
+        // eslint-disable-next-line no-underscore-dangle
+        const { name } = control._formValues;
+        await updateDocument({ id: Number(id!), name });
+      }
+    } catch (error) {
+      console.error('Ошибка при обновлении проекта:', error);
     }
   };
 
@@ -61,6 +72,7 @@ export default function DocumentPage() {
                 {...input}
                 {...TEXT_INPUT_PROPS}
                 error={fieldState.error?.message}
+                onBlur={onSubmit}
               />
             )}
           />
