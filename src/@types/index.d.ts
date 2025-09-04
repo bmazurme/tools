@@ -15,9 +15,7 @@ type ItemType = {
 type BlockType = {
   id: number;
   name: string;
-  items: ItemType[];
   index: number;
-  // document: number;
 }
 
 type BlocksType = BlockType[];
@@ -41,3 +39,5 @@ type UserType = {
   isDark: boolean;
   isCompact: boolean;
 }
+
+type TotalType = { total: number };
