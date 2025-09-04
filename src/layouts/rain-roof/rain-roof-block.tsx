@@ -2,30 +2,40 @@
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
+import { useParams } from 'react-router-dom';
 
 import Block from '../../components/block/block';
 import Column from './rain-roof-column';
 import Item from './rain-roof-item';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { movedRainRoofBlock, rainRoofsSelector, removeRainRoofBlock } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { blocksSelector, useDeleteBlockMutation, useRefreshBlocksMutation } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
-type ExtendedBlockType = Omit<BlockType, 'items'> & {
-  items: (ItemType & RainFlowRoof)[];
-}
+// export type ExtendedBlockType = Omit<BlockType, 'items'> & {
+//   items: (ItemType & RainFlowRoof)[];
+// }
 
 export default function RainRoofBlock({ block, index }
-  : { block: ExtendedBlockType; index: number }) {
-  const dispatch = useAppDispatch();
-  const { blocks } = useAppSelector(rainRoofsSelector);
+  : { block: BlockType; index: number }) {
+  const { id } = useParams();
+  const [refreshBlocks] = useRefreshBlocksMutation();
+  const [deleteBlock] = useDeleteBlockMutation();
+  const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
     const dragItem = blocks[dragIndex];
 
     if (dragItem) {
-      dispatch(movedRainRoofBlock({ hoverIndex, dragIndex, dragItem }));
+      const coppiedStateArray = [...blocks];
+      const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
+      coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
+
+      await refreshBlocks({
+        data: coppiedStateArray.map((item, i) => ({ ...item, index: i })),
+        id: Number(id),
+      });
     }
   };
 
@@ -83,7 +93,9 @@ export default function RainRoofBlock({ block, index }
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
-  const onHandleRemoveBlock = () => dispatch(removeRainRoofBlock({ blockId: block.id }));
+  const onHandleRemoveBlock = async () => {
+    await deleteBlock(block.id);
+  };
 
   drag(drop(ref));
 
@@ -93,9 +105,11 @@ export default function RainRoofBlock({ block, index }
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveBlock} value={`block_${block.id}`} />
+      <Block action={onHandleRemoveBlock} value={block} />
+
       <Column blockId={block.id}>
-        {returnItemsForColumn(block.items)}
+        {/* {returnItemsForColumn(block.items)} */}
+        {returnItemsForColumn([])}
       </Column>
     </div>
   );
