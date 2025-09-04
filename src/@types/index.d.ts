@@ -16,6 +16,8 @@ type BlockType = {
   id: number;
   name: string;
   items: ItemType[];
+  index: number;
+  document: number;
 }
 
 type BlocksType = BlockType[];
