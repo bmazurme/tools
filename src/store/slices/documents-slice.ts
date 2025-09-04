@@ -1,7 +1,6 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { documentsApiEndpoints } from '../api/documents-api/endpoints/index';
-
 import type { RootState } from '..';
 
 export type DocumentType = {
@@ -35,33 +34,23 @@ const slice = createSlice({
       data: state.data.map((x) => (x.id !== data.id ? data : x)),
     }),
   },
-
   extraReducers: (builder) => {
     builder
       .addMatcher(
         documentsApiEndpoints.endpoints.getDocumentsByPage.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload.data, total: action.payload.total }),
-      )
-      .addMatcher(
-        documentsApiEndpoints.endpoints.getDocument.matchFulfilled,
-        (state, action) => ({
-          ...state, data: state.data, total: state.total, document: action.payload,
-        }),
+        (state, { payload }) => ({ ...state, data: payload.data, total: payload.total }),
       )
       .addMatcher(
         documentsApiEndpoints.endpoints.removeDocument.matchFulfilled,
-        (state, action) => ({
+        (state, { meta, payload }) => ({
           ...state,
-          data: state.data.filter((x: DocumentType) => x.id !== action.meta.arg.originalArgs),
-          total: action.payload.total,
+          data: state.data.filter((x: DocumentType) => x.id !== meta.arg.originalArgs),
+          total: payload.total,
         }),
       );
   },
 });
 
-// export const { removeDocument } = slice.actions;
-
 export default slice.reducer;
 export const documentsSelector = (state: RootState) => state.documents.data;
-export const documentSelector = (state: RootState) => state.documents.document;
 export const documentsTotalSelector = (state: RootState) => state.documents.total;
