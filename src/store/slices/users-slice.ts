@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { usersApiEndpoints } from '../api/users-api/endpoints/index';
-
 import type { RootState } from '..';
 
 type UsersState = {
@@ -21,19 +20,19 @@ const slice = createSlice({
     builder
       .addMatcher(
         usersApiEndpoints.endpoints.getUserMe.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload }),
+        (state, { payload }) => ({ ...state, data: payload }),
       )
       .addMatcher(
         usersApiEndpoints.endpoints.updateUser.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload }),
+        (state, { payload }) => ({ ...state, data: payload }),
       )
       .addMatcher(
         usersApiEndpoints.endpoints.toggleTheme.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload }),
+        (state, { payload }) => ({ ...state, data: payload }),
       )
       .addMatcher(
         usersApiEndpoints.endpoints.toggleCompact.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload }),
+        (state, { payload }) => ({ ...state, data: payload }),
       );
   },
 });
