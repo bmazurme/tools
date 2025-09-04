@@ -6,21 +6,9 @@ import { TextInput } from '@gravity-ui/uikit';
 
 import { useGetDocumentMutation, useUpdateDocumentMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
+import fields from './document-page.fields';
 
 type FormPayload = { name: string };
-
-const fields = [
-  {
-    name: 'name',
-    label: 'Название',
-    pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-    autoComplete: 'name',
-  },
-];
 
 export default function DocumentPage() {
   const { id } = useParams();
