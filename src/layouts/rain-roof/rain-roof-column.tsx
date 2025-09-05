@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { Label } from '@gravity-ui/uikit';
 import Column from '../../components/column/column';
 
-import { useAppDispatch } from '../../hooks';
-import { addRainRoofItem } from '../../store';
+// import { useAppDispatch } from '../../hooks';
+// import { addRainRoofItem } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 type ColumnType = {
@@ -14,7 +14,7 @@ type ColumnType = {
 };
 
 export default function RainRoofColumn({ children, blockId }: ColumnType) {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
     drop: () => ({ blockId }),
@@ -42,7 +42,9 @@ export default function RainRoofColumn({ children, blockId }: ColumnType) {
       return '';
     }
   };
-  const onHandleAddItem = () => dispatch(addRainRoofItem({ blockId }));
+  const onHandleAddItem = () => {
+    // dispatch(addRainRoofItem({ blockId }));
+  };
 
   return (
     <div
