@@ -1,13 +1,21 @@
-// import { useParams } from 'react-router-dom';
-import { Text } from '@gravity-ui/uikit';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
 import Board from './rain-roof-board';
+import { useGetBlocksMutation } from '../../store';
 
 export default function RainRoofPage() {
-  // const { projectId, id } = useParams();
+  const { id } = useParams();
+  const [getRainRoofs] = useGetBlocksMutation();
+
+  useEffect(() => {
+    if (id) {
+      getRainRoofs(Number(id));
+    }
+  }, [getRainRoofs, id]);
 
   return (
-    <div>
-      <Text variant="subheader-2">Расчетный расход дождевых вод</Text>
+    <div className="gapb">
       <Board />
     </div>
   );
