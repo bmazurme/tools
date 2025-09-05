@@ -1,7 +1,6 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { projectsApiEndpoints } from '../api/projects-api/endpoints/index';
-
 import type { RootState } from '..';
 
 type ProjectsState = {
@@ -40,7 +39,6 @@ const slice = createSlice({
       data: state.data.map((x) => (x.id !== data.id ? data : x)),
     }),
   },
-
   extraReducers: (builder) => {
     builder
       .addMatcher(
