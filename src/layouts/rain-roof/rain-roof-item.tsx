@@ -6,10 +6,10 @@ import { Label } from '@gravity-ui/uikit';
 import Item from '../../components/item/item';
 import RainRoofModal from './rain-roof-modal';
 
-import {
-  changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem,
-} from '../../store';
-import { useAppDispatch } from '../../hooks';
+// import {
+//   changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem,
+// } from '../../store';
+// import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
 
 type FormPayload = ItemType & RainFlowRoof;
@@ -18,7 +18,7 @@ export default function RainRoofItem({ item, index }:
   { item: (ItemType & RainFlowRoof); index: number }) {
   const [open, setOpen] = useState(false);
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
   const [, drop] = useDrop({
@@ -50,7 +50,7 @@ export default function RainRoofItem({ item, index }:
           return;
         }
 
-        dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item: _item }));
+        // dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item: _item }));
         // eslint-disable-next-line no-param-reassign
         _item.index = hoverIndex;
       }
@@ -68,11 +68,11 @@ export default function RainRoofItem({ item, index }:
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            dispatch(changeRainRoofItemColumn({
-              blockId: _item.column,
-              targetBlockId,
-              itemId: _item.id,
-            }));
+            // dispatch(changeRainRoofItemColumn({
+            //   blockId: _item.column,
+            //   targetBlockId,
+            //   itemId: _item.id,
+            // }));
           }
         }
       }
@@ -82,7 +82,9 @@ export default function RainRoofItem({ item, index }:
     }),
   });
 
-  const onHandleRemoveItem = () => dispatch(removeRainRoofItem(item));
+  const onHandleRemoveItem = () => {
+    // dispatch(removeRainRoofItem(item));
+  };
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
