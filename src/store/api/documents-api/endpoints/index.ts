@@ -34,7 +34,7 @@ const documentsApiEndpoints = documentsApi
         }),
         invalidatesTags: ['Documents'],
       }),
-      removeDocument: builder.mutation<{ total: number }, number>({
+      removeDocument: builder.mutation<TotalType, number>({
         query: (id: number) => ({
           url: `/documents/${id}`,
           method: 'DELETE',
