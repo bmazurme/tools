@@ -9,7 +9,9 @@ import Column from './rain-roof-column';
 import Item from './rain-roof-item';
 
 import { useAppSelector } from '../../hooks';
-import { blocksSelector, useDeleteBlockMutation, useRefreshBlocksMutation } from '../../store';
+import {
+  blocksSelector, itemsSelector, useDeleteBlockMutation, useRefreshBlocksMutation,
+} from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 // export type ExtendedBlockType = Omit<BlockType, 'items'> & {
@@ -22,6 +24,7 @@ export default function RainRoofBlock({ block, index }
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
+  const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
@@ -83,7 +86,7 @@ export default function RainRoofBlock({ block, index }
     }),
   });
 
-  const returnItemsForColumn = (items: (ItemType & RainFlowRoof)[]) => items.map((item: ItemType & RainFlowRoof, idx: number) => (
+  const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
       key={uuidv4()}
       index={idx}
@@ -99,6 +102,8 @@ export default function RainRoofBlock({ block, index }
 
   drag(drop(ref));
 
+  const blockItems = items.filter((x) => x.column === block.id);
+
   return (
     <div
       ref={ref}
@@ -107,9 +112,8 @@ export default function RainRoofBlock({ block, index }
     >
       <Block action={onHandleRemoveBlock} value={block} />
 
-      <Column blockId={block.id}>
-        {/* {returnItemsForColumn(block.items)} */}
-        {returnItemsForColumn([])}
+      <Column blockId={block.id} length={blockItems.length}>
+        {returnItemsForColumn(blockItems)}
       </Column>
     </div>
   );
