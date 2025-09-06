@@ -1,18 +1,20 @@
-import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Board from './rain-roof-board';
-import { useGetBlocksMutation } from '../../store';
+import { useGetBlocksMutation, useGetItemsMutation } from '../../store';
 
 export default function RainRoofPage() {
   const { id } = useParams();
-  const [getRainRoofs] = useGetBlocksMutation();
+  const [getBlock] = useGetBlocksMutation();
+  const [getItems] = useGetItemsMutation();
 
   useEffect(() => {
     if (id) {
-      getRainRoofs(Number(id));
+      getBlock(Number(id));
+      getItems(Number(id));
     }
-  }, [getRainRoofs, id]);
+  }, [getBlock, id]);
 
   return (
     <div className="gapb">
