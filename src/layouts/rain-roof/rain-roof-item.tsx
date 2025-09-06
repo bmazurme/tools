@@ -11,11 +11,14 @@ import RainRoofModal from './rain-roof-modal';
 // } from '../../store';
 // import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
+import { useDeleteItemMutation } from '../../store';
 
-type FormPayload = ItemType & RainFlowRoof;
+// type FormPayload = ItemType & RainFlowRoof;
+type FormPayload = ItemType;
 
 export default function RainRoofItem({ item, index }:
-  { item: (ItemType & RainFlowRoof); index: number }) {
+  { item: (ItemType); index: number }) {
+  const [deleteItem] = useDeleteItemMutation();
   const [open, setOpen] = useState(false);
 
   // const dispatch = useAppDispatch();
@@ -82,13 +85,15 @@ export default function RainRoofItem({ item, index }:
     }),
   });
 
-  const onHandleRemoveItem = () => {
-    // dispatch(removeRainRoofItem(item));
+  const onHandleRemoveItem = async () => {
+    await deleteItem(item.id);
   };
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
-  const keys: (keyof FormPayload)[] = ['index', 'name', 'areaRoof', 'q5', 'q20', 'n', 'slope', 'flow'];
+  // eslint-disable-next-line max-len
+  // const keys: (keyof FormPayload)[] = ['index', 'name', 'areaRoof', 'q5', 'q20', 'n', 'slope', 'flow'];
+  const keys: (keyof FormPayload)[] = ['index', 'name'];
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
