@@ -4,8 +4,7 @@ import {
   Button, Modal, TextInput, Text,
 } from '@gravity-ui/uikit';
 
-import { updateRainRoofItem } from '../../store';
-import { useAppDispatch } from '../../hooks';
+// import { updateRainRoofItem } from '../../store';
 
 type FormPayload = ItemType & RainFlowRoof;
 
@@ -68,32 +67,34 @@ const fields = [
 ];
 
 export default function RainRoofModal({ item, open, setOpen }:
-  { item: (ItemType & RainFlowRoof); open: boolean; setOpen: (val: boolean) => void }) {
-  const dispatch = useAppDispatch();
+  { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
+  // const dispatch = useAppDispatch();
 
   const {
     control, handleSubmit,
   } = useForm<FormPayload>({
     defaultValues: {
       name: item.name,
-      areaRoof: item.areaRoof,
-      q5: item.q5,
-      q20: item.q20,
-      n: item.n,
-      slope: item.slope,
+      // areaRoof: item.areaRoof,
+      // q5: item.q5,
+      // q20: item.q20,
+      // n: item.n,
+      // slope: item.slope,
     },
   });
 
   const onSubmit = (data: FormPayload) => {
-    dispatch(updateRainRoofItem({
-      ...item,
-      name: data.name,
-      areaRoof: Number(data.areaRoof),
-      q5: Number(data.q5),
-      q20: Number(data.q20),
-      n: Number(data.n),
-      slope: Number(data.slope),
-    }));
+    // eslint-disable-next-line no-console
+    console.log(data);
+    // dispatch(updateRainRoofItem({
+    //   ...item,
+    //   name: data.name,
+    //   areaRoof: Number(data.areaRoof),
+    //   q5: Number(data.q5),
+    //   q20: Number(data.q20),
+    //   n: Number(data.n),
+    //   slope: Number(data.slope),
+    // }));
     setOpen(false);
   };
 
