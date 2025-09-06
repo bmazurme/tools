@@ -22,7 +22,7 @@ const projectsApiEndpoints = projectsApi
         }),
         invalidatesTags: ['Projects'],
       }),
-      removeProject: builder.mutation<{ total: number }, number>({
+      removeProject: builder.mutation<TotalType, number>({
         query: (id: number) => ({
           url: `/projects/${id}`,
           method: 'DELETE',
