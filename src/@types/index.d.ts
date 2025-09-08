@@ -19,6 +19,7 @@ type BlockType = {
 }
 
 type BlocksType = BlockType[];
+type RawBlockType = BlockType & { items: ItemType };
 
 type RainFlowRoof = {
   areaRoof: number;
