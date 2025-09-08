@@ -37,7 +37,9 @@ export default function DocumentAddPage() {
   const handleBack = () => navigate(-1);
   const onSubmit = async ({ name, type }: FormPayload) => {
     const result = await createDocument({
-      name, type, project: projectId!,
+      name,
+      type,
+      project: projectId!,
     });
     navigate(`/project/${projectId}/document/${result?.data?.id}/${result.data?.type.link}`);
   };
@@ -64,6 +66,7 @@ export default function DocumentAddPage() {
                     {...field}
                     {...input}
                     {...TEXT_INPUT_PROPS}
+                    value={typeof field.value === 'string' ? field.value : ''}
                     error={fieldState.error?.message}
                   />
                 )
