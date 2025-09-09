@@ -1,16 +1,21 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Board from './rain-runoff-board';
+import { useGetBlocksMutation } from '../../store';
 
 export default function RainRunoffPage() {
-  const { projectId, id } = useParams();
+  const { id } = useParams();
+  const [getRainRoofs] = useGetBlocksMutation();
+
+  useEffect(() => {
+    if (id) {
+      getRainRoofs(Number(id));
+    }
+  }, [getRainRoofs, id]);
 
   return (
-    <div>
-      <div>
-        RainRunoffPage
-      </div>
-      {`projectId ${projectId}, id ${id}`}
+    <div className="gapb">
       <Board />
     </div>
   );
