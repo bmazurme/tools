@@ -15,10 +15,10 @@ const itemsApiEndpoints = itemsApi
         invalidatesTags: ['Items'],
       }),
       updateItem: builder.mutation<ItemType, ItemType>({
-        query: (data: ItemType) => ({
+        query: ({ column, ...data }: ItemType) => ({
           url: `/items/${data.id}`,
           method: 'PATCH',
-          body: data,
+          body: { ...data, block: { id: column } },
         }),
         invalidatesTags: ['Items'],
       }),
@@ -29,9 +29,9 @@ const itemsApiEndpoints = itemsApi
         }),
         invalidatesTags: ['Items'],
       }),
-      refreshItems: builder.mutation<ItemType[], { id: number, data: ItemType[] }>({
-        query: ({ id, data }: { id: number, data: ItemType[] }) => ({
-          url: `/items/document/${id}`,
+      refreshItems: builder.mutation<ItemType[], ItemType[]>({
+        query: (data: ItemType[]) => ({
+          url: '/items',
           method: 'PATCH',
           body: data,
         }),
