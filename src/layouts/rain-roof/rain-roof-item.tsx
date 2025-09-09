@@ -1,32 +1,49 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { Label } from '@gravity-ui/uikit';
+
 import Item from '../../components/item/item';
 import RainRoofModal from './rain-roof-modal';
 
-// import {
-//   changeRainRoofItemColumn, refreshRainRoofItems, removeRainRoofItem,
-// } from '../../store';
-// import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
-import { useDeleteItemMutation } from '../../store';
+import {
+  itemsSelector,
+  useDeleteItemMutation,
+  useRefreshItemsMutation,
+  useUpdateItemMutation,
+} from '../../store';
+import { useAppSelector } from '../../hooks';
 
-// type FormPayload = ItemType & RainFlowRoof;
 type FormPayload = ItemType;
 
 export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
+  const { items } = useAppSelector(itemsSelector) ?? { items: [] };
+  const [updateItem] = useUpdateItemMutation();
   const [deleteItem] = useDeleteItemMutation();
+  const [refreshItems] = useRefreshItemsMutation();
   const [open, setOpen] = useState(false);
-
-  // const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
+
+  const moveCardHandler = async (dragIndex: number, hoverIndex: number, it: ItemType) => {
+    const blockItems = items.filter((x) => x.column === it.column);
+    const dragItem = blockItems.find((x: ItemType) => x.id === it.id);
+    // dragIndex = blockItems.findIndex((x: ItemType) => x.id === it.id);
+
+    if (dragItem) {
+      const newItems = [...blockItems];
+      const [movedItem] = newItems.splice(dragIndex, 1);
+      newItems.splice(hoverIndex, 0, movedItem);
+      await refreshItems(newItems.map((x, i) => ({ ...x, index: i })));
+    }
+  };
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    hover(_item: (ItemType & RainFlowRoof), monitor) {
+    async hover(_item: (ItemType & RainFlowRoof), monitor) {
       if (!ref.current) {
         return;
       }
@@ -53,8 +70,7 @@ export default function RainRoofItem({ item, index }:
           return;
         }
 
-        // dispatch(refreshRainRoofItems({ dragIndex, hoverIndex, item: _item }));
-        // eslint-disable-next-line no-param-reassign
+        moveCardHandler(dragIndex, hoverIndex, item);
         _item.index = hoverIndex;
       }
     },
@@ -63,7 +79,7 @@ export default function RainRoofItem({ item, index }:
   const [{ isDragging }, drag] = useDrag({
     type: TARGET_TYPE.ITEMS,
     item: { ...item, index },
-    end: (_item, monitor) => {
+    end: async (_item, monitor) => {
       const dropResult = monitor.getDropResult();
 
       if (dropResult) {
@@ -71,11 +87,8 @@ export default function RainRoofItem({ item, index }:
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            // dispatch(changeRainRoofItemColumn({
-            //   blockId: _item.column,
-            //   targetBlockId,
-            //   itemId: _item.id,
-            // }));
+            const targetIndex = items.filter((x) => x.column === targetBlockId).length;
+            await updateItem({ ...item, column: targetBlockId, index: targetIndex });
           }
         }
       }
