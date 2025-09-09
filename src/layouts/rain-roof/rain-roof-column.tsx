@@ -4,8 +4,6 @@ import type { ReactNode } from 'react';
 import { Label } from '@gravity-ui/uikit';
 import Column from '../../components/column/column';
 
-// import { useAppDispatch } from '../../hooks';
-// import { addRainRoofItem } from '../../store';
 import { TARGET_TYPE } from '../../config';
 import { useCreateItemMutation } from '../../store';
 
