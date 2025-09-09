@@ -32,7 +32,15 @@ const slice = createSlice({
         itemsApiEndpoints.endpoints.refreshItems.matchFulfilled,
         (state, { meta }) => ({
           ...state,
-          data: { items: meta.arg.originalArgs.data },
+          data: {
+            items: state.data.items.map((x) => {
+              if (meta.arg.originalArgs.some((it) => it.id === x.id)) {
+                const { index } = meta.arg.originalArgs.find((it) => it.id === x.id)!;
+                return { ...x, index };
+              }
+              return x;
+            }).sort((a, b) => a.index - b.index),
+          },
         }),
       )
       .addMatcher(
@@ -40,9 +48,9 @@ const slice = createSlice({
         (state, { meta }) => ({
           ...state,
           data: {
-            items: state.data.items.map((x) => (x.id === meta.arg.originalArgs.id
-              ? { ...meta.arg.originalArgs }
-              : x)),
+            items: state.data.items
+              .map((x) => (x.id === meta.arg.originalArgs.id ? { ...meta.arg.originalArgs } : x))
+              .sort((a, b) => a.index - b.index),
           },
         }),
       )
