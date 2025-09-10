@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Board from './rain-roof-board';
+
 import { useGetBlocksMutation, useGetItemsMutation } from '../../store';
 
 export default function RainRoofPage() {
