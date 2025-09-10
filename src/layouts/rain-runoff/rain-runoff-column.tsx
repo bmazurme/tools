@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 
 import Column from '../../components/column/column';
 
-import { useAppDispatch } from '../../hooks';
-import { addRainRunoffItem } from '../../store';
+// import { useAppDispatch } from '../../hooks';
+// import { addRainRunoffItem } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 type ColumnType = {
@@ -14,7 +14,7 @@ type ColumnType = {
 };
 
 export default function RainRunoffColumn({ children, blockId }: ColumnType) {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
     drop: () => ({ blockId }),
@@ -42,7 +42,9 @@ export default function RainRunoffColumn({ children, blockId }: ColumnType) {
       return '';
     }
   };
-  const onHandleAddItem = () => dispatch(addRainRunoffItem({ blockId }));
+  const onHandleAddItem = () => {
+    // dispatch(addRainRunoffItem({ blockId }));
+  };
 
   return (
     <div
