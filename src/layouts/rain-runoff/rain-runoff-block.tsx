@@ -1,25 +1,35 @@
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
+import { useParams } from 'react-router-dom';
 
 import Block from '../../components/block/block';
 import Column from './rain-runoff-column';
 import Item from './rain-runoff-item';
 
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { movedRainRunoffBlock, rainRunoffsSelector, removeRainRunoffBlock } from '../../store';
+import { useAppSelector } from '../../hooks';
+import { blocksSelector, useDeleteBlockMutation, useRefreshBlocksMutation } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 export default function RainRunoffBlock({ block, index }: { block: BlockType; index: number }) {
-  const dispatch = useAppDispatch();
-  const { blocks } = useAppSelector(rainRunoffsSelector);
+  const { id } = useParams();
+  const [refreshBlocks] = useRefreshBlocksMutation();
+  const [deleteBlock] = useDeleteBlockMutation();
+  const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
     const dragItem = blocks[dragIndex];
 
     if (dragItem) {
-      dispatch(movedRainRunoffBlock({ hoverIndex, dragIndex, dragItem }));
+      const coppiedStateArray = [...blocks];
+      const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
+      coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
+
+      await refreshBlocks({
+        data: coppiedStateArray.map((item, i) => ({ ...item, index: i })),
+        id: Number(id),
+      });
     }
   };
 
@@ -77,7 +87,9 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
-  const onHandleRemoveRunoffBlock = () => dispatch(removeRainRunoffBlock({ blockId: block.id }));
+  const onHandleRemoveRunoffBlock = async () => {
+    await deleteBlock(block.id);
+  };
 
   drag(drop(ref));
 
@@ -87,9 +99,10 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveRunoffBlock} value={`block_${block.id}`} />
+      <Block action={onHandleRemoveRunoffBlock} value={block} />
       <Column blockId={block.id}>
-        {returnItemsForColumn(block.items)}
+        {/* {returnItemsForColumn(block.items)} */}
+        {returnItemsForColumn([])}
       </Column>
     </div>
   );
