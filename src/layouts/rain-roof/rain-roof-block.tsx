@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
@@ -10,16 +9,19 @@ import Item from './rain-roof-item';
 
 import { useAppSelector } from '../../hooks';
 import {
-  blocksSelector, itemsSelector, useDeleteBlockMutation, useRefreshBlocksMutation,
+  blocksSelector,
+  itemsSelector,
+  useDeleteBlockMutation,
+  useRefreshBlocksMutation,
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 // export type ExtendedBlockType = Omit<BlockType, 'items'> & {
 //   items: (ItemType & RainFlowRoof)[];
 // }
+type RainRoofBlockProps = { block: BlockType; index: number };
 
-export default function RainRoofBlock({ block, index }
-  : { block: BlockType; index: number }) {
+export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const { id } = useParams();
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
