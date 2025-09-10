@@ -1,13 +1,14 @@
+/* eslint-disable max-len */
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Item from '../../components/item/item';
 
-import { changeRainRunoffItemColumn, refreshRainRunoffItems, removeRainRunoffItem } from '../../store';
-import { useAppDispatch } from '../../hooks';
+// import { changeRainRunoffItemColumn, refreshRainRunoffItems, removeRainRunoffItem } from '../../store';
+// import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const ref = useRef<HTMLLIElement>(null);
 
   const [, drop] = useDrop({
@@ -39,7 +40,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
           return;
         }
 
-        dispatch(refreshRainRunoffItems({ dragIndex, hoverIndex, item: _item }));
+        // dispatch(refreshRainRunoffItems({ dragIndex, hoverIndex, item: _item }));
         // eslint-disable-next-line no-param-reassign
         _item.index = hoverIndex;
       }
@@ -57,11 +58,11 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            dispatch(changeRainRunoffItemColumn({
-              blockId: _item.column,
-              targetBlockId,
-              itemId: _item.id,
-            }));
+            // dispatch(changeRainRunoffItemColumn({
+            //   blockId: _item.column,
+            //   targetBlockId,
+            //   itemId: _item.id,
+            // }));
           }
         }
       }
@@ -71,7 +72,9 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
     }),
   });
 
-  const onHandleRemoveItem = () => dispatch(removeRainRunoffItem(item));
+  const onHandleRemoveItem = () => {
+    // dispatch(removeRainRunoffItem(item));
+  };
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
