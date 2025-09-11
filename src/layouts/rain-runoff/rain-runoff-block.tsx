@@ -99,6 +99,8 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
 
   drag(drop(ref));
 
+  const blockItems = items.filter((x) => x.column === block.id);
+
   return (
     <div
       ref={ref}
@@ -107,7 +109,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
     >
       <Block action={onHandleRemoveRunoffBlock} value={block} />
 
-      <Column blockId={block.id}>
+      <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(items)}
       </Column>
     </div>
