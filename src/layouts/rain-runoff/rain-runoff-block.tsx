@@ -8,7 +8,12 @@ import Column from './rain-runoff-column';
 import Item from './rain-runoff-item';
 
 import { useAppSelector } from '../../hooks';
-import { blocksSelector, useDeleteBlockMutation, useRefreshBlocksMutation } from '../../store';
+import {
+  blocksSelector,
+  itemsSelector,
+  useDeleteBlockMutation,
+  useRefreshBlocksMutation,
+} from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 export default function RainRunoffBlock({ block, index }: { block: BlockType; index: number }) {
@@ -16,6 +21,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
+  const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
@@ -77,7 +83,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
     }),
   });
 
-  const returnItemsForColumn = (items: ItemType[]) => items.map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
       key={uuidv4()}
       index={idx}
@@ -100,9 +106,9 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       className="block"
     >
       <Block action={onHandleRemoveRunoffBlock} value={block} />
+
       <Column blockId={block.id}>
-        {/* {returnItemsForColumn(block.items)} */}
-        {returnItemsForColumn([])}
+        {returnItemsForColumn(items)}
       </Column>
     </div>
   );
