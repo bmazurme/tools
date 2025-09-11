@@ -13,7 +13,8 @@ function NavigationBreadcrumbs() {
     document: 'Документы',
     add: 'Добавить',
     edit: 'Редактировать',
-    'rain-roof': 'Расчет дождевых вод',
+    'rain-roof': 'Расчет дождевых вод с кровли',
+    'rain-runoff': 'Расчет дождевых вод с территории',
   };
 
   const paths = location.pathname
