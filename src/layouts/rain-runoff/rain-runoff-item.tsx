@@ -1,15 +1,35 @@
-/* eslint-disable max-len */
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Item from '../../components/item/item';
 
-// import { changeRainRunoffItemColumn, refreshRainRunoffItems, removeRainRunoffItem } from '../../store';
-// import { useAppDispatch } from '../../hooks';
 import { TARGET_TYPE } from '../../config';
+import { useAppSelector } from '../../hooks';
+import {
+  itemsSelector,
+  useDeleteItemMutation,
+  useRefreshItemsMutation,
+  useUpdateItemMutation,
+} from '../../store';
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
-  // const dispatch = useAppDispatch();
+  const { items } = useAppSelector(itemsSelector) ?? { items: [] };
+  const [updateItem] = useUpdateItemMutation();
+  const [deleteItem] = useDeleteItemMutation();
+  const [refreshItems] = useRefreshItemsMutation();
   const ref = useRef<HTMLLIElement>(null);
+
+  const moveCardHandler = async (dragIndex: number, hoverIndex: number, it: ItemType) => {
+    const blockItems = items.filter((x) => x.column === it.column);
+    const dragItem = blockItems.find((x: ItemType) => x.id === it.id);
+    // dragIndex = blockItems.findIndex((x: ItemType) => x.id === it.id);
+
+    if (dragItem) {
+      const newItems = [...blockItems];
+      const [movedItem] = newItems.splice(dragIndex, 1);
+      newItems.splice(hoverIndex, 0, movedItem);
+      await refreshItems(newItems.map((x, i) => ({ ...x, index: i })));
+    }
+  };
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
@@ -40,7 +60,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
           return;
         }
 
-        // dispatch(refreshRainRunoffItems({ dragIndex, hoverIndex, item: _item }));
+        moveCardHandler(dragIndex, hoverIndex, item);
         // eslint-disable-next-line no-param-reassign
         _item.index = hoverIndex;
       }
@@ -50,7 +70,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
   const [{ isDragging }, drag] = useDrag({
     type: TARGET_TYPE.ITEMS,
     item: { ...item, index },
-    end: (_item, monitor) => {
+    end: async (_item, monitor) => {
       const dropResult = monitor.getDropResult();
 
       if (dropResult) {
@@ -58,11 +78,8 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
         if (typeof targetBlockId === 'number') { /// !!!
           if (_item.column !== targetBlockId) {
-            // dispatch(changeRainRunoffItemColumn({
-            //   blockId: _item.column,
-            //   targetBlockId,
-            //   itemId: _item.id,
-            // }));
+            const targetIndex = items.filter((x) => x.column === targetBlockId).length;
+            await updateItem({ ...item, column: targetBlockId, index: targetIndex });
           }
         }
       }
@@ -72,8 +89,8 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
     }),
   });
 
-  const onHandleRemoveItem = () => {
-    // dispatch(removeRainRunoffItem(item));
+  const onHandleRemoveItem = async () => {
+    await deleteItem(item.id);
   };
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
