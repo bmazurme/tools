@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import {
-  projectsApi, documentsApi, usersApi, typesApi, blocksApi, rainRoofsApi, itemsApi,
+  projectsApi, documentsApi, usersApi, typesApi, blocksApi, rainRoofsApi, itemsApi, authApi,
 } from './api/index';
 
 import documentsReducer from './slices/documents-slice';
@@ -21,6 +21,7 @@ export * from './api/types-api/endpoints/index';
 export * from './api/blocks-api/endpoints/index';
 export * from './api/items-api/endpoints/index';
 export * from './api/rain-roofs-api/endpoints/index';
+export * from './api/auth-api/endpoints/index';
 
 export * from './slices/index';
 
