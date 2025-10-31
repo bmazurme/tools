@@ -6,7 +6,7 @@ import {
   CaretLeft,
   CaretRight,
   FolderOpen, Gear, Moon, Pencil, Person, SquareBars, Sun,
-  TrashBin,
+  ArrowRightFromSquare,
 } from '@gravity-ui/icons';
 import {
   useCallback,
@@ -179,7 +179,7 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
                     text: 'Профиль',
                   },
                   {
-                    iconStart: <Icon size={16} data={TrashBin} />,
+                    iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
                     action: onSignOut,
                     text: 'Выйти',
                     theme: 'danger',
@@ -211,7 +211,7 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
                         text: 'Профиль',
                       },
                       {
-                        iconStart: <Icon size={16} data={TrashBin} />,
+                        iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
                         action: onSignOut,
                         text: 'Выйти',
                         theme: 'danger',
