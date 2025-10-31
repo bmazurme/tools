@@ -1,10 +1,12 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Icon } from '@gravity-ui/uikit';
+import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
 import {
   CaretLeft,
   CaretRight,
-  FolderOpen, Gear, Moon, Person, SquareBars, Sun,
+  FolderOpen, Gear, Moon, Pencil, Person, SquareBars, Sun,
+  TrashBin,
 } from '@gravity-ui/icons';
 import {
   useCallback,
@@ -16,7 +18,7 @@ import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcru
 import { block, Logo } from '../logo/logo';
 
 import useUser from '../../hooks/use-user';
-import { useToggleCompactMutation, useToggleThemeMutation } from '../../store';
+import { useToggleCompactMutation, useToggleThemeMutation, useSignOutMutation } from '../../store';
 
 import style from './content.module.css';
 
@@ -28,10 +30,16 @@ const b = block('collapse-button');
 
 export default function Content({ children, sidebar }: PropsWithChildren & ContentProps) {
   const user = useUser();
+  const [signOut] = useSignOutMutation();
   const [toggleTheme] = useToggleThemeMutation();
   const [toggleCompact] = useToggleCompactMutation();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const onSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   const handleThemeToggle = useCallback(
     (isDark: boolean) => () => toggleTheme({ isDark }),
@@ -144,31 +152,73 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
             )}
 
             {!user?.isCompact ? (
-              <button
-                aria-label="Профиль"
-                onClick={() => navigate('/profile')}
-                className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('profile') && 'gn-composite-bar-item-active'}`}
-              >
-                <div className="gn-composite-bar-item__icon-place">
-                  <Icon data={Person} size={18} />
-                </div>
-                <div className="gn-composite-bar-item__title" title="User profile">
-                  <div className="gn-composite-bar-item__title-text">
-                    Профиль
-                  </div>
-                </div>
-              </button>
+              <DropdownMenu
+                popupProps={{
+                  placement: 'right',
+                }}
+                renderSwitcher={(props) => (
+                  <button
+                    {...props}
+                    aria-label="Профиль"
+                    className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('profile') && 'gn-composite-bar-item-active'}`}
+                  >
+                    <div className="gn-composite-bar-item__icon-place">
+                      <Icon data={Person} size={18} />
+                    </div>
+                    <div className="gn-composite-bar-item__title" title="User profile">
+                      <div className="gn-composite-bar-item__title-text">
+                        Профиль
+                      </div>
+                    </div>
+                  </button>
+                )}
+                items={[
+                  {
+                    iconStart: <Icon size={16} data={Pencil} />,
+                    action: () => navigate('/profile'),
+                    text: 'Профиль',
+                  },
+                  {
+                    iconStart: <Icon size={16} data={TrashBin} />,
+                    action: onSignOut,
+                    text: 'Выйти',
+                    theme: 'danger',
+                  },
+                ]}
+              />
+
             ) : (
               <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
                 <div className="gn-composite-bar-item__icon-place">
-                  <Button
-                    view={location.pathname.includes('profile') ? 'action' : 'flat'}
-                    size="l"
-                    onClick={() => navigate('/profile')}
-                    aria-label="Профиль"
-                  >
-                    <Icon data={Person} size={18} />
-                  </Button>
+                  <DropdownMenu
+                    popupProps={{
+                      placement: 'right',
+                    }}
+                    renderSwitcher={(props) => (
+                      <Button
+                        {...props}
+                        view={location.pathname.includes('profile') ? 'action' : 'flat'}
+                        size="l"
+                        aria-label="Профиль"
+                      >
+                        <Icon data={Person} size={18} />
+                      </Button>
+                    )}
+                    items={[
+                      {
+                        iconStart: <Icon size={16} data={Pencil} />,
+                        action: () => navigate('/profile'),
+                        text: 'Профиль',
+                      },
+                      {
+                        iconStart: <Icon size={16} data={TrashBin} />,
+                        action: onSignOut,
+                        text: 'Выйти',
+                        theme: 'danger',
+                      },
+                    ]}
+                  />
+
                 </div>
               </div>
             )}
