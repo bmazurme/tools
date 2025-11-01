@@ -1,11 +1,13 @@
 /* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
-import { Label } from '@gravity-ui/uikit';
+import { Text } from '@gravity-ui/uikit';
 import Column from '../../components/column/column';
 
 import { TARGET_TYPE } from '../../config';
 import { useCreateItemMutation } from '../../store';
+
+import style from './rain-roof-column.module.css';
 
 type ColumnType = {
   children: ReactNode;
@@ -42,6 +44,7 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
       return '';
     }
   };
+
   const onHandleAddItem = () => {
     createItem({ block: { id: blockId }, index: length });
   };
@@ -54,14 +57,15 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
     >
       <Column action={onHandleAddItem}>
         <div className="fields">
-          <Label theme="clear" className="field">#</Label>
-          <Label theme="clear" className="field">Name</Label>
-          <Label theme="clear" className="field">F</Label>
-          <Label theme="clear" className="field">q5</Label>
-          <Label theme="clear" className="field">q20</Label>
-          <Label theme="clear" className="field">n</Label>
-          <Label theme="clear" className="field">Slope</Label>
-          <Label theme="clear" className="field">Q</Label>
+          <Text variant="code-1" className={style.id}>#</Text>
+          <Text variant="code-1" className={style.name}>Наименование участка</Text>
+          <Text variant="code-1" className={style.roof}>F, кровли</Text>
+          <Text variant="code-1" className={style.wall}>F, фасада</Text>
+          <Text variant="code-1" className={style.q5}>q5</Text>
+          <Text variant="code-1" className={style.q20}>q20</Text>
+          <Text variant="code-1" className={style.n}>n</Text>
+          <Text variant="code-1" className={style.slope}>Уклон, %</Text>
+          <Text variant="code-1" className={style.flow}>Расход, л/с</Text>
         </div>
       </Column>
       <ul className="column_list">
