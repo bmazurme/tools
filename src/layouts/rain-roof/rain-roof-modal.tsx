@@ -4,24 +4,23 @@ import {
   Button, Modal, TextInput, Text,
 } from '@gravity-ui/uikit';
 
-// import { updateRainRoofItem } from '../../store';
+import { useUpdateRainRoofsMutation } from '../../store';
 
 type FormPayload = ItemType & RainFlowRoof;
 
 const fields = [
   {
-    name: 'name',
-    label: 'Название участка',
+    name: 'areaRoof',
+    label: 'Водосборная площадь кровли, F',
     pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
+      value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
-    autoComplete: 'name',
   },
   {
-    name: 'areaRoof',
-    label: 'Водосборная площадь, F',
+    name: 'areaFacade',
+    label: 'Водосборная площадь фасада, F',
     pattern: {
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
@@ -68,33 +67,22 @@ const fields = [
 
 export default function RainRoofModal({ item, open, setOpen }:
   { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
-  // const dispatch = useAppDispatch();
-
+  const [updateRainRoofs] = useUpdateRainRoofsMutation();
   const {
     control, handleSubmit,
   } = useForm<FormPayload>({
     defaultValues: {
-      name: item.name,
-      // areaRoof: item.areaRoof,
-      // q5: item.q5,
-      // q20: item.q20,
-      // n: item.n,
-      // slope: item.slope,
+      areaRoof: item.rainRoof!.areaRoof,
+      areaFacade: item.rainRoof!.areaFacade,
+      q5: item.rainRoof!.q5,
+      q20: item.rainRoof!.q20,
+      n: item.rainRoof!.n,
+      slope: item.rainRoof!.slope,
     },
   });
 
-  const onSubmit = (data: FormPayload) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-    // dispatch(updateRainRoofItem({
-    //   ...item,
-    //   name: data.name,
-    //   areaRoof: Number(data.areaRoof),
-    //   q5: Number(data.q5),
-    //   q20: Number(data.q20),
-    //   n: Number(data.n),
-    //   slope: Number(data.slope),
-    // }));
+  const onSubmit = async (data: FormPayload) => {
+    await updateRainRoofs({ ...item.rainRoof, ...data });
     setOpen(false);
   };
 
