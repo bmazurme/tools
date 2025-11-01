@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { itemsApiEndpoints } from '../api/items-api/endpoints/index';
+import { rainRoofsApiEndpoints } from '../api/rain-roofs-api/endpoints/index';
 import { type RootState } from '..';
 
 export type ItemsState = {
@@ -51,6 +52,17 @@ const slice = createSlice({
             items: state.data.items
               .map((x) => (x.id === meta.arg.originalArgs.id ? { ...meta.arg.originalArgs } : x))
               .sort((a, b) => a.index - b.index),
+          },
+        }),
+      )
+      .addMatcher(
+        rainRoofsApiEndpoints.endpoints.updateRainRoofs.matchFulfilled,
+        (state, { payload }) => ({
+          ...state,
+          data: {
+            items: state.data.items.map((x) => (x.rainRoof!.id === payload.id
+              ? { ...x, rainRoof: payload }
+              : x)),
           },
         }),
       )
