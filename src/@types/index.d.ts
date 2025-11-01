@@ -5,13 +5,6 @@ type ProjectType = {
   address: string;
 };
 
-type ItemType = {
-  id: number;
-  name: string;
-  column: number;
-  index: number;
-};
-
 type BlockType = {
   id: number;
   name: string;
@@ -19,9 +12,9 @@ type BlockType = {
 }
 
 type BlocksType = BlockType[];
-type RawBlockType = BlockType & { items: ItemType };
 
 type RainFlowRoof = {
+  id: number;
   areaRoof: number;
   areaFacade: number;
   n: number;
@@ -31,6 +24,15 @@ type RainFlowRoof = {
   sumRoofArea: number;
   flow: number;
 };
+
+type ItemType = {
+  id: number;
+  name: string;
+  column: number;
+  index: number;
+  rainRoof?: RainFlowRoof;
+};
+type RawBlockType = BlockType & { items: ItemType };
 
 type UserType = {
   id: number;
