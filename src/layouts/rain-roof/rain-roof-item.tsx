@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { v4 as uuidv4 } from 'uuid';
-import { Label } from '@gravity-ui/uikit';
+import { TextInput, Text } from '@gravity-ui/uikit';
+import { Controller, useForm } from 'react-hook-form';
 
 import Item from '../../components/item/item';
 import RainRoofModal from './rain-roof-modal';
@@ -17,7 +18,23 @@ import {
 } from '../../store';
 import { useAppSelector } from '../../hooks';
 
-type FormPayload = ItemType;
+import style from './rain-roof-column.module.css';
+
+type FormPayload = { name: string };
+
+const fields = [
+  {
+    name: 'name',
+    // label: 'Название',
+    placeholder: 'Название',
+    pattern: {
+      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
+      message: 'Name is invalid',
+    },
+    required: 'Обязательно к заполнению',
+    autoComplete: 'name',
+  },
+];
 
 export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
@@ -27,6 +44,10 @@ export default function RainRoofItem({ item, index }:
   const [refreshItems] = useRefreshItemsMutation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
+
+  const { control } = useForm<FormPayload>({
+    defaultValues: { name: item.name },
+  });
 
   const moveCardHandler = async (dragIndex: number, hoverIndex: number, it: ItemType) => {
     const blockItems = items.filter((x) => x.column === it.column);
@@ -104,15 +125,53 @@ export default function RainRoofItem({ item, index }:
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
-  // eslint-disable-next-line max-len
-  // const keys: (keyof FormPayload)[] = ['index', 'name', 'areaRoof', 'q5', 'q20', 'n', 'slope', 'flow'];
-  const keys: (keyof FormPayload)[] = ['index', 'name'];
+  const onSubmit = async () => {
+    try {
+      // eslint-disable-next-line no-underscore-dangle
+      const { name } = control._formValues;
+
+      if (item.name !== name) {
+        await updateItem({ ...item, name });
+      }
+    } catch (error) {
+      console.error('Ошибка при обновлении проекта:', error);
+    }
+  };
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
       <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
         <ul className="fields">
-          {keys.map((key) => <Label key={uuidv4()} theme="clear" className="field">{item[key]}</Label>)}
+          <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
+          {/* <TextInput placeholder="Placeholder" size="s" className={style.name} /> */}
+          {fields.map((input) => (
+            <Controller
+              name={input.name as keyof FormPayload}
+              rules={{
+                pattern: input.pattern,
+                required: input.required,
+              }}
+              control={control}
+              render={({ field, fieldState }) => (
+                <TextInput
+                  {...field}
+                  {...input}
+                  size="m"
+                  type="text"
+                  error={fieldState.error?.message}
+                  className={style.name}
+                  onBlur={onSubmit}
+                />
+              )}
+            />
+          ))}
+          <Text variant="code-1" className={style.roof}>{item.rainRoof?.areaRoof}</Text>
+          <Text variant="code-1" className={style.wall}>{item.rainRoof?.areaFacade}</Text>
+          <Text variant="code-1" className={style.q5}>{item.rainRoof?.q5}</Text>
+          <Text variant="code-1" className={style.q20}>{item.rainRoof?.q20}</Text>
+          <Text variant="code-1" className={style.n}>{item.rainRoof?.n}</Text>
+          <Text variant="code-1" className={style.slope}>{item.rainRoof?.slope}</Text>
+          <Text variant="code-1" className={style.flow}>{item.rainRoof?.flow}</Text>
         </ul>
       </Item>
       <RainRoofModal item={item} open={open} setOpen={setOpen} />
