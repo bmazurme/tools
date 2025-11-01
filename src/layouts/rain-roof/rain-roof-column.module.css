@@ -1,0 +1,42 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 300px;
+  justify-content:flex-start;
+}
+.roof {
+  composes: base;
+  width: 100px;
+}
+.wall {
+  composes: base;
+  width: 100px;
+}
+.q5 {
+  composes: base;
+  width: 100px;
+}
+.q20 {
+  composes: base;
+  width: 100px;
+}
+.n {
+  composes: base;
+  width: 100px;
+}
+.slope {
+  composes: base;
+  width: 100px;
+}
+.flow {
+  composes: base;
+  width: 100px;
+}
