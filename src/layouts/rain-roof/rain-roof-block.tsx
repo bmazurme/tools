@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
+import { Text } from '@gravity-ui/uikit';
+
 import Block from '../../components/block/block';
 import Column from './rain-roof-column';
 import Item from './rain-roof-item';
@@ -15,6 +17,9 @@ import {
   useRefreshBlocksMutation,
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
+import ColumnFooter from '../../components/column/column-footer';
+
+import style from './rain-roof-column.module.css';
 
 // export type ExtendedBlockType = Omit<BlockType, 'items'> & {
 //   items: (ItemType & RainFlowRoof)[];
@@ -105,6 +110,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.column === block.id);
+  const summ = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
 
   return (
     <div
@@ -116,6 +122,26 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(blockItems)}
+        {blockItems.length > 0
+        && (
+        <ColumnFooter>
+          <div className="fields">
+            <Text variant="code-1" className={style.id} />
+            <Text variant="code-1" className={style.name} />
+            <Text variant="code-1" className={style.roof} />
+            <Text variant="code-1" className={style.wall} />
+            <Text variant="code-1" className={style.q5} />
+            <Text variant="code-1" className={style.q20} />
+            <Text variant="code-1" className={style.n} />
+            <Text variant="code-1" className={style.slope}>
+              Итого:
+            </Text>
+            <Text variant="code-1" className={style.flow}>
+              {summ.toFixed(2)}
+            </Text>
+          </div>
+        </ColumnFooter>
+        )}
       </Column>
     </div>
   );
