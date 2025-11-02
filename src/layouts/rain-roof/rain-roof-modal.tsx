@@ -28,15 +28,6 @@ const fields = [
     required: 'Обязательно к заполнению',
   },
   {
-    name: 'q5',
-    label: 'Интенсивность дождя q5, л/с',
-    pattern: {
-      value: /^-?\d+(\.\d+)?$/,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
     name: 'q20',
     label: 'q20 - интенсивность дождя, л/с',
     pattern: {
@@ -72,12 +63,11 @@ export default function RainRoofModal({ item, open, setOpen }:
     control, handleSubmit,
   } = useForm<FormPayload>({
     defaultValues: {
-      areaRoof: item.rainRoof!.areaRoof,
-      areaFacade: item.rainRoof!.areaFacade,
-      q5: item.rainRoof!.q5,
-      q20: item.rainRoof!.q20,
-      n: item.rainRoof!.n,
-      slope: item.rainRoof!.slope,
+      areaRoof: item.rainRoof?.areaRoof || 0,
+      areaFacade: item.rainRoof?.areaFacade || 0,
+      q20: item.rainRoof?.q20 || 0,
+      n: item.rainRoof?.n || 0,
+      slope: item.rainRoof?.slope || 0,
     },
   });
 
