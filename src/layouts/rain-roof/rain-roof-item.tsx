@@ -146,6 +146,7 @@ export default function RainRoofItem({ item, index }:
           {/* <TextInput placeholder="Placeholder" size="s" className={style.name} /> */}
           {fields.map((input) => (
             <Controller
+              key={input.name}
               name={input.name as keyof FormPayload}
               rules={{
                 pattern: input.pattern,
