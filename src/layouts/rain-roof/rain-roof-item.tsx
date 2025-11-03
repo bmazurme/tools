@@ -143,7 +143,6 @@ export default function RainRoofItem({ item, index }:
       <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
-          {/* <TextInput placeholder="Placeholder" size="s" className={style.name} /> */}
           {fields.map((input) => (
             <Controller
               key={input.name}
