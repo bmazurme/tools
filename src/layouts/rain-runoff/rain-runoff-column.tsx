@@ -1,11 +1,14 @@
 /* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
+import { Text } from '@gravity-ui/uikit';
 
 import Column from '../../components/column/column';
 
 import { useCreateItemMutation } from '../../store';
 import { TARGET_TYPE } from '../../config';
+
+import style from './rain-runoff-column.module.css';
 
 type ColumnType = {
   children: ReactNode;
@@ -53,7 +56,19 @@ export default function RainRunoffColumn({ children, blockId, length }: ColumnTy
       style={{ backgroundColor: getBackgroundColor() }}
     >
       <Column action={onHandleAddItem}>
-        column-header
+        <div className="fields">
+          <Text variant="code-1" className={style.id}>#</Text>
+          <Text variant="code-1" className={style.name}>Наименование участка</Text>
+          <Text variant="code-1" className={style.pavements}>Площадь</Text>
+          <Text variant="code-1" className={style.pavements}>place</Text>
+          <Text variant="code-1" className={style.pavements}>condition</Text>
+          <Text variant="code-1" className={style.pavements}>intensity</Text>
+          <Text variant="code-1" className={style.pavements}>lengthPipe</Text>
+          <Text variant="code-1" className={style.pavements}>lengthTray</Text>
+          <Text variant="code-1" className={style.pavements}>velocityPipe</Text>
+          <Text variant="code-1" className={style.pavements}>velocityTray</Text>
+          <Text variant="code-1" className={style.pavements}>timeInit</Text>
+        </div>
       </Column>
       <ul className="column_list">
         {children}
