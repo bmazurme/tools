@@ -1,0 +1,42 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 250px;
+  justify-content:flex-start;
+}
+.roof {
+  composes: base;
+  width: 100px;
+}
+.pavements {
+  composes: base;
+  width: 100px;
+}
+.cobblestone {
+  composes: base;
+  width: 100px;
+}
+.stone {
+  composes: base;
+  width: 100px;
+}
+.tracks {
+  composes: base;
+  width: 100px;
+}
+.ground {
+  composes: base;
+  width: 100px;
+}
+.laws {
+  composes: base;
+  width: 100px;
+}
