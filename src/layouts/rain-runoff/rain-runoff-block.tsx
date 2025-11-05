@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
+import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
 import Column from './rain-runoff-column';
@@ -9,12 +10,12 @@ import Item from './rain-runoff-item';
 
 import { useAppSelector } from '../../hooks';
 import {
-  blocksSelector,
-  itemsSelector,
-  useDeleteBlockMutation,
-  useRefreshBlocksMutation,
+  blocksSelector, itemsSelector, useDeleteBlockMutation, useRefreshBlocksMutation,
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
+import ColumnFooter from '../../components/column/column-footer';
+
+import style from './rain-runoff-column.module.css';
 
 export default function RainRunoffBlock({ block, index }: { block: BlockType; index: number }) {
   const { id } = useParams();
@@ -100,6 +101,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.column === block.id);
+  const sum = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRunoff?.flow || 0), 0);
 
   return (
     <div
@@ -111,6 +113,27 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(items)}
+        {blockItems.length > 0
+        && (
+        <ColumnFooter>
+          <div className="fields">
+            <Text variant="code-1" className={style.id} />
+            <Text variant="code-1" className={style.name} />
+            <Text variant="code-1" className={style.area} />
+            <Text variant="code-1" className={style.intensity} />
+            <Text variant="code-1" className={style.lengthPipe} />
+            <Text variant="code-1" className={style.lengthTray} />
+            <Text variant="code-1" className={style.velocityPipe} />
+            <Text variant="code-1" className={style.velocityTray} />
+            <Text variant="code-1" className={style.timeInit}>
+              Итого:
+            </Text>
+            <Text variant="code-1" className={style.flow}>
+              {sum.toFixed(2)}
+            </Text>
+          </div>
+        </ColumnFooter>
+        )}
       </Column>
     </div>
   );
