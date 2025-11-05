@@ -110,7 +110,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.column === block.id);
-  const summ = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
+  const sum = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
 
   return (
     <div
@@ -137,7 +137,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
               Итого:
             </Text>
             <Text variant="code-1" className={style.flow}>
-              {summ.toFixed(2)}
+              {sum.toFixed(2)}
             </Text>
           </div>
         </ColumnFooter>
