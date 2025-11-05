@@ -5,7 +5,7 @@ import { Text } from '@gravity-ui/uikit';
 
 import Column from '../../components/column/column';
 
-import { useCreateItemMutation } from '../../store';
+import { useCreateRainRunoffItemMutation } from '../../store';
 import { TARGET_TYPE } from '../../config';
 
 import style from './rain-runoff-column.module.css';
@@ -17,7 +17,7 @@ type ColumnType = {
 };
 
 export default function RainRunoffColumn({ children, blockId, length }: ColumnType) {
-  const [createItem] = useCreateItemMutation();
+  const [createItem] = useCreateRainRunoffItemMutation();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
     drop: () => ({ blockId }),
