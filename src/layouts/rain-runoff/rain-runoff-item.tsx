@@ -20,18 +20,18 @@ import style from './rain-runoff-column.module.css';
 
 type FormPayload = { name: string };
 
-const fields = [
+const FIELD_CONFIG = [
   {
-    name: 'name',
+    name: 'name' as const,
     placeholder: 'Название',
     pattern: {
       value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-      message: 'Name is invalid',
+      message: 'Название должно содержать от 3 до 50 символов (буквы, цифры, пробелы, точки, запятые, дефисы)',
     },
     required: 'Обязательно к заполнению',
     autoComplete: 'name',
   },
-];
+] as const;
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
@@ -140,7 +140,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
       <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
-          {fields.map((input) => (
+          {FIELD_CONFIG.map((input) => (
             <Controller
               key={input.name}
               name={input.name as keyof FormPayload}
