@@ -2,25 +2,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Controller, useForm } from 'react-hook-form';
 import {
-  Button, Modal, TextInput, Text,
-  Select,
+  Button, Modal, TextInput, Text, Select,
 } from '@gravity-ui/uikit';
 
-import { useUpdateRainRunoffsMutation, useGetRainPlaceMutation, rainPlacesSelector } from '../../store';
+import {
+  useUpdateRainRunoffsMutation,
+  useGetRainPlaceMutation, rainPlacesSelector,
+  useGetRainConditionsMutation, rainConditionsSelector,
+} from '../../store';
 import { useAppSelector } from '../../hooks';
 
-type FormPayload = ItemType & RainRunoff;
+type FormPayload = ItemType & Omit<Omit<RainRunoff, 'condition'>, 'place'> & { place: string; condition: string };
 
 const fields = [
-  {
-    name: 'place',
-    label: 'Географические условия расположения объекта',
-    pattern: {
-      value: /^-?\d+(\.\d+)?$/,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
   {
     name: 'roof',
     label: 'Кровля зданий и сооружений, асфальтобетонные покрытия дорог',
@@ -28,7 +22,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'cobblestone',
@@ -37,7 +30,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'lawns',
@@ -46,7 +38,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'pavements',
@@ -55,7 +46,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'ground',
@@ -64,7 +54,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'tracks',
@@ -73,7 +62,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'stone',
@@ -82,16 +70,6 @@ const fields = [
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
     },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'condition',
-    label: 'Условия расположения',
-    pattern: {
-      value: /^-?\d+(\.\d+)?$/,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
   },
   {
     name: 'intensity',
@@ -104,7 +82,7 @@ const fields = [
   },
   {
     name: 'lengthPipe',
-    label: 'lengthPipe',
+    label: 'Длина трубы, м',
     pattern: {
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
@@ -113,7 +91,7 @@ const fields = [
   },
   {
     name: 'lengthTray',
-    label: 'lengthTray',
+    label: 'Длина лотка, м',
     pattern: {
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
@@ -122,7 +100,7 @@ const fields = [
   },
   {
     name: 'velocityPipe',
-    label: 'velocityPipe',
+    label: 'Скорость в трубе, м/с',
     pattern: {
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
@@ -131,7 +109,7 @@ const fields = [
   },
   {
     name: 'velocityTray',
-    label: 'velocityTray',
+    label: 'Скорость в лотке, м/с',
     pattern: {
       value: /^-?\d+(\.\d+)?$/,
       message: 'Name is invalid',
@@ -152,11 +130,13 @@ const fields = [
 export default function RainRunoffModal({ item, open, setOpen }:
   { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
   const [getPlaces] = useGetRainPlaceMutation();
+  const [getConditions] = useGetRainConditionsMutation();
   const [updateRainRunoffs] = useUpdateRainRunoffsMutation();
   const places = useAppSelector(rainPlacesSelector);
+  const conditions = useAppSelector(rainConditionsSelector);
 
   const {
-    control, handleSubmit, register, formState: { errors },
+    control, handleSubmit, formState: { errors },
   } = useForm<FormPayload>({
     defaultValues: {
       roof: item.rainRunoff?.roof || 0,
@@ -166,19 +146,39 @@ export default function RainRunoffModal({ item, open, setOpen }:
       tracks: item.rainRunoff?.tracks || 0,
       pavements: item.rainRunoff?.pavements || 0,
       stone: item.rainRunoff?.stone || 0,
-      place: item.rainRunoff?.place || 0,
-      condition: item.rainRunoff?.condition || 0,
       intensity: item.rainRunoff?.intensity || 0,
       lengthPipe: item.rainRunoff?.lengthPipe || 0,
       lengthTray: item.rainRunoff?.lengthTray || 0,
       velocityPipe: item.rainRunoff?.velocityPipe || 0,
       velocityTray: item.rainRunoff?.velocityTray || 0,
       timeInit: item.rainRunoff?.timeInit || 0,
+      place: item.rainRunoff?.place?.name || '',
+      condition: item.rainRunoff?.condition?.name || '',
     },
   });
 
   const onSubmit = async (data: FormPayload) => {
-    await updateRainRunoffs({ ...item.rainRunoff, ...data });
+    const placeId = (item.rainRunoff?.place?.id && item.rainRunoff?.place?.name === data.place)
+      ? item.rainRunoff.place.id
+      : +data.place[0];
+    // eslint-disable-next-line max-len
+    const conditionId = (item.rainRunoff?.condition?.id && item.rainRunoff?.condition?.name === data.condition)
+      ? item.rainRunoff.condition.id
+      : +data.condition[0];
+
+    await updateRainRunoffs({
+      ...item.rainRunoff,
+      ...data,
+      roof: data.roof || 0,
+      cobblestone: data.cobblestone || 0,
+      ground: data.ground || 0,
+      lawns: data.lawns || 0,
+      tracks: data.tracks || 0,
+      pavements: data.pavements || 0,
+      stone: data.stone || 0,
+      place: { id: placeId, name: '' },
+      condition: { id: conditionId, name: '' },
+    });
     setOpen(false);
   };
 
@@ -186,8 +186,49 @@ export default function RainRunoffModal({ item, open, setOpen }:
     <Modal open={open} disableOutsideClick>
       <form className="dialog" onSubmit={handleSubmit(onSubmit)}>
         <Text variant="header-1">
+          {item.name}
+        </Text>
+        <Text variant="subheader-1">
           Расчетный расход дождевых вод Q, л/с, с водосборной площади
         </Text>
+        <Controller
+          name="place"
+          control={control}
+          rules={{ required: 'Выберите географические условия' }}
+          render={({ field, fieldState }) => (
+            <Select
+              label="Географические условия расположения объекта"
+              size="l"
+              width="max"
+              onUpdate={field.onChange}
+              defaultValue={[field.value]}
+              errorMessage={fieldState.error?.message}
+              validationState={errors?.place ? 'invalid' : undefined}
+              onOpenChange={async () => await getPlaces()}
+              options={places.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
+            />
+          )}
+        />
+        <Controller
+          name="condition"
+          control={control}
+          rules={{ required: 'Выберите условия расположения' }}
+          render={({ field, fieldState }) => (
+            <Select
+              label="Условия расположения"
+              size="l"
+              width="max"
+              onUpdate={field.onChange}
+              defaultValue={[field.value]}
+              errorMessage={fieldState.error?.message}
+              validationState={errors?.condition ? 'invalid' : undefined}
+              onOpenChange={async () => await getConditions()}
+              options={conditions.map(({ id, name }) => ({
+                id, value: id.toString(), content: name,
+              }))}
+            />
+          )}
+        />
 
         {fields.map((input) => (
           <Controller
@@ -199,31 +240,14 @@ export default function RainRunoffModal({ item, open, setOpen }:
             }}
             control={control}
             render={({ field, fieldState }) => (
-              field.name === 'place'
-                ? (
-                  <Select
-                    label="Географические условия расположения объекта"
-                    size="l"
-                    width="max"
-                    {...register}
-                    onUpdate={field.onChange}
-                    errorMessage={fieldState.error?.message}
-                    validationState={errors?.place ? 'invalid' : undefined}
-                    onOpenChange={async () => await getPlaces()}
-                    // eslint-disable-next-line max-len
-                    options={places.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
-                  />
-                )
-                : (
-                  <TextInput
-                    {...field}
-                    {...input}
-                    value={`${field.value}`}
-                    size="l"
-                    type="text"
-                    error={fieldState.error?.message}
-                  />
-                )
+              <TextInput
+                {...field}
+                {...input}
+                value={`${field.value}`}
+                size="l"
+                type="text"
+                error={fieldState.error?.message}
+              />
             )}
           />
         ))}
