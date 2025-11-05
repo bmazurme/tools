@@ -9,7 +9,7 @@
 }
 .name {
   composes: base;
-  width: 260px;
+  width: 300px;
   justify-content:flex-start;
 }
 .flow {
