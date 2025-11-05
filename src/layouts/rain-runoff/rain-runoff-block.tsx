@@ -112,7 +112,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       <Block action={onHandleRemoveRunoffBlock} value={block} />
 
       <Column blockId={block.id} length={blockItems.length}>
-        {returnItemsForColumn(items)}
+        {returnItemsForColumn(blockItems)}
         {blockItems.length > 0
         && (
         <ColumnFooter>
