@@ -9,34 +9,46 @@
 }
 .name {
   composes: base;
-  width: 250px;
+  width: 260px;
   justify-content:flex-start;
 }
-.roof {
+.flow {
   composes: base;
   width: 100px;
 }
-.pavements {
+.place {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
-.cobblestone {
+.condition {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
-.stone {
+.area {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
-.tracks {
+.intensity {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
-.ground {
+.lengthPipe {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
-.laws {
+.lengthTray {
   composes: base;
-  width: 100px;
+  width: 80px;
+}
+.velocityPipe {
+  composes: base;
+  width: 80px;
+}
+.velocityTray {
+  composes: base;
+  width: 80px;
+}
+.timeInit {
+  composes: base;
+  width: 80px;
 }
