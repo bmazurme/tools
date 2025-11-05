@@ -14,12 +14,13 @@ import { useAppSelector } from '../../hooks';
 
 type FormPayload = ItemType & Omit<Omit<RainRunoff, 'condition'>, 'place'> & { place: string; condition: string };
 
-const fields = [
+const NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
+const FIELD_CONFIG = [
   {
     name: 'roof',
     label: 'Кровля зданий и сооружений, асфальтобетонные покрытия дорог',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -27,7 +28,7 @@ const fields = [
     name: 'cobblestone',
     label: 'Брусчатые мостовые и чёрные щебёночные покрытия дорог',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -35,7 +36,7 @@ const fields = [
     name: 'lawns',
     label: 'Газоны',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -43,7 +44,7 @@ const fields = [
     name: 'pavements',
     label: 'Гравийные садово-парковые дорожки',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -51,7 +52,7 @@ const fields = [
     name: 'ground',
     label: 'Грунтовые поверхности (спланированные)',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -59,7 +60,7 @@ const fields = [
     name: 'tracks',
     label: 'Гравийные садово-парковые дорожки',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -67,7 +68,7 @@ const fields = [
     name: 'stone',
     label: 'Былыжные мостовые',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
   },
@@ -75,7 +76,7 @@ const fields = [
     name: 'intensity',
     label: 'Интенсивность дождя, л/с',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -84,7 +85,7 @@ const fields = [
     name: 'lengthPipe',
     label: 'Длина трубы, м',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -93,7 +94,7 @@ const fields = [
     name: 'lengthTray',
     label: 'Длина лотка, м',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -102,7 +103,7 @@ const fields = [
     name: 'velocityPipe',
     label: 'Скорость в трубе, м/с',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -111,7 +112,7 @@ const fields = [
     name: 'velocityTray',
     label: 'Скорость в лотке, м/с',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -120,7 +121,7 @@ const fields = [
     name: 'timeInit',
     label: 'timeInit',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -139,21 +140,21 @@ export default function RainRunoffModal({ item, open, setOpen }:
     control, handleSubmit, formState: { errors },
   } = useForm<FormPayload>({
     defaultValues: {
-      roof: item.rainRunoff?.roof || 0,
-      cobblestone: item.rainRunoff?.cobblestone || 0,
-      ground: item.rainRunoff?.ground || 0,
-      lawns: item.rainRunoff?.lawns || 0,
-      tracks: item.rainRunoff?.tracks || 0,
-      pavements: item.rainRunoff?.pavements || 0,
-      stone: item.rainRunoff?.stone || 0,
-      intensity: item.rainRunoff?.intensity || 0,
-      lengthPipe: item.rainRunoff?.lengthPipe || 0,
-      lengthTray: item.rainRunoff?.lengthTray || 0,
-      velocityPipe: item.rainRunoff?.velocityPipe || 0,
-      velocityTray: item.rainRunoff?.velocityTray || 0,
-      timeInit: item.rainRunoff?.timeInit || 0,
-      place: item.rainRunoff?.place?.name || '',
-      condition: item.rainRunoff?.condition?.name || '',
+      roof: item.rainRunoff?.roof ?? 0,
+      cobblestone: item.rainRunoff?.cobblestone ?? 0,
+      ground: item.rainRunoff?.ground ?? 0,
+      lawns: item.rainRunoff?.lawns ?? 0,
+      tracks: item.rainRunoff?.tracks ?? 0,
+      pavements: item.rainRunoff?.pavements ?? 0,
+      stone: item.rainRunoff?.stone ?? 0,
+      intensity: item.rainRunoff?.intensity ?? 0,
+      lengthPipe: item.rainRunoff?.lengthPipe ?? 0,
+      lengthTray: item.rainRunoff?.lengthTray ?? 0,
+      velocityPipe: item.rainRunoff?.velocityPipe ?? 0,
+      velocityTray: item.rainRunoff?.velocityTray ?? 0,
+      timeInit: item.rainRunoff?.timeInit ?? 0,
+      place: item.rainRunoff?.place?.name ?? '',
+      condition: item.rainRunoff?.condition?.name ?? '',
     },
   });
 
@@ -181,6 +182,28 @@ export default function RainRunoffModal({ item, open, setOpen }:
     });
     setOpen(false);
   };
+
+  const renderInput = (fieldConfig: (typeof FIELD_CONFIG)[number]) => (
+    <Controller
+      key={fieldConfig.name}
+      name={fieldConfig.name as keyof FormPayload}
+      rules={{
+        pattern: fieldConfig.pattern,
+        required: fieldConfig.required,
+      }}
+      control={control}
+      render={({ field, fieldState }) => (
+        <TextInput
+          {...field}
+          {...fieldConfig}
+          value={`${field.value}`}
+          size="l"
+          type="text"
+          error={fieldState.error?.message}
+        />
+      )}
+    />
+  );
 
   return (
     <Modal open={open} disableOutsideClick>
@@ -229,29 +252,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
             />
           )}
         />
-
-        {fields.map((input) => (
-          <Controller
-            key={input.name}
-            name={input.name as keyof FormPayload}
-            rules={{
-              pattern: input.pattern,
-              required: input.required,
-            }}
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                {...input}
-                value={`${field.value}`}
-                size="l"
-                type="text"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-        ))}
-
+        {FIELD_CONFIG.map(renderInput)}
         <div className="buttons">
           <Button view="action" size="l" type="submit">Сохранить</Button>
           <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
