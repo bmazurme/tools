@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { Controller, useForm } from 'react-hook-form';
 import { TextInput, Text } from '@gravity-ui/uikit';
 
 import Item from '../../components/item/item';
+import RainRunoffModal from './rain-runoff-modal';
 
 import { TARGET_TYPE } from '../../config';
 import { useAppSelector } from '../../hooks';
@@ -22,7 +23,6 @@ type FormPayload = { name: string };
 const fields = [
   {
     name: 'name',
-    // label: 'Название',
     placeholder: 'Название',
     pattern: {
       value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
@@ -35,6 +35,7 @@ const fields = [
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
+  const [open, setOpen] = useState(false);
   const [updateItem] = useUpdateItemMutation();
   const [deleteItem] = useDeleteItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
@@ -136,7 +137,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item removeAction={onHandleRemoveItem} editAction={() => {}}>
+      <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {fields.map((input) => (
@@ -161,9 +162,17 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
               )}
             />
           ))}
-          <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
+          <Text variant="code-1" className={style.area}>{item.rainRunoff?.area}</Text>
+          <Text variant="code-1" className={style.intensity}>{item.rainRunoff?.intensity}</Text>
+          <Text variant="code-1" className={style.lengthPipe}>{item.rainRunoff?.lengthPipe}</Text>
+          <Text variant="code-1" className={style.lengthTray}>{item.rainRunoff?.lengthTray}</Text>
+          <Text variant="code-1" className={style.velocityPipe}>{item.rainRunoff?.velocityPipe}</Text>
+          <Text variant="code-1" className={style.velocityTray}>{item.rainRunoff?.velocityTray}</Text>
+          <Text variant="code-1" className={style.timeInit}>{item.rainRunoff?.timeInit}</Text>
+          <Text variant="code-1" className={style.flow}>{item.rainRunoff?.flow}</Text>
         </ul>
       </Item>
+      <RainRunoffModal item={item} open={open} setOpen={setOpen} />
     </li>
   );
 }
