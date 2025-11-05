@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import {
-  projectsApi, documentsApi, usersApi, typesApi, blocksApi, rainRoofsApi, itemsApi, authApi,
+  projectsApi, documentsApi, usersApi, typesApi, blocksApi,
+  rainRoofsApi, rainRunoffsApi, rainPlacesApi, rainConditionsApi,
+  itemsApi,
+  // authApi,
 } from './api/index';
 
 import documentsReducer from './slices/documents-slice';
@@ -12,7 +15,9 @@ import blocksReducer from './slices/blocks-slice';
 import itemsReducer from './slices/items-slice';
 
 import rainRoofsReducer from './slices/rain-roofs-slice';
-// import rainRunoffsReducer from './slices/rain-runoffs-slice';
+import rainRunoffsReducer from './slices/rain-runoffs-slice';
+import rainPlacesReducer from './slices/rain-places-slice';
+import rainConditionsReducer from './slices/rain-conditions-slice';
 
 export * from './api/projects-api/endpoints/index';
 export * from './api/documents-api/endpoints/index';
@@ -21,6 +26,9 @@ export * from './api/types-api/endpoints/index';
 export * from './api/blocks-api/endpoints/index';
 export * from './api/items-api/endpoints/index';
 export * from './api/rain-roofs-api/endpoints/index';
+export * from './api/rain-runoffs-api/endpoints/index';
+export * from './api/rain-places-api/endpoints/index';
+export * from './api/rain-conditions-api/endpoints/index';
 export * from './api/auth-api/endpoints/index';
 
 export * from './slices/index';
@@ -30,7 +38,9 @@ export const store = configureStore({
     documents: documentsReducer,
     projects: projectsReducer,
     rainRoofs: rainRoofsReducer,
-    // rainRunoffs: rainRunoffsReducer,
+    rainRunoffs: rainRunoffsReducer,
+    rainPlaces: rainPlacesReducer,
+    rainConditions: rainConditionsReducer,
     users: usersReducer,
     types: typesReducer,
     blocks: blocksReducer,
@@ -42,6 +52,9 @@ export const store = configureStore({
     [blocksApi.reducerPath]: blocksApi.reducer,
     [itemsApi.reducerPath]: itemsApi.reducer,
     [rainRoofsApi.reducerPath]: rainRoofsApi.reducer,
+    [rainRunoffsApi.reducerPath]: rainRunoffsApi.reducer,
+    [rainPlacesApi.reducerPath]: rainPlacesApi.reducer,
+    [rainConditionsApi.reducerPath]: rainConditionsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -52,6 +65,9 @@ export const store = configureStore({
       blocksApi.middleware,
       itemsApi.middleware,
       rainRoofsApi.middleware,
+      rainRunoffsApi.middleware,
+      rainPlacesApi.middleware,
+      rainConditionsApi.middleware,
     ),
 });
 
