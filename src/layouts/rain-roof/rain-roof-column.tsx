@@ -5,7 +5,7 @@ import { Text } from '@gravity-ui/uikit';
 import Column from '../../components/column/column';
 
 import { TARGET_TYPE } from '../../config';
-import { useCreateItemMutation } from '../../store';
+import { useCreateRainRoofItemMutation } from '../../store';
 
 import style from './rain-roof-column.module.css';
 
@@ -16,7 +16,7 @@ type ColumnType = {
 };
 
 export default function RainRoofColumn({ children, blockId, length }: ColumnType) {
-  const [createItem] = useCreateItemMutation();
+  const [createItem] = useCreateRainRoofItemMutation();
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
     drop: () => ({ blockId }),
