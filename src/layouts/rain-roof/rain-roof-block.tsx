@@ -21,9 +21,6 @@ import ColumnFooter from '../../components/column/column-footer';
 
 import style from './rain-roof-column.module.css';
 
-// export type ExtendedBlockType = Omit<BlockType, 'items'> & {
-//   items: (ItemType & RainFlowRoof)[];
-// }
 type RainRoofBlockProps = { block: BlockType; index: number };
 
 export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
