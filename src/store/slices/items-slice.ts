@@ -86,8 +86,23 @@ const slice = createSlice({
           data: { items: state.data.items.filter((x) => x.id !== meta.arg.originalArgs) },
         }),
       )
+      // .addMatcher(
+      //   itemsApiEndpoints.endpoints.createItem.matchFulfilled,
+      //   (state, { payload }: PayloadAction<ItemType>) => ({
+      //     ...state,
+      //     data: { items: [...state.data.items, payload] },
+      //   }),
+      // )
+      // rainRoofsApiEndpoints
       .addMatcher(
-        itemsApiEndpoints.endpoints.createItem.matchFulfilled,
+        rainRoofsApiEndpoints.endpoints.createRainRoofItem.matchFulfilled,
+        (state, { payload }: PayloadAction<ItemType>) => ({
+          ...state,
+          data: { items: [...state.data.items, payload] },
+        }),
+      )
+      .addMatcher(
+        rainRunoffsApiEndpoints.endpoints.createRainRunoffItem.matchFulfilled,
         (state, { payload }: PayloadAction<ItemType>) => ({
           ...state,
           data: { items: [...state.data.items, payload] },
