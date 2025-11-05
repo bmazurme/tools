@@ -59,15 +59,14 @@ export default function RainRunoffColumn({ children, blockId, length }: ColumnTy
         <div className="fields">
           <Text variant="code-1" className={style.id}>#</Text>
           <Text variant="code-1" className={style.name}>Наименование участка</Text>
-          <Text variant="code-1" className={style.pavements}>Площадь</Text>
-          <Text variant="code-1" className={style.pavements}>place</Text>
-          <Text variant="code-1" className={style.pavements}>condition</Text>
-          <Text variant="code-1" className={style.pavements}>intensity</Text>
-          <Text variant="code-1" className={style.pavements}>lengthPipe</Text>
-          <Text variant="code-1" className={style.pavements}>lengthTray</Text>
-          <Text variant="code-1" className={style.pavements}>velocityPipe</Text>
-          <Text variant="code-1" className={style.pavements}>velocityTray</Text>
-          <Text variant="code-1" className={style.pavements}>timeInit</Text>
+          <Text variant="code-1" className={style.area}>Площадь, га</Text>
+          <Text variant="code-1" className={style.intensity}>intensity</Text>
+          <Text variant="code-1" className={style.lengthPipe}>lengthPipe</Text>
+          <Text variant="code-1" className={style.lengthTray}>lengthTray</Text>
+          <Text variant="code-1" className={style.velocityPipe}>velocityPipe</Text>
+          <Text variant="code-1" className={style.velocityTray}>velocityTray</Text>
+          <Text variant="code-1" className={style.timeInit}>timeInit</Text>
+          <Text variant="code-1" className={style.flow}>Расход, л/с</Text>
         </div>
       </Column>
       <ul className="column_list">
