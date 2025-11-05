@@ -6,14 +6,14 @@ const itemsApiEndpoints = itemsApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      createItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
-        query: (data: { block: { id: number }, index: number }) => ({
-          url: '/items',
-          method: 'POST',
-          body: data,
-        }),
-        invalidatesTags: ['Items'],
-      }),
+      // createItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
+      //   query: (data: { block: { id: number }, index: number }) => ({
+      //     url: '/items',
+      //     method: 'POST',
+      //     body: data,
+      //   }),
+      //   invalidatesTags: ['Items'],
+      // }),
       updateItem: builder.mutation<ItemType, ItemType>({
         query: ({ column, ...data }: ItemType) => ({
           url: `/items/${data.id}`,
@@ -48,7 +48,7 @@ const itemsApiEndpoints = itemsApi
   });
 
 export const {
-  useCreateItemMutation,
+  // useCreateItemMutation,
   useUpdateItemMutation,
   useDeleteItemMutation,
   useRefreshItemsMutation,

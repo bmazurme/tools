@@ -14,6 +14,15 @@ const rainRoofsApiEndpoints = rainRoofsApi
         invalidatesTags: ['RainRoofs'],
       }),
 
+      createRainRoofItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
+        query: (data: { block: { id: number }, index: number }) => ({
+          url: '/rain-roofs',
+          method: 'POST',
+          body: data,
+        }),
+        invalidatesTags: ['RainRoofs'],
+      }),
+
       updateRainRoofs: builder.mutation<RainFlowRoof, RainFlowRoof>({
         query: (data: RainFlowRoof) => ({
           url: `/rain-roofs/${data.id}`,
@@ -25,5 +34,7 @@ const rainRoofsApiEndpoints = rainRoofsApi
     }),
   });
 
-export const { useGetRainRoofsMutation, useUpdateRainRoofsMutation } = rainRoofsApiEndpoints;
+export const {
+  useCreateRainRoofItemMutation, useGetRainRoofsMutation, useUpdateRainRoofsMutation,
+} = rainRoofsApiEndpoints;
 export { rainRoofsApiEndpoints };

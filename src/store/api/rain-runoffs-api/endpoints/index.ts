@@ -6,6 +6,14 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
+      createRainRunoffItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
+        query: (data: { block: { id: number }, index: number }) => ({
+          url: '/rain-runoffs',
+          method: 'POST',
+          body: data,
+        }),
+        invalidatesTags: ['RainRunoff'],
+      }),
       updateRainRunoffs: builder.mutation<RainRunoff, RainRunoff>({
         query: (data: RainRunoff) => ({
           url: `/rain-runoffs/${data.id}`,
@@ -17,5 +25,7 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
     }),
   });
 
-export const { useUpdateRainRunoffsMutation } = rainRunoffsApiEndpoints;
+export const {
+  useCreateRainRunoffItemMutation, useUpdateRainRunoffsMutation,
+} = rainRunoffsApiEndpoints;
 export { rainRunoffsApiEndpoints };
