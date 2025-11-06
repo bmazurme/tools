@@ -9,8 +9,7 @@ import {
   ArrowRightFromSquare,
 } from '@gravity-ui/icons';
 import {
-  useCallback,
-  useMemo,
+  useCallback, useMemo,
   type PropsWithChildren,
 } from 'react';
 
@@ -127,6 +126,7 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
               <button
                 aria-label="Настройки"
                 className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}
+                onClick={() => navigate('/settings')}
               >
                 <div className="gn-composite-bar-item__icon-place">
                   <Icon data={Gear} size={18} />
@@ -144,6 +144,7 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
                     view="flat"
                     size="l"
                     aria-label="Настройки"
+                    onClick={() => navigate('/settings')}
                   >
                     <Icon data={Gear} size={18} />
                   </Button>
