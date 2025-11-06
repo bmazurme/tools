@@ -62,7 +62,7 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
           <Text variant="code-1" className={style.roof}>F, кровли</Text>
           <Text variant="code-1" className={style.wall}>F, фасада</Text>
           <Text variant="code-1" className={style.q5}>q5</Text>
-          <Text variant="code-1" className={style.q20}>q20</Text>
+          <Text variant="code-1" className={style.q20}>q₂₀</Text>
           <Text variant="code-1" className={style.n}>n</Text>
           <Text variant="code-1" className={style.slope}>Уклон, %</Text>
           <Text variant="code-1" className={style.flow}>Расход, л/с</Text>
