@@ -6,15 +6,16 @@ import {
 } from '@gravity-ui/uikit';
 
 import {
-  useUpdateRainRunoffsMutation,
-  useGetRainPlaceMutation, rainPlacesSelector,
-  useGetRainConditionsMutation, rainConditionsSelector,
+  useUpdateRainRunoffsMutation, useGetRainPlaceMutation,
+  rainPlacesSelector, useGetRainConditionsMutation, rainConditionsSelector,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
+import { NUMBER_PATTERN } from '../../utils/constants';
 
-type FormPayload = ItemType & Omit<Omit<RainRunoff, 'condition'>, 'place'> & { place: string; condition: string };
+type FormPayload = ItemType
+  & Omit<Omit<RainRunoff, 'condition'>, 'place'>
+  & { place: string; condition: string };
 
-const NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
 const FIELD_CONFIG = [
   {
     name: 'roof',
