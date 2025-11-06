@@ -5,15 +5,16 @@ import {
 } from '@gravity-ui/uikit';
 
 import { useUpdateRainRoofsMutation } from '../../store';
+import { NUMBER_PATTERN } from '../../utils/constants';
 
 type FormPayload = ItemType & RainFlowRoof;
 
-const fields = [
+const FIELD_CONFIG = [
   {
     name: 'areaRoof',
     label: 'Водосборная площадь кровли, F',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -22,16 +23,16 @@ const fields = [
     name: 'areaFacade',
     label: 'Водосборная площадь фасада, F',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
   },
   {
     name: 'q20',
-    label: 'q20 - интенсивность дождя, л/с',
+    label: 'q₂₀ - интенсивность дождя, л/с',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -40,7 +41,7 @@ const fields = [
     name: 'n',
     label: 'n - параметр, принимаемый согласно СП 32.13330',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -49,7 +50,7 @@ const fields = [
     name: 'slope',
     label: 'Уклон',
     pattern: {
-      value: /^-?\d+(\.\d+)?$/,
+      value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
@@ -63,11 +64,11 @@ export default function RainRoofModal({ item, open, setOpen }:
     control, handleSubmit,
   } = useForm<FormPayload>({
     defaultValues: {
-      areaRoof: item.rainRoof?.areaRoof || 0,
-      areaFacade: item.rainRoof?.areaFacade || 0,
-      q20: item.rainRoof?.q20 || 0,
-      n: item.rainRoof?.n || 0,
-      slope: item.rainRoof?.slope || 0,
+      areaRoof: item.rainRoof?.areaRoof ?? 0,
+      areaFacade: item.rainRoof?.areaFacade ?? 0,
+      q20: item.rainRoof?.q20 ?? 0,
+      n: item.rainRoof?.n ?? 0,
+      slope: item.rainRoof?.slope ?? 0,
     },
   });
 
@@ -76,34 +77,39 @@ export default function RainRoofModal({ item, open, setOpen }:
     setOpen(false);
   };
 
+  const renderInput = (fieldConfig: (typeof FIELD_CONFIG)[number]) => (
+    <Controller
+      key={fieldConfig.name}
+      name={fieldConfig.name as keyof FormPayload}
+      rules={{
+        pattern: fieldConfig.pattern,
+        required: fieldConfig.required,
+      }}
+      control={control}
+      render={({ field, fieldState }) => (
+        <TextInput
+          {...field}
+          {...fieldConfig}
+          value={`${field.value}`}
+          size="l"
+          type="text"
+          error={fieldState.error?.message}
+        />
+      )}
+    />
+  );
+
   return (
     <Modal open={open} disableOutsideClick>
       <form className="dialog" onSubmit={handleSubmit(onSubmit)}>
         <Text variant="header-1">
+          {item.name}
+        </Text>
+        <Text variant="subheader-1">
           Расчетный расход дождевых вод Q, л/с, с водосборной площади
         </Text>
 
-        {fields.map((input) => (
-          <Controller
-            key={input.name}
-            name={input.name as keyof FormPayload}
-            rules={{
-              pattern: input.pattern,
-              required: input.required,
-            }}
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                {...input}
-                value={`${field.value}`}
-                size="l"
-                type="text"
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-        ))}
+        {FIELD_CONFIG.map(renderInput)}
 
         <div className="buttons">
           <Button view="action" size="l" type="submit">Сохранить</Button>
