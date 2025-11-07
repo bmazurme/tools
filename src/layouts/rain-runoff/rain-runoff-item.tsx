@@ -128,7 +128,10 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
       const { name } = control._formValues;
 
       if (item.name !== name) {
-        await updateItem({ ...item, name });
+        // await updateItem({ ...item, name });
+        await updateItem({
+          id: item.id, name, index, column: item.column,
+        });
       }
     } catch (error) {
       console.error('Ошибка при обновлении проекта:', error);
