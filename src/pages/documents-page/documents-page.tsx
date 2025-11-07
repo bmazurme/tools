@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
-  Button, Icon, Pagination,
+  Button, Icon, Pagination, Text, withTableActions,
   type PaginationProps, Table, type TableActionConfig, type TableDataItem,
-  Text, withTableActions,
 } from '@gravity-ui/uikit';
 import { Plus, TrashBin } from '@gravity-ui/icons';
 
