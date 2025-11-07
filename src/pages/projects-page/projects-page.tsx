@@ -4,8 +4,8 @@ import {
   Button,
   Icon,
   Pagination,
-  type PaginationProps,
   Text,
+  type PaginationProps,
   type TableActionConfig,
   type TableDataItem,
 } from '@gravity-ui/uikit';
