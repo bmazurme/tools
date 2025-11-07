@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { useParams } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -22,7 +21,7 @@ export default function RainRoofBoard() {
   const returnBlocksForColumn = () => blocks
     .map((block: BlockType, index: number) => (
       <Block
-        key={uuidv4()}
+        key={block.id}
         block={block}
         index={index}
       />
