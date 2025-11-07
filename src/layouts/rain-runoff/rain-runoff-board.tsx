@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Button } from '@gravity-ui/uikit';
@@ -21,7 +20,7 @@ export default function RainRunoffBoard() {
 
   const returnBlocksForColumn = () => blocks.map((block: BlockType, index: number) => (
     <Block
-      key={uuidv4()}
+      key={block.id}
       block={block}
       index={index}
     />
