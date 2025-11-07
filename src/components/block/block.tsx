@@ -2,6 +2,7 @@
 import { Button, Icon, TextInput } from '@gravity-ui/uikit';
 import { TrashBin } from '@gravity-ui/icons';
 import { Controller, useForm } from 'react-hook-form';
+
 import { TEXT_INPUT_PROPS } from '../../config';
 import { useUpdateBlockMutation } from '../../store';
 
