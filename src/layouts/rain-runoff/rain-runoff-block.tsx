@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 import { Text } from '@gravity-ui/uikit';
@@ -86,7 +85,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
 
   const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
-      key={uuidv4()}
+      key={item.id}
       index={idx}
       item={item}
     />
