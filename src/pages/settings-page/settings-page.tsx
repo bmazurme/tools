@@ -1,4 +1,5 @@
 import { Text } from '@gravity-ui/uikit';
+
 import Content from '../../components/content/content';
 
 export default function SettingsPage() {
