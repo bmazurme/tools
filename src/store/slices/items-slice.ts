@@ -52,7 +52,8 @@ const slice = createSlice({
           ...state,
           data: {
             items: state.data.items
-              .map((x) => (x.id === meta.arg.originalArgs.id ? { ...meta.arg.originalArgs } : x))
+              // eslint-disable-next-line max-len
+              .map((x) => (x.id === meta.arg.originalArgs.id ? { ...x, ...meta.arg.originalArgs } : x))
               .sort((a, b) => a.index - b.index),
           },
         }),
