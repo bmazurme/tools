@@ -4,13 +4,14 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import NotFoundPage from './pages/not-found-page/not-found-page';
 import SigninPage from './pages/signin-page/signin-page';
 import MainPage from './pages/main-page';
+import SettingsPage from './pages/settings-page';
+import ProjectsPage from './pages/projects-page';
 
 import './app.css';
 
 const RainRunoff = lazy(() => import('./layouts/rain-runoff/rain-runoff'));
 const RainRoof = lazy(() => import('./layouts/rain-roof/rain-roof'));
 const ProjectPage = lazy(() => import('./pages/project-page'));
-const ProjectsPage = lazy(() => import('./pages/projects-page'));
 const ProjectAddPage = lazy(() => import('./pages/project-add-page'));
 const ProjectEditPage = lazy(() => import('./pages/project-edit-page'));
 const DocumentAddPage = lazy(() => import('./pages/document-add-page'));
@@ -44,6 +45,7 @@ function App() {
       </Route>
 
       <Route path="profile" element={(<ProfilePage />)} />
+      <Route path="settings" element={(<SettingsPage />)} />
 
       <Route path="/" element={(<MainPage />)} />
       <Route path="signin" element={(<SigninPage />)} />
