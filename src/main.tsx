@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -15,18 +15,19 @@ import './styles/index.css';
 const toaster = new Toaster();
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <ThemeWrapper>
-        <ToasterProvider toaster={toaster}>
-          <BrowserRouter>
-            <App />
-            <ToasterComponent />
-          </BrowserRouter>
-        </ToasterProvider>
-      </ThemeWrapper>
-    </Provider>
-  </StrictMode>,
+  // <StrictMode>
+  <Provider store={store}>
+    <ThemeWrapper>
+      <ToasterProvider toaster={toaster}>
+        <BrowserRouter>
+          <App />
+          <ToasterComponent />
+        </BrowserRouter>
+      </ToasterProvider>
+    </ThemeWrapper>
+  </Provider>
+  // </StrictMode>
+  ,
 );
 
 // eslint-disable-next-line import/prefer-default-export
