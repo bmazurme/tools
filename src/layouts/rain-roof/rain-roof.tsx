@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import Board from './rain-roof-board';
 
-import { useGetBlocksMutation, useGetItemsMutation } from '../../store';
+import { useGetBlocksMutation, useGetRainRoofItemsMutation } from '../../store';
 
 export default function RainRoofPage() {
   const { id } = useParams();
   const [getBlock] = useGetBlocksMutation();
-  const [getItems] = useGetItemsMutation();
+  const [getItems] = useGetRainRoofItemsMutation();
 
   useEffect(() => {
     if (id) {
