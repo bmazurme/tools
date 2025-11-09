@@ -129,10 +129,8 @@ export default function RainRoofItem({ item, index }:
     try {
       // eslint-disable-next-line no-underscore-dangle
       const { name } = control._formValues;
-      // console.log(item);
 
       if (item.name !== name) {
-        // await updateItem({ ...item, name });
         const { id, column } = item;
         await updateItem({
           id, name, index, column,
