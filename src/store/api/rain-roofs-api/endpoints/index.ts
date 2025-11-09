@@ -29,10 +29,19 @@ const rainRoofsApiEndpoints = rainRoofsApi
         }),
         invalidatesTags: ['RainRoofs'],
       }),
+
+      getRainRoofItems: builder.mutation<ItemType[], number>({
+        query: (id: number) => ({
+          url: `/rain-roofs/${id}`,
+          method: 'GET',
+        }),
+        invalidatesTags: ['RainRoofs'],
+      }),
     }),
   });
 
 export const {
   useCreateRainRoofItemMutation, useGetRainRoofsMutation, useUpdateRainRoofsMutation,
+  useGetRainRoofItemsMutation,
 } = rainRoofsApiEndpoints;
 export { rainRoofsApiEndpoints };
