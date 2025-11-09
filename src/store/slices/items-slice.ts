@@ -25,7 +25,14 @@ const slice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        itemsApiEndpoints.endpoints.getItems.matchFulfilled,
+        rainRunoffsApiEndpoints.endpoints.getRainRunoffsItems.matchFulfilled,
+        (state, { payload }: PayloadAction<ItemType[]>) => ({
+          ...state,
+          data: { items: payload },
+        }),
+      )
+      .addMatcher(
+        rainRoofsApiEndpoints.endpoints.getRainRoofItems.matchFulfilled,
         (state, { payload }: PayloadAction<ItemType[]>) => ({
           ...state,
           data: { items: payload },
