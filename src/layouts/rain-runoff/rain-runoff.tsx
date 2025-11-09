@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import Board from './rain-runoff-board';
 
-import { useGetBlocksMutation, useGetItemsMutation } from '../../store';
+import { useGetBlocksMutation, useGetRainRunoffsItemsMutation } from '../../store';
 
 export default function RainRunoffPage() {
   const { id } = useParams();
   const [getRainRoofs] = useGetBlocksMutation();
-  const [getItems] = useGetItemsMutation();
+  const [getItems] = useGetRainRunoffsItemsMutation();
 
   useEffect(() => {
     if (id) {
