@@ -16,10 +16,10 @@ const usersApiEndpoints = usersApi
         invalidatesTags: ['Users'],
       }),
       updateUser: builder.mutation<UserType, UserType>({
-        query: (data: UserType) => ({
-          url: `/users/${data.id}`,
+        query: ({ id, status }: UserType) => ({
+          url: `/users/${id}`,
           method: 'PATCH',
-          body: data,
+          body: { status },
         }),
         invalidatesTags: ['Users'],
       }),

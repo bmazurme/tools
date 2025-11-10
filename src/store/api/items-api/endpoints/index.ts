@@ -6,7 +6,7 @@ const itemsApiEndpoints = itemsApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      updateItem: builder.mutation<ItemType, ItemType>({
+      updateItem: builder.mutation<ItemType[], ItemType>({
         query: ({
           column, id, index, name,
         }: ItemType) => ({
@@ -18,7 +18,7 @@ const itemsApiEndpoints = itemsApi
         }),
         invalidatesTags: ['Items'],
       }),
-      deleteItem: builder.mutation<ItemType, number>({
+      deleteItem: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
           url: `/items/${id}`,
           method: 'DELETE',
