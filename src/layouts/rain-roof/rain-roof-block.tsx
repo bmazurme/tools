@@ -1,10 +1,11 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
 import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import Column from './rain-roof-column';
 import Item from './rain-roof-item';
 
@@ -24,6 +25,7 @@ type RainRoofBlockProps = { block: BlockType; index: number };
 
 export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -99,6 +101,9 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
+  const onHandleConfirmDelete = () => {
+    setOpen(true);
+  };
   const onHandleRemoveBlock = async () => {
     await deleteBlock(block.id);
   };
@@ -114,7 +119,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveBlock} value={block} />
+      <Block action={onHandleConfirmDelete} value={block} />
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(blockItems)}
@@ -139,6 +144,12 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
         </ColumnFooter>
         )}
       </Column>
+      <ConfirmModal
+        open={open}
+        setOpen={setOpen}
+        onDelete={onHandleRemoveBlock}
+        title="Вы действительно хотите удалить блок?"
+      />
     </div>
   );
 }
