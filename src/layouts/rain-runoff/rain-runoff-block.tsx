@@ -1,9 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import Column from './rain-runoff-column';
 import Item from './rain-runoff-item';
 
@@ -18,10 +19,12 @@ import style from './rain-runoff-column.module.css';
 
 export default function RainRunoffBlock({ block, index }: { block: BlockType; index: number }) {
   const { id } = useParams();
+  const [open, setOpen] = useState(false);
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
+
   const ref = useRef<HTMLDivElement>(null);
 
   const moveBlockHandler = async (dragIndex: number, hoverIndex: number) => {
@@ -37,6 +40,9 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
         id: Number(id),
       });
     }
+  };
+  const onHandleConfirmDelete = () => {
+    setOpen(true);
   };
 
   const [, drop] = useDrop({
@@ -108,7 +114,7 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleRemoveRunoffBlock} value={block} />
+      <Block action={onHandleConfirmDelete} value={block} />
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(blockItems)}
@@ -134,6 +140,12 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
         </ColumnFooter>
         )}
       </Column>
+      <ConfirmModal
+        open={open}
+        setOpen={setOpen}
+        onDelete={onHandleRemoveRunoffBlock}
+        title="Вы действительно хотите удалить блок?"
+      />
     </div>
   );
 }
