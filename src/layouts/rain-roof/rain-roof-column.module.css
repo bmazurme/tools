@@ -40,3 +40,13 @@
   composes: base;
   width: 100px;
 }
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.title {
+  margin-bottom: 20px;
+}
