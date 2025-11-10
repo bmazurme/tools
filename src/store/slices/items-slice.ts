@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { itemsApiEndpoints } from '../api/items-api/endpoints/index';
@@ -55,13 +56,21 @@ const slice = createSlice({
       )
       .addMatcher(
         itemsApiEndpoints.endpoints.updateItem.matchFulfilled,
-        (state, { meta }) => ({
+        (state, { payload }) => ({
           ...state,
           data: {
-            items: state.data.items
-              // eslint-disable-next-line max-len
-              .map((x) => (x.id === meta.arg.originalArgs.id ? { ...x, ...meta.arg.originalArgs } : x))
-              .sort((a, b) => a.index - b.index),
+            items: state.data.items.map((x) => {
+              const item = payload.find((p) => p.id === x.id);
+              return {
+                ...x,
+                index: item?.index ?? x.index,
+                column: item?.column ?? x.column,
+              };
+            }).sort((a, b) => a.index - b.index),
+            // items: state.data.items
+            //   // eslint-disable-next-line max-len, max-len
+            //   .map((x) => (x.id === meta.arg.originalArgs.id ? { ...x, ...meta.arg.originalArgs } : x))
+            //   .sort((a, b) => a.index - b.index),
           },
         }),
       )
@@ -89,9 +98,17 @@ const slice = createSlice({
       )
       .addMatcher(
         itemsApiEndpoints.endpoints.deleteItem.matchFulfilled,
-        (state, { meta }) => ({
+        (state, { meta, payload }) => ({
           ...state,
-          data: { items: state.data.items.filter((x) => x.id !== meta.arg.originalArgs) },
+          data: {
+            items: state.data.items
+              .filter((x) => x.id !== meta.arg.originalArgs)
+              .map((x) => {
+                const item = payload.find((p) => p.id === x.id);
+                return item ? { ...x, index: item.index } : x;
+              }),
+          },
+          // data: { items: state.data.items.map },
         }),
       )
       // .addMatcher(
