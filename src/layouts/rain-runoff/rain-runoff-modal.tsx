@@ -180,6 +180,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
       stone: data.stone || 0,
       place: { id: placeId, name: '' },
       condition: { id: conditionId, name: '' },
+      flow: 0,
     });
     setOpen(false);
   };
