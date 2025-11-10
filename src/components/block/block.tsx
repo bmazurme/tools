@@ -29,9 +29,10 @@ export default function Block({ action, value }
   });
   const onSubmit = async () => {
     try {
-      if (value.id) {
-        // eslint-disable-next-line no-underscore-dangle
-        const { name } = control._formValues;
+      // eslint-disable-next-line no-underscore-dangle
+      const { name } = control._formValues;
+
+      if (value.id && value.name !== name) {
         await updateBlock({ ...value, name });
       }
     } catch (error) {
