@@ -63,7 +63,7 @@ type RainPlace = {
 type ItemType = {
   id: number;
   name: string;
-  column: number;
+  block: { id: number };
   index: number;
   rainRoof?: RainFlowRoof;
   rainRunoff?: RainRunoff;
