@@ -1,5 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Button, Modal, TextInput, Text, Select,
@@ -11,6 +12,8 @@ import {
 } from '../../store';
 import { useAppSelector } from '../../hooks';
 import { NUMBER_PATTERN } from '../../utils/constants';
+
+import style from './modal.module.css';
 
 type FormPayload = ItemType
   & Omit<Omit<RainRunoff, 'condition'>, 'place'>
@@ -43,7 +46,7 @@ const FIELD_CONFIG = [
   },
   {
     name: 'pavements',
-    label: 'Гравийные садово-парковые дорожки',
+    label: 'Щебеночные покрытия, не обработанные вяжущими',
     pattern: {
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
@@ -67,7 +70,7 @@ const FIELD_CONFIG = [
   },
   {
     name: 'stone',
-    label: 'Былыжные мостовые',
+    label: 'Булыжные мостовые',
     pattern: {
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
@@ -127,7 +130,7 @@ const FIELD_CONFIG = [
     },
     required: 'Обязательно к заполнению',
   },
-];
+] as const;
 
 export default function RainRunoffModal({ item, open, setOpen }:
   { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
@@ -136,9 +139,9 @@ export default function RainRunoffModal({ item, open, setOpen }:
   const [updateRainRunoffs] = useUpdateRainRunoffsMutation();
   const places = useAppSelector(rainPlacesSelector);
   const conditions = useAppSelector(rainConditionsSelector);
-
+  // console.log(item);
   const {
-    control, handleSubmit, formState: { errors },
+    control, handleSubmit, formState: { errors }, reset,
   } = useForm<FormPayload>({
     defaultValues: {
       roof: item.rainRunoff?.roof ?? 0,
@@ -157,7 +160,28 @@ export default function RainRunoffModal({ item, open, setOpen }:
       place: item.rainRunoff?.place?.name ?? '',
       condition: item.rainRunoff?.condition?.name ?? '',
     },
+    shouldUnregister: false,
   });
+
+  useEffect(() => {
+    reset({
+      roof: item.rainRunoff?.roof ?? 0,
+      cobblestone: item.rainRunoff?.cobblestone ?? 0,
+      ground: item.rainRunoff?.ground ?? 0,
+      lawns: item.rainRunoff?.lawns ?? 0,
+      tracks: item.rainRunoff?.tracks ?? 0,
+      pavements: item.rainRunoff?.pavements ?? 0,
+      stone: item.rainRunoff?.stone ?? 0,
+      intensity: item.rainRunoff?.intensity ?? 0,
+      lengthPipe: item.rainRunoff?.lengthPipe ?? 0,
+      lengthTray: item.rainRunoff?.lengthTray ?? 0,
+      velocityPipe: item.rainRunoff?.velocityPipe ?? 0,
+      velocityTray: item.rainRunoff?.velocityTray ?? 0,
+      timeInit: item.rainRunoff?.timeInit ?? 0,
+      place: item.rainRunoff?.place?.name ?? '',
+      condition: item.rainRunoff?.condition?.name ?? '',
+    });
+  }, [item]);
 
   const onSubmit = async (data: FormPayload) => {
     const placeId = (item.rainRunoff?.place?.id && item.rainRunoff?.place?.name === data.place)
@@ -168,20 +192,23 @@ export default function RainRunoffModal({ item, open, setOpen }:
       ? item.rainRunoff.condition.id
       : +data.condition[0];
 
-    await updateRainRunoffs({
-      ...item.rainRunoff,
-      ...data,
-      roof: data.roof || 0,
-      cobblestone: data.cobblestone || 0,
-      ground: data.ground || 0,
-      lawns: data.lawns || 0,
-      tracks: data.tracks || 0,
-      pavements: data.pavements || 0,
-      stone: data.stone || 0,
-      place: { id: placeId, name: '' },
-      condition: { id: conditionId, name: '' },
-      flow: 0,
-    });
+    if (item.rainRunoff) {
+      await updateRainRunoffs({
+        ...data,
+        id: item.rainRunoff.id,
+        roof: data.roof || 0,
+        cobblestone: data.cobblestone || 0,
+        ground: data.ground || 0,
+        lawns: data.lawns || 0,
+        tracks: data.tracks || 0,
+        pavements: data.pavements || 0,
+        stone: data.stone || 0,
+        place: { id: placeId, name: '' },
+        condition: { id: conditionId, name: '' },
+        flow: 0,
+      });
+    }
+
     setOpen(false);
   };
 
@@ -191,7 +218,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
       name={fieldConfig.name as keyof FormPayload}
       rules={{
         pattern: fieldConfig.pattern,
-        required: fieldConfig.required,
+        // required: fieldConfig.required,
       }}
       control={control}
       render={({ field, fieldState }) => (
@@ -254,7 +281,9 @@ export default function RainRunoffModal({ item, open, setOpen }:
             />
           )}
         />
-        {FIELD_CONFIG.map(renderInput)}
+        <div className={style.grid}>
+          {FIELD_CONFIG.map(renderInput)}
+        </div>
         <div className="buttons">
           <Button view="action" size="l" type="submit">Сохранить</Button>
           <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
