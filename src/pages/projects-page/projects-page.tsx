@@ -11,6 +11,7 @@ import {
 } from '@gravity-ui/uikit';
 import { Pencil, Plus, TrashBin } from '@gravity-ui/icons';
 
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import Content from '../../components/content/content';
 import { MyTable } from '../documents-page/documents-page';
 
@@ -34,8 +35,30 @@ export default function ProjectsPage() {
   const [getProjects] = useGetProjectsByPageMutation();
   const [removeProject] = useRemoveProjectMutation();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingProjectId, setPendingProjectId] = useState<number | null>(null);
+
   const fetchData = async (page: number) => {
     await getProjects(page);
+  };
+
+  const openDeleteModal = (documentId: number) => {
+    setPendingProjectId(documentId);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (pendingProjectId) {
+      await removeProject(pendingProjectId);
+      setIsModalOpen(false);
+      setPendingProjectId(null);
+      fetchData(state.page);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false);
+    setPendingProjectId(null);
   };
 
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
@@ -48,7 +71,7 @@ export default function ProjectsPage() {
     },
     {
       text: 'Удалить проект',
-      handler: () => removeProject(item.id),
+      handler: () => openDeleteModal(item.id),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
@@ -92,6 +115,14 @@ export default function ProjectsPage() {
           total={total}
           onUpdate={handleUpdate}
         />
+        {isModalOpen && (
+          <ConfirmModal
+            open={isModalOpen}
+            setOpen={cancelDelete}
+            onDelete={confirmDelete}
+            title="Вы действительно хотите удалить строку?"
+          />
+        )}
       </div>
     </Content>
   );
