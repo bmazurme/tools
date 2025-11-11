@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Item from '../../components/item/item';
 import RainRoofModal from './rain-roof-modal';
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 
 import { TARGET_TYPE } from '../../config';
 import {
@@ -39,10 +40,12 @@ const fields = [
 export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   const [updateItem] = useUpdateItemMutation();
   const [deleteItem] = useDeleteItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
-  const [open, setOpen] = useState(false);
   const ref = useRef<HTMLLIElement>(null);
 
   const { control } = useForm<FormPayload>({
@@ -119,6 +122,10 @@ export default function RainRoofItem({ item, index }:
     }),
   });
 
+  const onHandleConfirmDelete = () => {
+    setIsConfirmOpen(true);
+  };
+
   const onHandleRemoveItem = async () => {
     await deleteItem(item.id);
   };
@@ -143,7 +150,7 @@ export default function RainRoofItem({ item, index }:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
+      <Item removeAction={onHandleConfirmDelete} editAction={() => setIsModalOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {fields.map((input) => (
@@ -177,7 +184,15 @@ export default function RainRoofItem({ item, index }:
           <Text variant="code-1" className={style.flow}>{item.rainRoof?.flow}</Text>
         </ul>
       </Item>
-      <RainRoofModal item={item} open={open} setOpen={setOpen} />
+      {isModalOpen && <RainRoofModal item={item} open={isModalOpen} setOpen={setIsModalOpen} />}
+      {isConfirmOpen && (
+        <ConfirmModal
+          open={isConfirmOpen}
+          setOpen={setIsConfirmOpen}
+          onDelete={onHandleRemoveItem}
+          title="Вы действительно хотите удалить строку?"
+        />
+      )}
     </li>
   );
 }
