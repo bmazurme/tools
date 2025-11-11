@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Button, Icon, Pagination, Text, withTableActions,
@@ -12,6 +12,7 @@ import {
   documentsSelector, documentsTotalSelector, useGetDocumentsByPageMutation,
   useRemoveDocumentMutation,
 } from '../../store';
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 
 const MyTable = withTableActions(Table);
 const columns = [
@@ -31,15 +32,37 @@ export default function DocumentsPage() {
   const [getDocuments] = useGetDocumentsByPageMutation();
   const [removeDocument] = useRemoveDocumentMutation();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingDocumentId, setPendingDocumentId] = useState<number | null>(null);
+
   const fetchData = async (page: number) => {
     await getDocuments({ id: page, project: Number(projectId) });
+  };
+
+  const openDeleteModal = (documentId: number) => {
+    setPendingDocumentId(documentId);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (pendingDocumentId) {
+      await removeDocument(pendingDocumentId);
+      setIsModalOpen(false);
+      setPendingDocumentId(null);
+      fetchData(state.page);
+    }
+  };
+
+  const cancelDelete = () => {
+    setIsModalOpen(false);
+    setPendingDocumentId(null);
   };
 
   // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
   const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
     {
       text: 'Удалить',
-      handler: () => removeDocument(item.id),
+      handler: () => openDeleteModal(item.id),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
@@ -83,6 +106,14 @@ export default function DocumentsPage() {
           total={total}
           onUpdate={handleUpdate}
         />
+        {isModalOpen && (
+          <ConfirmModal
+            open={isModalOpen}
+            setOpen={cancelDelete}
+            onDelete={confirmDelete}
+            title="Вы действительно хотите удалить строку?"
+          />
+        )}
       </div>
     </Content>
   );
