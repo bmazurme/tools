@@ -6,6 +6,7 @@ import { TextInput, Text } from '@gravity-ui/uikit';
 
 import Item from '../../components/item/item';
 import RainRunoffModal from './rain-runoff-modal';
+import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 
 import { TARGET_TYPE } from '../../config';
 import { useAppSelector } from '../../hooks';
@@ -35,7 +36,9 @@ const FIELD_CONFIG = [
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
   const [updateItem] = useUpdateItemMutation();
   const [deleteItem] = useDeleteItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
@@ -116,9 +119,14 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
     }),
   });
 
+  const onHandleConfirmDelete = () => {
+    setIsConfirmOpen(true);
+  };
+
   const onHandleRemoveItem = async () => {
     await deleteItem(item.id);
   };
+
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
@@ -128,7 +136,6 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
       const { name } = control._formValues;
 
       if (item.name !== name) {
-        // await updateItem({ ...item, name });
         await updateItem({
           id: item.id, name, index, column: item.column,
         });
@@ -140,7 +147,7 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item removeAction={onHandleRemoveItem} editAction={() => setOpen(true)}>
+      <Item removeAction={onHandleConfirmDelete} editAction={() => setIsModalOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {FIELD_CONFIG.map((input) => (
@@ -175,7 +182,15 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
           <Text variant="code-1" className={style.flow}>{item.rainRunoff?.flow}</Text>
         </ul>
       </Item>
-      <RainRunoffModal item={item} open={open} setOpen={setOpen} />
+      {isModalOpen && <RainRunoffModal item={item} open={isModalOpen} setOpen={setIsModalOpen} />}
+      {isConfirmOpen && (
+        <ConfirmModal
+          open={isConfirmOpen}
+          setOpen={setIsConfirmOpen}
+          onDelete={onHandleRemoveItem}
+          title="Вы действительно хотите удалить строку?"
+        />
+      )}
     </li>
   );
 }
