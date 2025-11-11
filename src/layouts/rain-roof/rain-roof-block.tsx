@@ -25,7 +25,8 @@ type RainRoofBlockProps = { block: BlockType; index: number };
 
 export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const { id } = useParams();
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [refreshBlocks] = useRefreshBlocksMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -101,9 +102,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
-  const onHandleConfirmDelete = () => {
-    setOpen(true);
-  };
+
   const onHandleRemoveBlock = async () => {
     await deleteBlock(block.id);
   };
@@ -119,7 +118,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={onHandleConfirmDelete} value={block} />
+      <Block action={() => setIsModalOpen(true)} value={block} />
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(blockItems)}
@@ -144,12 +143,14 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
         </ColumnFooter>
         )}
       </Column>
+      {isModalOpen && (
       <ConfirmModal
-        open={open}
-        setOpen={setOpen}
+        open={isModalOpen}
+        setOpen={setIsModalOpen}
         onDelete={onHandleRemoveBlock}
         title="Вы действительно хотите удалить блок?"
       />
+      )}
     </div>
   );
 }
