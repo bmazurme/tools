@@ -1,6 +1,5 @@
 /* eslint-disable no-return-await */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Button, Modal, TextInput, Text, Select,
@@ -27,6 +26,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 1,
   },
   {
     name: 'cobblestone',
@@ -35,6 +35,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
   },
   {
     name: 'lawns',
@@ -43,6 +44,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 1,
   },
   {
     name: 'pavements',
@@ -51,6 +53,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
   },
   {
     name: 'ground',
@@ -59,6 +62,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 1,
   },
   {
     name: 'tracks',
@@ -67,6 +71,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
   },
   {
     name: 'stone',
@@ -75,15 +80,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
-  },
-  {
-    name: 'intensity',
-    label: 'Интенсивность дождя, л/с',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
+    column: 1,
   },
   {
     name: 'lengthPipe',
@@ -92,6 +89,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 1,
     required: 'Обязательно к заполнению',
   },
   {
@@ -101,6 +99,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
     required: 'Обязательно к заполнению',
   },
   {
@@ -110,6 +109,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 1,
     required: 'Обязательно к заполнению',
   },
   {
@@ -119,6 +119,17 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
+    required: 'Обязательно к заполнению',
+  },
+  {
+    name: 'intensity',
+    label: 'Интенсивность дождя, л/с',
+    pattern: {
+      value: NUMBER_PATTERN,
+      message: 'Name is invalid',
+    },
+    column: 1,
     required: 'Обязательно к заполнению',
   },
   {
@@ -128,6 +139,7 @@ const FIELD_CONFIG = [
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
     },
+    column: 2,
     required: 'Обязательно к заполнению',
   },
 ] as const;
@@ -139,9 +151,9 @@ export default function RainRunoffModal({ item, open, setOpen }:
   const [updateRainRunoffs] = useUpdateRainRunoffsMutation();
   const places = useAppSelector(rainPlacesSelector);
   const conditions = useAppSelector(rainConditionsSelector);
-  // console.log(item);
+
   const {
-    control, handleSubmit, formState: { errors }, reset,
+    control, handleSubmit, formState: { errors },
   } = useForm<FormPayload>({
     defaultValues: {
       roof: item.rainRunoff?.roof ?? 0,
@@ -162,26 +174,6 @@ export default function RainRunoffModal({ item, open, setOpen }:
     },
     shouldUnregister: false,
   });
-
-  useEffect(() => {
-    reset({
-      roof: item.rainRunoff?.roof ?? 0,
-      cobblestone: item.rainRunoff?.cobblestone ?? 0,
-      ground: item.rainRunoff?.ground ?? 0,
-      lawns: item.rainRunoff?.lawns ?? 0,
-      tracks: item.rainRunoff?.tracks ?? 0,
-      pavements: item.rainRunoff?.pavements ?? 0,
-      stone: item.rainRunoff?.stone ?? 0,
-      intensity: item.rainRunoff?.intensity ?? 0,
-      lengthPipe: item.rainRunoff?.lengthPipe ?? 0,
-      lengthTray: item.rainRunoff?.lengthTray ?? 0,
-      velocityPipe: item.rainRunoff?.velocityPipe ?? 0,
-      velocityTray: item.rainRunoff?.velocityTray ?? 0,
-      timeInit: item.rainRunoff?.timeInit ?? 0,
-      place: item.rainRunoff?.place?.name ?? '',
-      condition: item.rainRunoff?.condition?.name ?? '',
-    });
-  }, [item]);
 
   const onSubmit = async (data: FormPayload) => {
     const placeId = (item.rainRunoff?.place?.id && item.rainRunoff?.place?.name === data.place)
@@ -229,6 +221,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
           size="l"
           type="text"
           error={fieldState.error?.message}
+          className={fieldConfig?.column === 1 ? style.first : ''}
         />
       )}
     />
