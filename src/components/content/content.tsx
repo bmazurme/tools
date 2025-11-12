@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,7 +28,7 @@ type ContentProps = {
 
 const b = block('collapse-button');
 
-export default function Content({ children, sidebar }: PropsWithChildren & ContentProps) {
+export default function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
   const user = useUser();
   const [signOut] = useSignOutMutation();
   const [toggleTheme] = useToggleThemeMutation();
@@ -257,6 +258,6 @@ export default function Content({ children, sidebar }: PropsWithChildren & Conte
   );
 }
 
-Content.defaultProps = {
-  sidebar: false,
-};
+// Content.defaultProps = {
+//   sidebar: false,
+// };

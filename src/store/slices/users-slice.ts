@@ -38,11 +38,11 @@ const slice = createSlice({
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchFulfilled,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        (state, action) => ({ ...state, data: null }),
+        (state, _action) => ({ ...state, data: null }),
       )
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchRejected,
-        (state, action) => console.log('rejected', action),
+        (_state, action) => console.log('rejected', action),
       );
   },
 });

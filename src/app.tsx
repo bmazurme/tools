@@ -1,4 +1,3 @@
-import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import NotFoundPage from './pages/not-found-page/not-found-page';
@@ -10,14 +9,13 @@ import ProjectPage from './pages/project-page';
 import DocumentsPage from './pages/documents-page';
 import RainRoof from './layouts/rain-roof/rain-roof';
 import RainRunoff from './layouts/rain-runoff/rain-runoff';
+import ProjectAddPage from './pages/project-add-page';
+import ProjectEditPage from './pages/project-edit-page';
+import DocumentAddPage from './pages/document-add-page';
+import DocumentPage from './pages/document-page/document-page';
+import ProfilePage from './pages/profile-page';
 
 import './app.css';
-
-const ProjectAddPage = lazy(() => import('./pages/project-add-page'));
-const ProjectEditPage = lazy(() => import('./pages/project-edit-page'));
-const DocumentAddPage = lazy(() => import('./pages/document-add-page'));
-const DocumentPage = lazy(() => import('./pages/document-page/document-page'));
-const ProfilePage = lazy(() => import('./pages/profile-page'));
 
 function App() {
   return (

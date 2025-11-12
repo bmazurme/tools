@@ -1,0 +1,44 @@
+name: Push To Yandex Cloud CR
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Yandex Cloud CR Login
+        uses: yc-actions/yc-cr-login@v2
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+
+      - name: Build and push Docker image
+        env:
+          CR_HOST: ${{ secrets.CR_HOST }}
+          CR_REGISTRY: ${{ secrets.CR_REGISTRY }}
+          CR_IMAGE: ${{ secrets.CR_IMAGE }}
+          IMAGE_TAG: ${{ github.sha }}
+        #   YA_ENDPOINT: ${{ secrets.YA_ENDPOINT }}
+        #   API_HOST: ${{ secrets.API_HOST }}
+        #   HOST: ${{ secrets.HOST }}
+
+        run: |
+          # echo YA_ENDPOINT=${{ secrets.YA_ENDPOINT }} >> .env.production
+          # echo API_HOST=${{ secrets.API_HOST }} >> .env.production
+          # echo HOST=${{ secrets.HOST }} >> .env.production
+
+          docker compose build
+          docker tag "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest" "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
+
+          docker push "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
+          docker push "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest"

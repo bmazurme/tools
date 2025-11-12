@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  tools-frontend:
+    container_name: tools-frontend
+    build:
+      dockerfile: Dockerfile
+    image: ${CR_HOST}/${CR_REGISTRY}/${CR_IMAGE}:latest
+    networks:
+      - internet
+    ports:
+      - 8082:80
+    restart: unless-stopped
+
+  # my-nginx:
+  #   image: my-nginx:latest
+  #   networks:
+  #     - internet
+  #   ports:
+  #     - 8180:80
+  #   restart: unless-stopped
+
+  # cypress:
+  #   build:
+  #     dockerfile: Dockerfile.cy
+  #   container_name: cypress-tests
+  #   environment:
+  #     - CYPRESS_BASE_URL=http://host.docker.internal:8082
+  #   volumes:
+  #     - ./:/e2e
+
+networks:
+  # internal-network:
+  #   driver: bridge
+  #   internal: true
+  internet:
+    driver: bridge
