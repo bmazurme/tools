@@ -29,14 +29,16 @@ export default function RainRunoffBoard() {
   return (
     <DndProvider backend={HTML5Backend}>
       {returnBlocksForColumn()}
-      <Button
-        view="action"
-        size="m"
-        title="Добавить блок"
-        onClick={onHandleAddBlock}
-      >
-        Добавить блок
-      </Button>
+      <div>
+        <Button
+          view="action"
+          size="m"
+          title="Добавить блок"
+          onClick={onHandleAddBlock}
+        >
+          Добавить блок
+        </Button>
+      </div>
     </DndProvider>
   );
 }
