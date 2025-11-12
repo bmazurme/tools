@@ -6,17 +6,17 @@ import SigninPage from './pages/signin-page/signin-page';
 import MainPage from './pages/main-page';
 import SettingsPage from './pages/settings-page';
 import ProjectsPage from './pages/projects-page';
+import ProjectPage from './pages/project-page';
+import DocumentsPage from './pages/documents-page';
+import RainRoof from './layouts/rain-roof/rain-roof';
+import RainRunoff from './layouts/rain-runoff/rain-runoff';
 
 import './app.css';
 
-const RainRunoff = lazy(() => import('./layouts/rain-runoff/rain-runoff'));
-const RainRoof = lazy(() => import('./layouts/rain-roof/rain-roof'));
-const ProjectPage = lazy(() => import('./pages/project-page'));
 const ProjectAddPage = lazy(() => import('./pages/project-add-page'));
 const ProjectEditPage = lazy(() => import('./pages/project-edit-page'));
 const DocumentAddPage = lazy(() => import('./pages/document-add-page'));
 const DocumentPage = lazy(() => import('./pages/document-page/document-page'));
-const DocumentsPage = lazy(() => import('./pages/documents-page'));
 const ProfilePage = lazy(() => import('./pages/profile-page'));
 
 function App() {
