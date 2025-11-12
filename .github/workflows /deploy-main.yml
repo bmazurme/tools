@@ -28,15 +28,8 @@ jobs:
           CR_REGISTRY: ${{ secrets.CR_REGISTRY }}
           CR_IMAGE: ${{ secrets.CR_IMAGE }}
           IMAGE_TAG: ${{ github.sha }}
-        #   YA_ENDPOINT: ${{ secrets.YA_ENDPOINT }}
-        #   API_HOST: ${{ secrets.API_HOST }}
-        #   HOST: ${{ secrets.HOST }}
 
         run: |
-          # echo YA_ENDPOINT=${{ secrets.YA_ENDPOINT }} >> .env.production
-          # echo API_HOST=${{ secrets.API_HOST }} >> .env.production
-          # echo HOST=${{ secrets.HOST }} >> .env.production
-
           docker compose build
           docker tag "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest" "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
 
