@@ -8,12 +8,12 @@ const itemsApiEndpoints = itemsApi
     endpoints: (builder) => ({
       updateItem: builder.mutation<ItemType[], ItemType>({
         query: ({
-          column, id, index, name,
+          block, id, index, name,
         }: ItemType) => ({
           url: `/items/${id}`,
           method: 'PATCH',
           body: {
-            id, index, name, block: { id: column },
+            id, index, name, block: { id: block.id },
           },
         }),
         invalidatesTags: ['Items'],
