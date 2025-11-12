@@ -18,6 +18,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "react-latex-next": "^3.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.8.2",
     "uuid": "^11.1.0"
@@ -30,6 +31,7 @@
     "@types/jest": "^30.0.0",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
+    "@types/react-latex": "^2.0.3",
     "@vitejs/plugin-react": "^5.0.2",
     "cypress": "^15.1.0",
     "eslint": "^8.40.0",
