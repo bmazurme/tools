@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { Button, Icon, TextInput } from '@gravity-ui/uikit';
 import { TrashBin } from '@gravity-ui/icons';
 import { Controller, useForm } from 'react-hook-form';
 
 import { TEXT_INPUT_PROPS } from '../../config';
-import { useUpdateBlockMutation } from '../../store';
+import { useDeleteBlockMutation, useUpdateBlockMutation } from '../../store';
+import ConfirmModal from '../confirm-modal/confirm-modal';
 
 const fields = [
   {
@@ -21,9 +23,12 @@ const fields = [
 
 type FormPayload = { name: string };
 
-export default function Block({ action, value }
-  : { action: () => void; value: BlockType }) {
+export default function Block({ blockId, value }
+  : { blockId: number; value: BlockType }) {
   const [updateBlock] = useUpdateBlockMutation();
+  const [deleteBlock] = useDeleteBlockMutation();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { control } = useForm<FormPayload>({
     defaultValues: { name: value.name },
   });
@@ -38,6 +43,12 @@ export default function Block({ action, value }
     } catch (error) {
       console.error('Ошибка при обновлении проекта:', error);
     }
+  };
+  const onHandleConfirmDelete = () => {
+    setIsModalOpen(true);
+  };
+  const onHandleRemoveBlock = async () => {
+    await deleteBlock(blockId);
   };
 
   return (
@@ -65,7 +76,7 @@ export default function Block({ action, value }
       <Button
         view="flat"
         size="l"
-        onClick={action}
+        onClick={onHandleConfirmDelete}
         title="Удалить блок"
       >
         <Icon
@@ -73,6 +84,14 @@ export default function Block({ action, value }
           size={20}
         />
       </Button>
+      {isModalOpen && (
+        <ConfirmModal
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
+          onDelete={onHandleRemoveBlock}
+          title="Вы действительно хотите удалить блок?"
+        />
+      )}
     </form>
   );
 }
