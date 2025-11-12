@@ -1,20 +1,16 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
 import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
-import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import Column from './rain-roof-column';
 import Item from './rain-roof-item';
 
 import { useAppSelector } from '../../hooks';
 import {
-  blocksSelector,
-  itemsSelector,
-  useDeleteBlockMutation,
-  useRefreshBlocksMutation,
+  blocksSelector, itemsSelector, useRefreshBlocksMutation,
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
@@ -25,10 +21,8 @@ type RainRoofBlockProps = { block: BlockType; index: number };
 
 export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const { id } = useParams();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [refreshBlocks] = useRefreshBlocksMutation();
-  const [deleteBlock] = useDeleteBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const ref = useRef<HTMLDivElement>(null);
@@ -103,13 +97,9 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
 
-  const onHandleRemoveBlock = async () => {
-    await deleteBlock(block.id);
-  };
-
   drag(drop(ref));
 
-  const blockItems = items.filter((x) => x.column === block.id);
+  const blockItems = items.filter((x) => x.block.id === block.id);
   const sum = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
 
   return (
@@ -118,39 +108,31 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
       style={{ opacity, border, borderRadius: '8px' }}
       className="block"
     >
-      <Block action={() => setIsModalOpen(true)} value={block} />
+      <Block blockId={block.id} value={block} />
 
       <Column blockId={block.id} length={blockItems.length}>
         {returnItemsForColumn(blockItems)}
         {blockItems.length > 0
         && (
-        <ColumnFooter>
-          <div className="fields">
-            <Text variant="code-1" className={style.id} />
-            <Text variant="code-1" className={style.name} />
-            <Text variant="code-1" className={style.roof} />
-            <Text variant="code-1" className={style.wall} />
-            <Text variant="code-1" className={style.q5} />
-            <Text variant="code-1" className={style.q20} />
-            <Text variant="code-1" className={style.n} />
-            <Text variant="code-1" className={style.slope}>
-              Итого:
-            </Text>
-            <Text variant="code-1" className={style.flow}>
-              {sum.toFixed(2)}
-            </Text>
-          </div>
-        </ColumnFooter>
+          <ColumnFooter>
+            <div className="fields">
+              <Text variant="code-1" className={style.id} />
+              <Text variant="code-1" className={style.name} />
+              <Text variant="code-1" className={style.roof} />
+              <Text variant="code-1" className={style.wall} />
+              <Text variant="code-1" className={style.q5} />
+              <Text variant="code-1" className={style.q20} />
+              <Text variant="code-1" className={style.n} />
+              <Text variant="code-1" className={style.slope}>
+                Итого:
+              </Text>
+              <Text variant="code-1" className={style.flow}>
+                {sum.toFixed(2)}
+              </Text>
+            </div>
+          </ColumnFooter>
         )}
       </Column>
-      {isModalOpen && (
-      <ConfirmModal
-        open={isModalOpen}
-        setOpen={setIsModalOpen}
-        onDelete={onHandleRemoveBlock}
-        title="Вы действительно хотите удалить блок?"
-      />
-      )}
     </div>
   );
 }
