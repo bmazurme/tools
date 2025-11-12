@@ -1,10 +1,15 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';
 import { Text } from '@gravity-ui/uikit';
+import Latex from 'react-latex-next';
+
 import Column from '../../components/column/column';
 
 import { TARGET_TYPE } from '../../config';
+import { LATEX } from '../../utils/constants';
 import { useCreateRainRoofItemMutation } from '../../store';
 
 import style from './rain-roof-column.module.css';
@@ -29,14 +34,14 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
         return false;
       }
 
-      return typeof item.column === 'number'; /// !!!
+      return typeof item.block.id === 'number'; /// !!!
     },
   });
 
   const getBackgroundColor = () => {
     if (isOver) {
       if (canDrop) {
-        return 'var(--table-cell)';
+        return 'var(--g-color-base-selection)';
       } if (!canDrop) {
         return 'rgb(255,188,188)';
       }
@@ -61,9 +66,15 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
           <Text variant="code-1" className={style.name}>Наименование участка</Text>
           <Text variant="code-1" className={style.roof}>F, кровли</Text>
           <Text variant="code-1" className={style.wall}>F, фасада</Text>
-          <Text variant="code-1" className={style.q5}>q5</Text>
-          <Text variant="code-1" className={style.q20}>q₂₀</Text>
-          <Text variant="code-1" className={style.n}>n</Text>
+          <Text variant="code-1" className={style.q5}>
+            <Latex>{LATEX.q5}</Latex>
+          </Text>
+          <Text variant="code-1" className={style.q20}>
+            <Latex>{LATEX.q20}</Latex>
+          </Text>
+          <Text variant="code-1" className={style.n}>
+            <Latex>{LATEX.n}</Latex>
+          </Text>
           <Text variant="code-1" className={style.slope}>Уклон, %</Text>
           <Text variant="code-1" className={style.flow}>Расход, л/с</Text>
         </div>
