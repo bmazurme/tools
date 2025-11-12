@@ -8,12 +8,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Item from '../../components/item/item';
 import RainRoofModal from './rain-roof-modal';
-import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 
 import { TARGET_TYPE } from '../../config';
 import {
   itemsSelector,
-  useDeleteItemMutation,
   useRefreshItemsMutation,
   useUpdateItemMutation,
 } from '../../store';
@@ -41,10 +39,8 @@ export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const [updateItem] = useUpdateItemMutation();
-  const [deleteItem] = useDeleteItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
   const ref = useRef<HTMLLIElement>(null);
 
@@ -53,15 +49,15 @@ export default function RainRoofItem({ item, index }:
   });
 
   const moveCardHandler = async (dragIndex: number, hoverIndex: number, it: ItemType) => {
-    const blockItems = items.filter((x) => x.column === it.column);
+    const blockItems = items.filter((x) => x.block.id === it.block.id);
     const dragItem = blockItems.find((x: ItemType) => x.id === it.id);
-    // dragIndex = blockItems.findIndex((x: ItemType) => x.id === it.id);
 
     if (dragItem) {
       const newItems = [...blockItems];
       const [movedItem] = newItems.splice(dragIndex, 1);
       newItems.splice(hoverIndex, 0, movedItem);
-      await refreshItems(newItems.map((x, i) => ({ ...x, index: i })));
+
+      await refreshItems(newItems.filter((t) => t).map((x, i) => ({ ...x, index: i })));
     }
   };
 
@@ -110,9 +106,9 @@ export default function RainRoofItem({ item, index }:
         const { blockId: targetBlockId } = dropResult as { blockId: number };
 
         if (typeof targetBlockId === 'number') { /// !!!
-          if (_item.column !== targetBlockId) {
-            const targetIndex = items.filter((x) => x.column === targetBlockId).length;
-            await updateItem({ ...item, column: targetBlockId, index: targetIndex });
+          if (_item.block.id !== targetBlockId) {
+            const targetIndex = items.filter((x) => x.block.id === targetBlockId).length;
+            await updateItem({ ...item, block: { id: targetBlockId }, index: targetIndex });
           }
         }
       }
@@ -122,13 +118,6 @@ export default function RainRoofItem({ item, index }:
     }),
   });
 
-  const onHandleConfirmDelete = () => {
-    setIsConfirmOpen(true);
-  };
-
-  const onHandleRemoveItem = async () => {
-    await deleteItem(item.id);
-  };
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
@@ -138,9 +127,9 @@ export default function RainRoofItem({ item, index }:
       const { name } = control._formValues;
 
       if (item.name !== name) {
-        const { id, column } = item;
+        const { id, block } = item;
         await updateItem({
-          id, name, index, column,
+          id, name, index, block,
         });
       }
     } catch (error) {
@@ -150,7 +139,7 @@ export default function RainRoofItem({ item, index }:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item removeAction={onHandleConfirmDelete} editAction={() => setIsModalOpen(true)}>
+      <Item itemId={item.id} editAction={() => setIsModalOpen(true)}>
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {fields.map((input) => (
@@ -185,14 +174,6 @@ export default function RainRoofItem({ item, index }:
         </ul>
       </Item>
       {isModalOpen && <RainRoofModal item={item} open={isModalOpen} setOpen={setIsModalOpen} />}
-      {isConfirmOpen && (
-        <ConfirmModal
-          open={isConfirmOpen}
-          setOpen={setIsConfirmOpen}
-          onDelete={onHandleRemoveItem}
-          title="Вы действительно хотите удалить строку?"
-        />
-      )}
     </li>
   );
 }
