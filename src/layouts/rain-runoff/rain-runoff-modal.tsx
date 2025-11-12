@@ -134,7 +134,7 @@ const FIELD_CONFIG = [
   },
   {
     name: 'timeInit',
-    label: 'timeInit',
+    label: 'Время',
     pattern: {
       value: NUMBER_PATTERN,
       message: 'Name is invalid',
