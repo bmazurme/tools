@@ -1,9 +1,20 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import { Minus, Pencil } from '@gravity-ui/icons';
 
-export default function Item({ children, removeAction, editAction }:
-  { children: ReactNode; removeAction: () => void; editAction: () => void; }) {
+import ConfirmModal from '../confirm-modal/confirm-modal';
+
+import { useDeleteItemMutation } from '../../store';
+
+export default function Item({ children, itemId, editAction }:
+  { children: ReactNode; itemId: number; editAction: () => void; }) {
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [deleteItem] = useDeleteItemMutation();
+
+  const onHandleRemoveItem = async () => {
+    await deleteItem(itemId);
+  };
+
   return (
     <>
       { children }
@@ -22,7 +33,7 @@ export default function Item({ children, removeAction, editAction }:
         <Button
           view="flat"
           size="s"
-          onClick={removeAction}
+          onClick={() => setIsConfirmOpen(true)}
           title="Удалить строку"
         >
           <Icon
@@ -31,6 +42,14 @@ export default function Item({ children, removeAction, editAction }:
           />
         </Button>
       </div>
+      {isConfirmOpen && (
+        <ConfirmModal
+          open={isConfirmOpen}
+          setOpen={setIsConfirmOpen}
+          onDelete={onHandleRemoveItem}
+          title="Вы действительно хотите удалить строку?"
+        />
+      )}
     </>
   );
 }
