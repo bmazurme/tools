@@ -40,6 +40,23 @@ const slice = createSlice({
         }),
       )
       .addMatcher(
+        itemsApiEndpoints.endpoints.updateItem.matchFulfilled,
+        (state, { payload }) => ({
+          ...state,
+          data: {
+            items: state.data.items.map((x) => {
+              const item = payload.find((p) => p.id === x.id);
+              return {
+                ...x,
+                name: item?.name ?? x.name,
+                index: item?.index ?? x.index,
+                block: { id: item?.block.id ?? x.block.id },
+              };
+            }).sort((a, b) => a.index - b.index),
+          },
+        }),
+      )
+      .addMatcher(
         itemsApiEndpoints.endpoints.refreshItems.matchFulfilled,
         (state, { meta }) => ({
           ...state,
@@ -51,26 +68,6 @@ const slice = createSlice({
               }
               return x;
             }).sort((a, b) => a.index - b.index),
-          },
-        }),
-      )
-      .addMatcher(
-        itemsApiEndpoints.endpoints.updateItem.matchFulfilled,
-        (state, { payload }) => ({
-          ...state,
-          data: {
-            items: state.data.items.map((x) => {
-              const item = payload.find((p) => p.id === x.id);
-              return {
-                ...x,
-                index: item?.index ?? x.index,
-                column: item?.column ?? x.column,
-              };
-            }).sort((a, b) => a.index - b.index),
-            // items: state.data.items
-            //   // eslint-disable-next-line max-len, max-len
-            //   .map((x) => (x.id === meta.arg.originalArgs.id ? { ...x, ...meta.arg.originalArgs } : x))
-            //   .sort((a, b) => a.index - b.index),
           },
         }),
       )
