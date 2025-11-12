@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 // import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
@@ -10,6 +11,7 @@ import { store } from './store';
 
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
+import 'katex/dist/katex.min.css';
 import './styles/index.css';
 
 const toaster = new Toaster();
