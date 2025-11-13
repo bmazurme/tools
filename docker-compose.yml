@@ -9,7 +9,7 @@ services:
     networks:
       - internet
     ports:
-      - 8082:80
+      - 3405:80
     restart: unless-stopped
 
   # my-nginx:
