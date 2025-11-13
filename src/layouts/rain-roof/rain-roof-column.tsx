@@ -62,10 +62,22 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
     >
       <Column action={onHandleAddItem}>
         <div className="fields">
-          <Text variant="code-1" className={style.id}>#</Text>
-          <Text variant="code-1" className={style.name}>Наименование участка</Text>
-          <Text variant="code-1" className={style.roof}>F, кровли</Text>
-          <Text variant="code-1" className={style.wall}>F, фасада</Text>
+          <Text variant="code-1" className={style.id}>
+            #
+          </Text>
+          <Text variant="code-1" className={style.name}>
+            Наименование участка
+          </Text>
+          <Text
+            variant="code-1"
+            title="Площадь кровли"
+            className={style.roof}
+          >
+            <Latex>{LATEX.F}</Latex>
+          </Text>
+          <Text variant="code-1" className={style.wall}>
+            F, фасада
+          </Text>
           <Text variant="code-1" className={style.q5}>
             <Latex>{LATEX.q5}</Latex>
           </Text>
@@ -75,8 +87,16 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
           <Text variant="code-1" className={style.n}>
             <Latex>{LATEX.n}</Latex>
           </Text>
-          <Text variant="code-1" className={style.slope}>Уклон, %</Text>
-          <Text variant="code-1" className={style.flow}>Расход, л/с</Text>
+          <Text variant="code-1" className={style.slope}>
+            Уклон, %
+          </Text>
+          <Text
+            variant="code-1"
+            title="Расход, л/с"
+            className={style.flow}
+          >
+            <Latex>{LATEX.Q}</Latex>
+          </Text>
         </div>
       </Column>
       <ul className="column_list">
