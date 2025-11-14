@@ -8,10 +8,11 @@ RUN npm ci --no-audit --no-fund --force
 
 COPY . ./
 
-# Принимаем аргумент VITE_API_URL
 ARG VITE_API_URL
-# Передаём его в среду при сборке
-ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
+# Проверяем, что переменная задана (опционально, для надёжности)
+RUN if [ -z "$VITE_API_URL" ]; then echo "VITE_API_URL is required!"; exit 1; fi
 
 RUN npm cache clean --force && \
     rm -rf node_modules package-lock.json && \

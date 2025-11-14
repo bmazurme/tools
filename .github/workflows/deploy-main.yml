@@ -28,9 +28,15 @@ jobs:
           CR_REGISTRY: ${{ secrets.CR_REGISTRY }}
           CR_IMAGE: ${{ secrets.CR_IMAGE }}
           IMAGE_TAG: ${{ github.sha }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
         run: |
-          docker compose build --build-arg VITE_API_URL="${{ secrets.VITE_API_URL }}"
+          export CR_HOST="$CR_HOST"
+          export CR_REGISTRY="$CR_REGISTRY"
+          export CR_IMAGE="$CR_IMAGE"
+          export VITE_API_URL="$VITE_API_URL"
+
+          docker compose build --build-arg VITE_API_URL="$VITE_API_URL"
 
           docker tag "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest" "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
           docker push "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
