@@ -18,8 +18,5 @@ services:
     restart: unless-stopped
 
 networks:
-  # internal-network:
-  #   driver: bridge
-  #   internal: true
   internet:
     driver: bridge
