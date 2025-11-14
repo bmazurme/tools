@@ -6,6 +6,8 @@ services:
     build:
       dockerfile: Dockerfile
     image: ${CR_HOST}/${CR_REGISTRY}/${CR_IMAGE}:latest
+    environment:
+      VITE_API_URL: ${VITE_API_URL}
     networks:
       - internet
     ports:
