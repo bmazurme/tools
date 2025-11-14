@@ -29,10 +29,12 @@ jobs:
           CR_IMAGE: ${{ secrets.CR_IMAGE }}
           IMAGE_TAG: ${{ github.sha }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
 
         run: |
           cat <<EOF > .env.production
           VITE_API_URL=$VITE_API_URL
+          VITE_TOKEN=$VITE_TOKEN
           EOF
 
           echo "Created .env.production:"
