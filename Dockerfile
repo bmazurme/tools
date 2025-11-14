@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --no-audit --no-fund --force
 COPY . ./
+COPY .env.production ./
+
 RUN npm cache clean --force && \
     rm -rf node_modules package-lock.json && \
     npm install --force
