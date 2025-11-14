@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 export const NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
+export const { VITE_API_URL } = import.meta.env || 'http://localhost:3000';
+
 export const LATEX = {
   q5: '$q_{5}$',
   q20: '$q_{20}$',

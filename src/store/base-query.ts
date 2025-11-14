@@ -2,8 +2,9 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 import { toaster } from '../main';
+import { VITE_API_URL } from '../utils/constants';
 
-const BASE_PROJECT_API_URL = 'http://localhost:3000';
+const BASE_PROJECT_API_URL = VITE_API_URL;
 
 // Create our baseQuery instance
 const baseQuery = fetchBaseQuery({
