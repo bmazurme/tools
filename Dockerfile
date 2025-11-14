@@ -3,9 +3,15 @@ FROM node:22.18.0-bullseye AS builder
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm ci --no-audit --no-fund --force
+
 COPY . ./
-COPY .env.production ./
+
+# Принимаем аргумент VITE_API_URL
+ARG VITE_API_URL
+# Передаём его в среду при сборке
+ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm cache clean --force && \
     rm -rf node_modules package-lock.json && \

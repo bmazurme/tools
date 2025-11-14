@@ -30,12 +30,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
 
         run: |
-          cat <<EOF > .env.production
-          VITE_API_URL=${{ secrets.VITE_API_URL }}
-          EOF
+          docker compose build --build-arg VITE_API_URL="${{ secrets.VITE_API_URL }}"
 
-          docker compose build
           docker tag "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest" "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
-
           docker push "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:$IMAGE_TAG"
           docker push "$CR_HOST/$CR_REGISTRY/$CR_IMAGE:latest"
