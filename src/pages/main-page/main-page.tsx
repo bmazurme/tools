@@ -1,32 +1,83 @@
 import { useNavigate } from 'react-router-dom';
-import { Button, Card } from '@gravity-ui/uikit';
+import { Button, Card, Text } from '@gravity-ui/uikit';
+
+import style from './main-page.module.css';
+import useUser from '../../hooks/use-user';
 
 export default function MainPage() {
+  const user = useUser();
   const navigate = useNavigate();
   const handleProjects = () => navigate('/signin');
-  const style = {
-    width: '320px',
-    height: '100px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
+
   return (
-    <>
-      Main
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-      Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
-      Hic, atque, quia sunt consectetur eius corrupti,
-      expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
-      <Button view="flat" size="l" onClick={handleProjects}>
-        Войти
-      </Button>
-      <Card style={style} theme="normal" size="l">Водоснабжение</Card>
-      <Card style={style} theme="info" size="l">Водоотведение</Card>
-      <Card style={style} theme="success" size="l">Success</Card>
-      <Card style={style} theme="warning" size="l">Warning</Card>
-      <Card style={style} theme="danger" size="l">Danger</Card>
-      <Card style={style} theme="utility" size="l">Utility</Card>
-    </>
+    <div className={style.page}>
+      <div className={style.header}>
+        <div className={style.logo}>
+          <Text variant="header-2">
+            tools.ntlstl
+          </Text>
+        </div>
+        <div className={style.navbar}>
+          <Button
+            view="flat"
+            size="l"
+            onClick={handleProjects}
+          >
+            {!user ? 'Войти' : user.email }
+          </Button>
+        </div>
+      </div>
+      <div className={style.description}>
+        Main
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
+        Hic, atque, quia sunt consectetur eius corrupti,
+        expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+      </div>
+      <div className={style.cards}>
+        <Card
+          className={style.card}
+          theme="normal"
+          size="l"
+        >
+          Водоснабжение
+        </Card>
+        <Card
+          className={style.card}
+          theme="info"
+          size="l"
+        >
+          Водоотведение
+        </Card>
+        <Card
+          className={style.card}
+          theme="success"
+          size="l"
+        >
+          Success
+        </Card>
+        <Card
+          className={style.card}
+          theme="warning"
+          size="l"
+        >
+          Warning
+        </Card>
+        <Card
+          className={style.card}
+          theme="danger"
+          size="l"
+        >
+          Danger
+        </Card>
+        <Card
+          className={style.card}
+          theme="utility"
+          size="l"
+        >
+          Utility
+        </Card>
+      </div>
+    </div>
   );
 }
