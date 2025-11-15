@@ -15,10 +15,10 @@ const blocksApiEndpoints = blocksApi
         invalidatesTags: ['Blocks'],
       }),
       updateBlock: builder.mutation<BlockType, BlockType>({
-        query: ({ id, ...data }: BlockType) => ({
+        query: ({ id, index, name }: BlockType) => ({
           url: `/blocks/${id}`,
           method: 'PATCH',
-          body: data,
+          body: { index, name },
         }),
         invalidatesTags: ['Blocks'],
       }),
