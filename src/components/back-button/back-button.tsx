@@ -10,8 +10,17 @@ export default function BackButton() {
   const handleBack = () => navigate(-1);
 
   return (
-    <Button {...BACK_BUTTON_PROPS} onClick={handleBack}>
-      <Icon data={ArrowLeft} size={18} />
+    <Button
+      {...BACK_BUTTON_PROPS}
+      onClick={handleBack}
+      aria-label="Вернуться на предыдущую страницу"
+      title="Вернуться на предыдущую страницу"
+    >
+      <Icon
+        data={ArrowLeft}
+        size={18}
+        aria-hidden="true"
+      />
       Назад
     </Button>
   );
