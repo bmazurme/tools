@@ -37,7 +37,11 @@ export default function withUser<P extends Record<string, unknown>>(
 
     // Обработка состояний
     if (isLoading || (isUninitialized && !userData)) {
-      return <Loader />;
+      return (
+        <div className="page">
+          <Loader />
+        </div>
+      );
     }
 
     // Если пользователь авторизован или авторизация не требуется
