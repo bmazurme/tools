@@ -267,6 +267,7 @@
 }
 
 .table {
+  /* min-height: 300px; */
   width: 100%;
 }
 
