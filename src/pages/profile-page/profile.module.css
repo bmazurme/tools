@@ -1,0 +1,15 @@
+.activities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.activity {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 0;
+}
+.description {
+  padding-left: 10px;
+}
