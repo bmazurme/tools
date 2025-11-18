@@ -4,6 +4,7 @@ import {
   projectsApi, documentsApi, usersApi, typesApi, blocksApi,
   rainRoofsApi, rainRunoffsApi, rainPlacesApi, rainConditionsApi,
   itemsApi,
+  activitiesApi,
   // authApi,
 } from './api/index';
 
@@ -13,6 +14,7 @@ import usersReducer from './slices/users-slice';
 import typesReducer from './slices/types-slice';
 import blocksReducer from './slices/blocks-slice';
 import itemsReducer from './slices/items-slice';
+import activitiesReducer from './slices/activities-slice';
 
 import rainRoofsReducer from './slices/rain-roofs-slice';
 import rainRunoffsReducer from './slices/rain-runoffs-slice';
@@ -30,6 +32,7 @@ export * from './api/rain-runoffs-api/endpoints/index';
 export * from './api/rain-places-api/endpoints/index';
 export * from './api/rain-conditions-api/endpoints/index';
 export * from './api/auth-api/endpoints/index';
+export * from './api/activities-api/endpoints/index';
 
 export * from './slices/index';
 
@@ -45,6 +48,7 @@ export const store = configureStore({
     types: typesReducer,
     blocks: blocksReducer,
     items: itemsReducer,
+    activities: activitiesReducer,
     [projectsApi.reducerPath]: projectsApi.reducer,
     [documentsApi.reducerPath]: documentsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
@@ -55,6 +59,7 @@ export const store = configureStore({
     [rainRunoffsApi.reducerPath]: rainRunoffsApi.reducer,
     [rainPlacesApi.reducerPath]: rainPlacesApi.reducer,
     [rainConditionsApi.reducerPath]: rainConditionsApi.reducer,
+    [activitiesApi.reducerPath]: activitiesApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -68,6 +73,7 @@ export const store = configureStore({
       rainRunoffsApi.middleware,
       rainPlacesApi.middleware,
       rainConditionsApi.middleware,
+      activitiesApi.middleware,
     ),
 });
 

@@ -7,3 +7,4 @@ export * from './users-slice';
 export * from './types-slice';
 export * from './blocks-slice';
 export * from './items-slice';
+export * from './activities-slice';
