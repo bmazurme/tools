@@ -37,10 +37,12 @@ const projectsApiEndpoints = projectsApi
         }),
       }),
       updateProject: builder.mutation<ProjectType, ProjectType>({
-        query: (data: ProjectType) => ({
-          url: `/projects/${data.id}`,
+        query: ({
+          address, description, name, id,
+        }: ProjectType) => ({
+          url: `/projects/${id}`,
           method: 'PATCH',
-          body: data,
+          body: { address, description, name },
         }),
       }),
     }),

@@ -10,6 +10,8 @@ export const LATEX = {
   Qr: '$Q_{r}$',
   Q: '$Q$',
   F: '$F$',
+  Fh: '$F_{г}$',
+  Fv: '$F_{в}$',
   tr: '$t_{r}$',
   Fr: '$F_{r}$',
   lcan: '$l_{can}$',

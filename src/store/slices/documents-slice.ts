@@ -41,6 +41,12 @@ const slice = createSlice({
         (state, { payload }) => ({ ...state, data: payload.data, total: payload.total }),
       )
       .addMatcher(
+        documentsApiEndpoints.endpoints.getDocument.matchFulfilled,
+        (state, { payload }) => ({
+          ...state, data: state.data, total: state.total, document: payload,
+        }),
+      )
+      .addMatcher(
         documentsApiEndpoints.endpoints.removeDocument.matchFulfilled,
         (state, { meta, payload }) => ({
           ...state,
@@ -52,5 +58,6 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
+export const documentSelector = (state: RootState) => state.documents.document;
 export const documentsSelector = (state: RootState) => state.documents.data;
 export const documentsTotalSelector = (state: RootState) => state.documents.total;

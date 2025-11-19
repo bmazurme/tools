@@ -4,9 +4,14 @@ import { Controller, useForm } from 'react-hook-form';
 import { Outlet, useParams } from 'react-router-dom';
 import { TextInput } from '@gravity-ui/uikit';
 
-import { useGetDocumentMutation, useUpdateDocumentMutation } from '../../store';
+import {
+  useGetDocumentMutation,
+  useUpdateDocumentMutation,
+  documentSelector,
+} from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import fields from './document-page.fields';
+import { useAppSelector } from '../../hooks';
 
 type FormPayload = { name: string };
 
@@ -14,23 +19,18 @@ export default function DocumentPage() {
   const { id } = useParams();
   const [getDocument] = useGetDocumentMutation();
   const [updateDocument] = useUpdateDocumentMutation();
+  const document = useAppSelector(documentSelector);
 
   const { control, reset } = useForm<FormPayload>({
     defaultValues: { name: '' },
   });
 
-  const fetchData = async () => {
-    if (id) {
-      const result = await getDocument(Number(id));
-      reset({ name: result.data?.name });
-    }
-  };
-
   const onSubmit = async () => {
     try {
-      if (id) {
-        // eslint-disable-next-line no-underscore-dangle
-        const { name } = control._formValues;
+      // eslint-disable-next-line no-underscore-dangle
+      const { name } = control._formValues;
+
+      if (id && document && document.name !== name) {
         await updateDocument({ id: Number(id!), name });
       }
     } catch (error) {
@@ -39,8 +39,16 @@ export default function DocumentPage() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (id) {
+      getDocument(Number(id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (document) {
+      reset({ name: document.name });
+    }
+  }, [document, reset]);
 
   return (
     <div>
