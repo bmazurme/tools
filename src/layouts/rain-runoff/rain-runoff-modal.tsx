@@ -10,7 +10,7 @@ import {
   rainPlacesSelector, useGetRainConditionsMutation, rainConditionsSelector,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
-import { NUMBER_PATTERN } from '../../utils/constants';
+import { NUMBER_PATTERN, VELOCITY_RATE_PATTERN, INTENSITY_PATTERN } from '../../utils/constants';
 
 import style from './modal.module.css';
 
@@ -106,8 +106,8 @@ const FIELD_CONFIG = [
     name: 'velocityPipe',
     label: 'Скорость в трубе, м/с',
     pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
+      value: VELOCITY_RATE_PATTERN,
+      message: 'Допустимое значение от 0 до 10',
     },
     column: 1,
     required: 'Обязательно к заполнению',
@@ -116,8 +116,8 @@ const FIELD_CONFIG = [
     name: 'velocityTray',
     label: 'Скорость в лотке, м/с',
     pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
+      value: VELOCITY_RATE_PATTERN,
+      message: 'Допустимое значение от 0 до 10',
     },
     column: 2,
     required: 'Обязательно к заполнению',
@@ -126,8 +126,8 @@ const FIELD_CONFIG = [
     name: 'intensity',
     label: 'Интенсивность дождя, л/с',
     pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
+      value: INTENSITY_PATTERN,
+      message: 'Допустимое значение от 0 до 150',
     },
     column: 1,
     required: 'Обязательно к заполнению',
@@ -239,7 +239,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
         <Controller
           name="place"
           control={control}
-          rules={{ required: 'Выберите географические условия' }}
+          rules={{ required: 'Выберите географические условия расположения объекта' }}
           render={({ field, fieldState }) => (
             <Select
               label="Географические условия расположения объекта"
