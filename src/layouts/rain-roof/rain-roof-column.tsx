@@ -62,10 +62,16 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
     >
       <Column action={onHandleAddItem}>
         <div className="fields">
-          <Text variant="code-1" className={style.id}>
+          <Text
+            variant="code-1"
+            className={style.id}
+          >
             #
           </Text>
-          <Text variant="code-1" className={style.name}>
+          <Text
+            variant="code-1"
+            className={style.name}
+          >
             Наименование участка
           </Text>
           <Text
@@ -73,21 +79,36 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
             title="Площадь кровли"
             className={style.roof}
           >
-            <Latex>{LATEX.F}</Latex>
+            <Latex>{LATEX.Fh}</Latex>
           </Text>
-          <Text variant="code-1" className={style.wall}>
-            F, фасада
+          <Text
+            variant="code-1"
+            className={style.wall}
+          >
+            <Latex>{LATEX.Fv}</Latex>
           </Text>
-          <Text variant="code-1" className={style.q5}>
+          <Text
+            variant="code-1"
+            className={style.q5}
+          >
             <Latex>{LATEX.q5}</Latex>
           </Text>
-          <Text variant="code-1" className={style.q20}>
+          <Text
+            variant="code-1"
+            className={style.q20}
+          >
             <Latex>{LATEX.q20}</Latex>
           </Text>
-          <Text variant="code-1" className={style.n}>
+          <Text
+            variant="code-1"
+            className={style.n}
+          >
             <Latex>{LATEX.n}</Latex>
           </Text>
-          <Text variant="code-1" className={style.slope}>
+          <Text
+            variant="code-1"
+            className={style.slope}
+          >
             Уклон, %
           </Text>
           <Text
