@@ -5,7 +5,7 @@ import {
 } from '@gravity-ui/uikit';
 
 import { useUpdateRainRoofsMutation } from '../../store';
-import { NUMBER_PATTERN } from '../../utils/constants';
+import { NUMBER_PATTERN, INTENSITY_PATTERN, ZERO_TO_ONE_PATTERN } from '../../utils/constants';
 
 type FormPayload = ItemType & RainFlowRoof;
 
@@ -32,8 +32,8 @@ const FIELD_CONFIG = [
     name: 'q20',
     label: 'q₂₀ - интенсивность дождя, л/с',
     pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
+      value: INTENSITY_PATTERN,
+      message: 'Допустимое значение от 0 до 150',
     },
     required: 'Обязательно к заполнению',
   },
@@ -41,8 +41,8 @@ const FIELD_CONFIG = [
     name: 'n',
     label: 'n - параметр, принимаемый согласно СП 32.13330',
     pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
+      value: ZERO_TO_ONE_PATTERN,
+      message: 'Допустимое значение от 0 до 1',
     },
     required: 'Обязательно к заполнению',
   },
