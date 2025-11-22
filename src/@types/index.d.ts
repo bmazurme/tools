@@ -40,7 +40,16 @@ type RainRunoff = {
   velocityPipe: number;
   velocityTray: number;
   timeInit: number;
+  timePipe: number;
+  timeTray: number;
+  timeSum: number;
   flow: number;
+  n: number;
+  p: number;
+  mr: number;
+  gamma: number;
+  a: number;
+  zMid: number;
 
   place: { id: number; name: string; };
   condition: { id: number; name: string; };
