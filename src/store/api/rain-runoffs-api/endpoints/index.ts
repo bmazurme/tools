@@ -22,8 +22,14 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
         }),
         invalidatesTags: ['RainRunoff'],
       }),
-
       getRainRunoffsItems: builder.mutation<ItemType[], number>({
+        query: (id: number) => ({
+          url: `/rain-runoffs/document/${id}`,
+          method: 'GET',
+        }),
+        invalidatesTags: ['RainRunoff'],
+      }),
+      getRainRunoffsItem: builder.mutation<ItemType, number>({
         query: (id: number) => ({
           url: `/rain-runoffs/${id}`,
           method: 'GET',
@@ -34,6 +40,9 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
   });
 
 export const {
-  useCreateRainRunoffItemMutation, useUpdateRainRunoffsMutation, useGetRainRunoffsItemsMutation,
+  useCreateRainRunoffItemMutation,
+  useUpdateRainRunoffsMutation,
+  useGetRainRunoffsItemsMutation,
+  useGetRainRunoffsItemMutation,
 } = rainRunoffsApiEndpoints;
 export { rainRunoffsApiEndpoints };
