@@ -139,7 +139,11 @@ export default function RainRoofItem({ item, index }:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item itemId={item.id} editAction={() => setIsModalOpen(true)}>
+      <Item
+        itemId={item.id}
+        editAction={() => setIsModalOpen(true)}
+        // detailAction={() => {}}
+      >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {fields.map((input) => (
