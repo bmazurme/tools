@@ -25,7 +25,10 @@ export default function RainRunoffDetailPage() {
     item?.rainRunoff
       ? (
         <Modal open disableOutsideClick>
-          <RainRunoffDetail rainRunoff={item.rainRunoff} title={item.name} />
+          <RainRunoffDetail
+            data={item.rainRunoff}
+            title={item.name}
+          />
         </Modal>
       )
       : <Loader />

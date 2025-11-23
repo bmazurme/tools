@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { TextInput, Text } from '@gravity-ui/uikit';
 import { Controller, useForm } from 'react-hook-form';
@@ -37,8 +38,11 @@ const fields = [
 
 export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const linkToDetails = () => navigate(`details/${item.id}`, { state: { pathname: location } });
 
   const [updateItem] = useUpdateItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
@@ -63,7 +67,7 @@ export default function RainRoofItem({ item, index }:
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    async hover(_item: (ItemType & RainFlowRoof), monitor) {
+    async hover(_item: (ItemType & RainRoof), monitor) {
       if (!ref.current) {
         return;
       }
@@ -142,7 +146,7 @@ export default function RainRoofItem({ item, index }:
       <Item
         itemId={item.id}
         editAction={() => setIsModalOpen(true)}
-        // detailAction={() => {}}
+        detailAction={linkToDetails}
       >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
