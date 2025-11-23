@@ -13,7 +13,7 @@ type BlockType = {
 
 type BlocksType = BlockType[];
 
-type RainFlowRoof = {
+type RainRoof = {
   id: number;
   areaRoof: number;
   areaFacade: number;
@@ -74,7 +74,7 @@ type ItemType = {
   name: string;
   block: { id: number };
   index: number;
-  rainRoof?: RainFlowRoof;
+  rainRoof?: RainRoof;
   rainRunoff?: RainRunoff;
 };
 type RawBlockType = BlockType & { items: ItemType };
