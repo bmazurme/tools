@@ -7,7 +7,7 @@ import {
 import { useUpdateRainRoofsMutation } from '../../store';
 import { NUMBER_PATTERN, INTENSITY_PATTERN, ZERO_TO_ONE_PATTERN } from '../../utils/constants';
 
-type FormPayload = ItemType & RainFlowRoof;
+type FormPayload = ItemType & RainRoof;
 
 const FIELD_CONFIG = [
   {

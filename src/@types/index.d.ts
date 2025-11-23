@@ -13,7 +13,7 @@ type BlockType = {
 
 type BlocksType = BlockType[];
 
-type RainFlowRoof = {
+type RainRoof = {
   id: number;
   areaRoof: number;
   areaFacade: number;
@@ -40,7 +40,16 @@ type RainRunoff = {
   velocityPipe: number;
   velocityTray: number;
   timeInit: number;
+  timePipe: number;
+  timeTray: number;
+  timeSum: number;
   flow: number;
+  n: number;
+  p: number;
+  mr: number;
+  gamma: number;
+  a: number;
+  zMid: number;
 
   place: { id: number; name: string; };
   condition: { id: number; name: string; };
@@ -65,7 +74,7 @@ type ItemType = {
   name: string;
   block: { id: number };
   index: number;
-  rainRoof?: RainFlowRoof;
+  rainRoof?: RainRoof;
   rainRunoff?: RainRunoff;
 };
 type RawBlockType = BlockType & { items: ItemType };

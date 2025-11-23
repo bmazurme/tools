@@ -1,11 +1,14 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { Controller, useForm } from 'react-hook-form';
 import { TextInput, Text } from '@gravity-ui/uikit';
 
 import Item from '../../components/item/item';
 import RainRunoffModal from './rain-runoff-modal';
+// import RainRunoffDetailModal from './rain-runoff-detail-modal';
 
 import { TARGET_TYPE } from '../../config';
 import { useAppSelector } from '../../hooks';
@@ -33,8 +36,11 @@ const FIELD_CONFIG = [
 ] as const;
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const linkToDetails = () => navigate(`details/${item.id}`, { state: { pathname: location } });
 
   const [updateItem] = useUpdateItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
@@ -134,7 +140,11 @@ export default function RainRunoffItem({ item, index }: { item: ItemType; index:
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
-      <Item itemId={item.id} editAction={() => setIsModalOpen(true)}>
+      <Item
+        itemId={item.id}
+        editAction={() => setIsModalOpen(true)}
+        detailAction={linkToDetails}
+      >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {FIELD_CONFIG.map((input) => (

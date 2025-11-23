@@ -1,0 +1,25 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+}
+.title {
+  margin-bottom: 20px;
+  max-width: 940px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--g-color-private-brand-500);
+}
+.subtitle {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  max-width: 940px;
+  border-bottom: 1px solid var(--g-color-private-brand-500);
+}
+.block {
+  margin-bottom: 10px;
+  max-width: 940px;
+}
+.header {
+  margin-bottom: 20px;
+}
