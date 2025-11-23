@@ -15,7 +15,8 @@ import DocumentAddPage from './pages/document-add-page';
 import DocumentPage from './pages/document-page/document-page';
 import ProfilePage from './pages/profile-page';
 
-import RainRunoffDetailPage from './pages/rain-runoff-details-page/rain-runoff-details-page';
+import RainRunoffDetailPage from './pages/rain-runoff-details-page';
+import RainRoofDetailPage from './pages/rain-roof-details-page';
 
 import { useAppLocation } from './hooks/use-app-location';
 
@@ -64,6 +65,10 @@ function App() {
             <Route
               path="project/:projectId/document/:id/rain-runoff/details/:itemId"
               element={(<RainRunoffDetailPage />)}
+            />
+            <Route
+              path="project/:projectId/document/:id/rain-roof/details/:itemId"
+              element={(<RainRoofDetailPage />)}
             />
           </Routes>
         )}
