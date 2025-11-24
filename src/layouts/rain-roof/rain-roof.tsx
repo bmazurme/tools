@@ -8,7 +8,7 @@ import { useGetBlocksMutation, useGetRainRoofItemsMutation } from '../../store';
 export default function RainRoofPage() {
   const { id } = useParams();
   const [getBlock] = useGetBlocksMutation();
-  const [getItems] = useGetRainRoofItemsMutation();
+  const [getItems, { isError }] = useGetRainRoofItemsMutation();
 
   useEffect(() => {
     if (id) {
@@ -19,7 +19,7 @@ export default function RainRoofPage() {
 
   return (
     <div className="gapb">
-      <Board />
+      {isError ? <>error</> : <Board />}
     </div>
   );
 }
