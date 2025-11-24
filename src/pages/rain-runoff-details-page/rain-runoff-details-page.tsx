@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Modal, Loader } from '@gravity-ui/uikit';
+import { Loader } from '@gravity-ui/uikit';
 
 import RainRunoffDetail from './rain-runoff-template';
 import { rainRunoffsItemSelector, useGetRainRunoffsItemMutation } from '../../store';
@@ -24,12 +24,10 @@ export default function RainRunoffDetailPage() {
   return (
     item?.rainRunoff
       ? (
-        <Modal open disableOutsideClick>
-          <RainRunoffDetail
-            data={item.rainRunoff}
-            title={item.name}
-          />
-        </Modal>
+        <RainRunoffDetail
+          data={item.rainRunoff}
+          title={item.name}
+        />
       )
       : <Loader />
   );
