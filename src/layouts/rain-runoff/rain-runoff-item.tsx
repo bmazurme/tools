@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { Controller, useForm } from 'react-hook-form';
 import { TextInput, Text } from '@gravity-ui/uikit';
@@ -36,11 +36,11 @@ const FIELD_CONFIG = [
 ] as const;
 
 export default function RainRunoffItem({ item, index }: { item: ItemType; index: number }) {
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const linkToDetails = () => navigate(`details/${item.id}`, { state: { pathname: location } });
+  const linkToDetails = () => navigate(`${item.id}`);
 
   const [updateItem] = useUpdateItemMutation();
   const [refreshItems] = useRefreshItemsMutation();

@@ -3,7 +3,6 @@ import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
 import { LATEX } from '../../utils/constants';
-import BackButton from '../../components/back-button/back-button';
 
 import style from './rain-runoff-template.module.css';
 
@@ -61,11 +60,8 @@ export default function RainRunoffTemplate({ data, title }: TemplateProps) {
 
   return (
     <div className={style.details}>
-      <div className={style.header}>
-        <BackButton />
-      </div>
       <Text
-        variant="header-1"
+        variant="subheader-2"
         className={style.title}
       >
         Определение расчетных расходов дождевых и талых вод в коллекторах сетей
@@ -173,7 +169,7 @@ export default function RainRunoffTemplate({ data, title }: TemplateProps) {
         — показатель степени, принимаемый по таблице 8.
       </Text>
       <Text
-        variant="header-1"
+        variant="subheader-2"
         className={style.subtitle}
       >
         {title}

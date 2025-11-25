@@ -7,19 +7,19 @@ import { useGetBlocksMutation, useGetRainRunoffsItemsMutation } from '../../stor
 
 export default function RainRunoffPage() {
   const { id } = useParams();
-  const [getRainRoofs] = useGetBlocksMutation();
-  const [getItems] = useGetRainRunoffsItemsMutation();
+  const [getBlock] = useGetBlocksMutation();
+  const [getItems, { isError }] = useGetRainRunoffsItemsMutation();
 
   useEffect(() => {
     if (id) {
-      getRainRoofs(Number(id));
+      getBlock(Number(id));
       getItems(Number(id));
     }
-  }, [getRainRoofs, id]);
+  }, [getBlock, id]);
 
   return (
     <div className="gapb">
-      <Board />
+      {isError ? <>error</> : <Board />}
     </div>
   );
 }
