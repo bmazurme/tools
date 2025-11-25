@@ -13,8 +13,8 @@ import DocumentAddPage from './pages/document-add-page';
 import DocumentPage from './pages/document-page/document-page';
 import ProfilePage from './pages/profile-page';
 
-import DynamicTypeLayout from './layouts/dynamic-type-layout/dynamic-type-layout';
-import DynamicDetailLayout from './layouts/dynamic-detail-layout/dynamic-detail-layout';
+import DynamicTypeLayout from './layouts/dynamic-type-layout';
+import DynamicTemplateLayout from './layouts/dynamic-template-layout';
 
 import { useAppLocation } from './hooks/use-app-location';
 
@@ -49,7 +49,7 @@ function App() {
               element={<Navigate to=".." replace />}
             />
             <Route path=":id/:typeId" element={(<DynamicTypeLayout />)} />
-            <Route path=":id/:typeId/:itemId" element={<DynamicDetailLayout />} />
+            <Route path=":id/:typeId/:itemId" element={<DynamicTemplateLayout />} />
           </Route>
         </Route>
 
