@@ -5,7 +5,7 @@ import Board from './rain-runoff-board';
 
 import { useGetBlocksMutation, useGetRainRunoffsItemsMutation } from '../../store';
 
-export default function RainRunoffPage() {
+export default function RainRunoffLayout() {
   const { id } = useParams();
   const [getBlock] = useGetBlocksMutation();
   const [getItems, { isError }] = useGetRainRunoffsItemsMutation();
