@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-export default function RainRoofTemplate() {
+export default function RainRoofTemplateLayout() {
   const { itemId } = useParams<{ itemId: string }>();
   console.log(itemId);
 
