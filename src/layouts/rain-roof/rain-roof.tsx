@@ -5,7 +5,7 @@ import Board from './rain-roof-board';
 
 import { useGetBlocksMutation, useGetRainRoofItemsMutation } from '../../store';
 
-export default function RainRoofPage() {
+export default function RainRoofLayout() {
   const { id } = useParams();
   const [getBlock] = useGetBlocksMutation();
   const [getItems, { isError }] = useGetRainRoofItemsMutation();

@@ -38,7 +38,6 @@ const fields = [
 
 export default function RainRoofItem({ item, index }:
   { item: (ItemType); index: number }) {
-  // const location = useLocation();
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
