@@ -40,14 +40,16 @@ export default function MainPage() {
           theme="normal"
           size="l"
         >
-          Водоснабжение
+          <Text variant="subheader-1">Водоснабжение</Text>
         </Card>
         <Card
           className={style.card}
           theme="info"
           size="l"
         >
-          Водоотведение
+          <Text variant="subheader-1">Водоотведение</Text>
+          <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
+          <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
         </Card>
         <Card
           className={style.card}

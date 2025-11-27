@@ -12,5 +12,11 @@ export default function DynamicTypeLayout() {
     'rain-roof': RainRoofLayout,
   }[typeId!] || NotFoundLayout;
 
-  return <LayoutComponent />;
+  return (
+    <LayoutComponent
+      title="404 — Страница не найдена"
+      description="К сожалению, запрошенный документ не существует."
+      buttonLabel="Вернуться на главную"
+    />
+  );
 }

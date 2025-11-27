@@ -2,8 +2,12 @@ import type { ReactNode } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import { Plus } from '@gravity-ui/icons';
 
-export default function Column({ children, action }:
-  { children: ReactNode; action: () => void }) {
+interface ColumnProps {
+  children: ReactNode;
+  action: () => void;
+}
+
+export default function Column({ children, action }: ColumnProps) {
   return (
     <div className="column_header">
       {children}

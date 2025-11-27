@@ -50,7 +50,6 @@ type RainRunoff = {
   gamma: number;
   a: number;
   zMid: number;
-
   place: { id: number; name: string; };
   condition: { id: number; name: string; };
 };

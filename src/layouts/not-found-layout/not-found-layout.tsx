@@ -3,23 +3,32 @@ import { Button, Text } from '@gravity-ui/uikit';
 
 import style from './not-found-layout.module.css';
 
-export default function NotFoundPage() {
+interface NotFoundProps {
+  title: string;
+  description: string;
+  buttonLabel: string;
+}
+
+export default function NotFoundPage({ title, description, buttonLabel }: NotFoundProps) {
   const navigate = useNavigate();
 
   return (
     <div className={style.page}>
       <Text variant="header-2">
-        404 — Страница не найдена
+        {title}
       </Text>
-      <Text variant="header-1" className={style.description}>
-        К сожалению, запрошенный документ не существует.
+      <Text
+        variant="header-1"
+        className={style.description}
+      >
+        {description}
       </Text>
       <Button
         view="action"
         size="l"
         onClick={() => navigate('/')}
       >
-        Вернуться на главную
+        {buttonLabel}
       </Button>
     </div>
   );
