@@ -28,11 +28,14 @@ export const LATEX = {
   Zi: '$Z_{i}$',
   mr: '$m_{r}$',
   gamma: '$\\gamma$',
+  m2: '$\\text{м}^{2}$',
   formula: {
     Qr: '$Q_{r}=\\cfrac{Z_{mid}\\cdot A^{1.2}\\cdot F}{t_r^{1.2n-0.1}}$',
     A: '$A=q_{20}\\cdot20^n\\left(1+\\cfrac{lgP}{lgm_r}\\right)^\\gamma$',
     tcon: '$t_p=0,017\\sum\\frac{l_p}{v_p}$',
     tcan: '$t_{can}=0,021\\sum\\frac{l_{can}}{v_{can}}$',
     tr: '$t_r=t_{con}+t_{can}+t_{p}$',
+    Q: '$Q=\\cfrac{F\\cdot q_{5}}{10000}$',
+    q5: '$q_5=4^n\\cdot q_{20}$',
   },
 };
