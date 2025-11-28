@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loader } from '@gravity-ui/uikit';
 
 import RainRunoffDetail from './rain-runoff-template';
+import NotFoundLayout from '../not-found-layout';
 import { rainRunoffsItemSelector, useGetRainRunoffsItemMutation } from '../../store';
 import { useAppSelector } from '../../hooks';
 
@@ -29,6 +29,12 @@ export default function RainRunoffDetailPage() {
           title={item.name}
         />
       )
-      : <Loader />
+      : (
+        <NotFoundLayout
+          title="404 — Страница не найдена"
+          description="К сожалению, запрошенный документ не существует."
+          buttonLabel="Вернуться на главную"
+        />
+      )
   );
 }
