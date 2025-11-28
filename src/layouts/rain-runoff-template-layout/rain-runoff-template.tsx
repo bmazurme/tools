@@ -83,9 +83,7 @@ export default function RainRunoffTemplate({ data, title }: TemplateProps) {
         className={style.block}
       >
         где
-        <Latex>
-          {` ${LATEX.A}, ${LATEX.n} `}
-        </Latex>
+        <Latex>{` ${LATEX.A}, ${LATEX.n} `}</Latex>
         — параметры, характеризующие соответственно интенсивность
         и продолжительность дождя для конкретной местности
       </Text>
