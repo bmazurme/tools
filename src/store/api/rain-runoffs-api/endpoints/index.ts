@@ -22,6 +22,7 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
         }),
         invalidatesTags: ['RainRunoff'],
       }),
+
       getRainRunoffsItems: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
           url: `/rain-runoffs/document/${id}`,
