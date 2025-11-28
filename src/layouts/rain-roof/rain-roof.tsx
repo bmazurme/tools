@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 
 import Board from './rain-roof-board';
 
-import { useGetBlocksMutation, useGetRainRoofItemsMutation } from '../../store';
+import { useGetBlocksMutation, useGetRainRoofsItemsMutation } from '../../store';
 
 export default function RainRoofLayout() {
   const { id } = useParams();
   const [getBlock] = useGetBlocksMutation();
-  const [getItems, { isError }] = useGetRainRoofItemsMutation();
+  const [getItems, { isError }] = useGetRainRoofsItemsMutation();
 
   useEffect(() => {
     if (id) {
