@@ -33,7 +33,7 @@ const slice = createSlice({
         }),
       )
       .addMatcher(
-        rainRoofsApiEndpoints.endpoints.getRainRoofItems.matchFulfilled,
+        rainRoofsApiEndpoints.endpoints.getRainRoofsItems.matchFulfilled,
         (state, { payload }: PayloadAction<ItemType[]>) => ({
           ...state,
           data: { items: payload },
