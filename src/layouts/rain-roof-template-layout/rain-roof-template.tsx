@@ -22,7 +22,7 @@ export default function RainRoofTemplate({ data, title }: TemplateProps) {
       } = data;
 
       setFormulaQ(`$Q=\\cfrac{${sumRoofArea}\\cdot ${q5}}{10000}=${flow}\\space\\text{л/с}$`);
-      setFormulaQ5(`$q_5=4^${n}\\cdot ${q20}=${q5}$`);
+      setFormulaQ5(`$q_5=4^{${n}}\\cdot ${q20}=${q5}$`);
     }
   }, [data]);
 
@@ -85,15 +85,12 @@ export default function RainRoofTemplate({ data, title }: TemplateProps) {
       >
         {title}
       </Text>
-
       <div className={style.block}>
         <Latex>{formulaQ}</Latex>
       </div>
-
       <div className={style.block}>
         <Latex>{formulaQ5}</Latex>
       </div>
-
     </div>
   );
 }
