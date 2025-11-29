@@ -1,25 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { rainRoofsApiEndpoints } from '../api/rain-roofs-api/endpoints/index';
-
 import { type RootState } from '..';
 
 export type RainRoofsBlocksState = {
-  data: {
-    blocks: BlockType[];
-  };
+  data: [],
   rainRoofs: ItemType | null;
 };
 
 export const initialStateRainRoofsBlock: RainRoofsBlocksState = {
-  data: {
-    blocks: [],
-  },
+  data: [],
   rainRoofs: null,
 };
 
 const slice = createSlice({
-  name: 'RainRoofs',
+  name: 'rain-roofs',
   initialState: initialStateRainRoofsBlock,
   reducers: {},
   extraReducers: (builder) => {
