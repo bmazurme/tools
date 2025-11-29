@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { rainRunoffsApiEndpoints } from '../api/rain-runoffs-api/endpoints/index';
-
 import type { RootState } from '..';
 
 type RainRunoffsState = {
