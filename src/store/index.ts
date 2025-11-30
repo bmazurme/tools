@@ -3,9 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {
   projectsApi, documentsApi, usersApi, typesApi, blocksApi,
   rainRoofsApi, rainRunoffsApi, rainPlacesApi, rainConditionsApi,
-  itemsApi,
-  activitiesApi,
-  // authApi,
+  itemsApi, activitiesApi, // authApi,
 } from './api/index';
 
 import documentsReducer from './slices/documents-slice';

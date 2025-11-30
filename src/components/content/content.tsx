@@ -1,6 +1,10 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
+import {
+  useCallback, useMemo,
+  type PropsWithChildren,
+} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
 import {
@@ -9,10 +13,6 @@ import {
   FolderOpen, Gear, Moon, Pencil, Person, SquareBars, Sun,
   ArrowRightFromSquare,
 } from '@gravity-ui/icons';
-import {
-  useCallback, useMemo,
-  type PropsWithChildren,
-} from 'react';
 
 import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcrumbs';
 import { block, Logo } from '../logo/logo';

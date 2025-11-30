@@ -1,7 +1,5 @@
 import usersApi from '../index';
 
-// type FormPayload = Omit<UserType, 'id'>;
-
 const usersApiEndpoints = usersApi
   .enhanceEndpoints({
     addTagTypes: ['Users'],
