@@ -246,7 +246,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
               size="l"
               width="max"
               onUpdate={field.onChange}
-              defaultValue={[field.value]}
+              defaultValue={field.value ? [field.value] : []}
               errorMessage={fieldState.error?.message}
               validationState={errors?.place ? 'invalid' : undefined}
               onOpenChange={async () => await getPlaces()}
@@ -264,7 +264,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
               size="l"
               width="max"
               onUpdate={field.onChange}
-              defaultValue={[field.value]}
+              defaultValue={field.value ? [field.value] : []}
               errorMessage={fieldState.error?.message}
               validationState={errors?.condition ? 'invalid' : undefined}
               onOpenChange={async () => await getConditions()}
