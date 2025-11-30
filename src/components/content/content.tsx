@@ -8,8 +8,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
 import {
-  CaretLeft,
-  CaretRight,
+  CaretLeft, CaretRight,
   FolderOpen, Gear, Moon, Pencil, Person, SquareBars, Sun,
   ArrowRightFromSquare,
 } from '@gravity-ui/icons';
@@ -18,9 +17,13 @@ import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcru
 import { block, Logo } from '../logo/logo';
 
 import useUser from '../../hooks/use-user';
-import { useToggleCompactMutation, useToggleThemeMutation, useSignOutMutation } from '../../store';
+import {
+  useToggleCompactMutation, useToggleThemeMutation, useSignOutMutation, toggleCompactOptimistic,
+  toggleThemeOptimistic,
+} from '../../store';
 
 import style from './content.module.css';
+import { useAppDispatch } from '../../hooks';
 
 type ContentProps = {
   sidebar?: boolean;
@@ -30,9 +33,10 @@ const b = block('collapse-button');
 
 export default function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
   const user = useUser();
+  const dispatch = useAppDispatch();
   const [signOut] = useSignOutMutation();
   const [toggleTheme] = useToggleThemeMutation();
-  const [toggleCompact] = useToggleCompactMutation();
+  const [setCompact] = useToggleCompactMutation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,8 +45,16 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
     navigate('/');
   };
 
+  const onToggleCompact = () => {
+    dispatch(toggleCompactOptimistic({ isCompact: !user?.isCompact }));
+    setCompact({ isCompact: !user?.isCompact });
+  };
+
   const handleThemeToggle = useCallback(
-    (isDark: boolean) => () => toggleTheme({ isDark }),
+    (isDark: boolean) => () => {
+      dispatch(toggleThemeOptimistic({ isDark }));
+      toggleTheme({ isDark });
+    },
     [toggleTheme],
   );
 
@@ -227,7 +239,7 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
           </div>
 
           <button
-            onClick={() => toggleCompact({ isCompact: !user?.isCompact })}
+            onClick={onToggleCompact}
             className={b({ compact: user?.isCompact }, 'gn-collapse-button gn-collapse-button_compact')}
             aria-label="Компакт"
           >
