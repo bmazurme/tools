@@ -36,15 +36,16 @@ const fields = [
   },
 ];
 
-export default function RainRoofItem({ item, index }:
-  { item: (ItemType); index: number }) {
+interface IRainRoofItem {
+  item: (ItemType);
+  index: number;
+}
+
+export default function RainRoofItem({ item, index }: IRainRoofItem) {
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const linkToDetails = () => navigate(
-    `${item.id}`,
-    // { state: { pathname: location } }
-  );
+  const linkToDetails = () => navigate(`${item.id}`);
 
   const [updateItem] = useUpdateItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
