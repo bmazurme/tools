@@ -144,8 +144,13 @@ const FIELD_CONFIG = [
   },
 ] as const;
 
-export default function RainRunoffModal({ item, open, setOpen }:
-  { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
+interface IRainRunoffModal {
+  item: (ItemType);
+  open: boolean;
+  setOpen: (val: boolean) => void;
+}
+
+export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModal) {
   const [getPlaces] = useGetRainPlaceMutation();
   const [getConditions] = useGetRainConditionsMutation();
   const [updateRainRunoffs] = useUpdateRainRunoffsMutation();

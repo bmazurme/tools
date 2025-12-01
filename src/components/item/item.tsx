@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { useState, type ReactNode } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import { Minus, Pencil, Receipt } from '@gravity-ui/icons';
@@ -6,16 +7,16 @@ import ConfirmModal from '../confirm-modal/confirm-modal';
 
 import { useDeleteItemMutation } from '../../store';
 
+interface IItemProps {
+  children: ReactNode;
+  itemId: number;
+  editAction: () => void;
+  detailAction?: () => void;
+}
+
 export default function Item({
   children, itemId, editAction, detailAction,
-}:
-  {
-    children: ReactNode;
-    itemId: number;
-    editAction: () => void;
-    // eslint-disable-next-line react/require-default-props
-    detailAction?: () => void;
-  }) {
+}: IItemProps) {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [deleteItem] = useDeleteItemMutation();
 
