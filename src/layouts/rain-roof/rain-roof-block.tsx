@@ -31,12 +31,12 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
     const dragItem = blocks[dragIndex];
 
     if (dragItem) {
-      const coppiedStateArray = [...blocks];
-      const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
-      coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
+      const copiedStateArray = [...blocks];
+      const prevItem = copiedStateArray.splice(hoverIndex, 1, dragItem);
+      copiedStateArray.splice(dragIndex, 1, prevItem[0]);
 
       await refreshBlocks({
-        data: coppiedStateArray.map((item, i) => ({ ...item, index: i })),
+        data: copiedStateArray.map((item, i) => ({ ...item, index: i })),
         id: Number(id),
       });
     }
