@@ -27,6 +27,7 @@ export default function ProjectAddPage() {
       const { data: project } = await createProject(data) as unknown as { data: ProjectType };
       navigate(`/project/${project.id}`);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при создании проекта:', error);
     }
   };

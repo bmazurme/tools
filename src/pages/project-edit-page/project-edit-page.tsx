@@ -32,6 +32,7 @@ export default function ProjectEditPage() {
       await updateProject({ id: projectId!, ...data });
       navigate(`/project/${projectId}`);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
   };
