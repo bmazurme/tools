@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { itemsApiEndpoints } from '../api/items-api/endpoints/index';

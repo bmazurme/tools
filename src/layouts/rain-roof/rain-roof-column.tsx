@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
 import type { ReactNode } from 'react';

@@ -136,6 +136,7 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
         });
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
   };

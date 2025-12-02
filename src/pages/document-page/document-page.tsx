@@ -34,6 +34,7 @@ export default function DocumentPage() {
         await updateDocument({ id: Number(id!), name });
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
   };
