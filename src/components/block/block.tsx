@@ -44,6 +44,7 @@ export default function Block({ blockId, value }: BlockProps) {
         await updateBlock({ ...value, name });
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
   };

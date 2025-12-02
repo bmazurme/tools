@@ -75,6 +75,7 @@ const slice = createSlice({
       )
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchRejected,
+        // eslint-disable-next-line no-console
         (_state, action) => console.log('rejected', action),
       );
   },

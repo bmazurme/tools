@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
@@ -140,6 +139,7 @@ export default function RainRoofItem({ item, index }: IRainRoofItem) {
         });
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
   };

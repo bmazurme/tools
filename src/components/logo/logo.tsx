@@ -8,6 +8,7 @@ import { Icon, type IconProps } from '@gravity-ui/uikit';
 import './logo.scss';
 
 const NAMESPACE = 'gn-';
+// eslint-disable-next-line react-refresh/only-export-components
 export const block = withNaming({ n: NAMESPACE, e: '__', m: '_' });
 
 const b = block('logo');
