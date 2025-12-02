@@ -35,6 +35,19 @@ jobs:
       # - name: Validate package integrity
       #   run: npm verify-tree
 
+      - name: Check for outdated dependencies
+        run: |
+          echo "🔍 Checking for outdated packages..."
+          ncu --target=minor  # Проверяем минорные обновления (безопаснее)
+          # ncu --target=patch  # Только патчи
+          # ncu --target=latest  # Все возможные обновления (рискованнее)
+
+      - name: (Optional) Update package.json with latest compatible versions
+        run: |
+          echo "📝 Updating package.json with recommended versions..."
+          ncu -u --target=minor
+          npm install  # Переустанавливаем зависимости после обновления package.json
+
       - name: Run linting
         run: npm run lint || echo "Linting failed, but continuing..."
 
