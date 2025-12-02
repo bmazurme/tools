@@ -3,23 +3,25 @@ import { useParams } from 'react-router-dom';
 
 import Board from './rain-runoff-board';
 
-import { useGetBlocksMutation, useGetRainRunoffsItemsMutation } from '../../store';
+import { documentSelector, useGetBlocksMutation, useGetRainRunoffsItemsMutation } from '../../store';
+import { useAppSelector } from '../../hooks';
 
-export default function RainRunoffPage() {
-  const { id } = useParams();
-  const [getRainRoofs] = useGetBlocksMutation();
+export default function RainRunoffLayout() {
+  const { id, typeId } = useParams();
+  const document = useAppSelector(documentSelector);
+  const [getBlock] = useGetBlocksMutation();
   const [getItems] = useGetRainRunoffsItemsMutation();
 
   useEffect(() => {
     if (id) {
-      getRainRoofs(Number(id));
+      getBlock(Number(id));
       getItems(Number(id));
     }
-  }, [getRainRoofs, id]);
+  }, [getBlock, id]);
 
   return (
     <div className="gapb">
-      <Board />
+      {document?.type.link !== typeId ? <>error</> : <Board />}
     </div>
   );
 }

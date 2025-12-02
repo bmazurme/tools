@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from '@gravity-ui/uikit';
+import { Text, TextInput } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
 import BackButton from '../../components/back-button/back-button';
+import Buttons from '../../components/buttons/buttons';
 import fields from './project-add-page.fields';
 
 import { useCreateProjectMutation } from '../../store';
@@ -21,7 +22,6 @@ export default function ProjectAddPage() {
       name: '', description: '', address: '',
     },
   });
-  const handleBack = () => navigate(-1);
   const onSubmit = async (data: FormPayload) => {
     try {
       const { data: project } = await createProject(data) as unknown as { data: ProjectType };
@@ -57,15 +57,7 @@ export default function ProjectAddPage() {
           />
         ))}
 
-        <div className="buttons">
-          <Button view="action" size="l" type="submit">
-            Сохранить
-          </Button>
-          <Button view="flat" size="l" onClick={handleBack}>
-            Отменить
-          </Button>
-        </div>
-
+        <Buttons />
       </form>
     </Content>
   );

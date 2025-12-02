@@ -2,10 +2,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Text, TextInput } from '@gravity-ui/uikit';
+import { Text, TextInput } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
 import BackButton from '../../components/back-button/back-button';
+import Buttons from '../../components/buttons/buttons';
 import fields from './project-edit-page.fields';
 
 import { useGetProjectMutation, useUpdateProjectMutation } from '../../store';
@@ -26,7 +27,6 @@ export default function ProjectEditPage() {
     },
   });
 
-  const handleBack = () => navigate(-1);
   const onSubmit = async (data: FormPayload) => {
     try {
       await updateProject({ id: projectId!, ...data });
@@ -74,15 +74,7 @@ export default function ProjectEditPage() {
           />
         ))}
 
-        <div className="buttons">
-          <Button view="action" size="l" type="submit">
-            Сохранить
-          </Button>
-          <Button view="flat" size="l" onClick={handleBack}>
-            Отменить
-          </Button>
-        </div>
-
+        <Buttons />
       </form>
     </Content>
   );

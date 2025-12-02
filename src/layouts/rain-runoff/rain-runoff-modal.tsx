@@ -144,8 +144,13 @@ const FIELD_CONFIG = [
   },
 ] as const;
 
-export default function RainRunoffModal({ item, open, setOpen }:
-  { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
+interface IRainRunoffModal {
+  item: (ItemType);
+  open: boolean;
+  setOpen: (val: boolean) => void;
+}
+
+export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModal) {
   const [getPlaces] = useGetRainPlaceMutation();
   const [getConditions] = useGetRainConditionsMutation();
   const [updateRainRunoffs] = useUpdateRainRunoffsMutation();
@@ -246,7 +251,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
               size="l"
               width="max"
               onUpdate={field.onChange}
-              defaultValue={[field.value]}
+              defaultValue={field.value ? [field.value] : []}
               errorMessage={fieldState.error?.message}
               validationState={errors?.place ? 'invalid' : undefined}
               onOpenChange={async () => await getPlaces()}
@@ -264,7 +269,7 @@ export default function RainRunoffModal({ item, open, setOpen }:
               size="l"
               width="max"
               onUpdate={field.onChange}
-              defaultValue={[field.value]}
+              defaultValue={field.value ? [field.value] : []}
               errorMessage={fieldState.error?.message}
               validationState={errors?.condition ? 'invalid' : undefined}
               onOpenChange={async () => await getConditions()}

@@ -28,12 +28,12 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
     const dragItem = blocks[dragIndex];
 
     if (dragItem) {
-      const coppiedStateArray = [...blocks];
-      const prevItem = coppiedStateArray.splice(hoverIndex, 1, dragItem);
-      coppiedStateArray.splice(dragIndex, 1, prevItem[0]);
+      const copiedStateArray = [...blocks];
+      const prevItem = copiedStateArray.splice(hoverIndex, 1, dragItem);
+      copiedStateArray.splice(dragIndex, 1, prevItem[0]);
 
       await refreshBlocks({
-        data: coppiedStateArray.map((item, i) => ({ ...item, index: i })),
+        data: copiedStateArray.map((item, i) => ({ ...item, index: i })),
         id: Number(id),
       });
     }
@@ -111,24 +111,24 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
         {returnItemsForColumn(blockItems)}
         {blockItems.length > 0
         && (
-        <ColumnFooter>
-          <div className="fields">
-            <Text variant="code-1" className={style.id} />
-            <Text variant="code-1" className={style.name} />
-            <Text variant="code-1" className={style.area} />
-            <Text variant="code-1" className={style.intensity} />
-            <Text variant="code-1" className={style.lengthPipe} />
-            <Text variant="code-1" className={style.lengthTray} />
-            <Text variant="code-1" className={style.velocityPipe} />
-            <Text variant="code-1" className={style.velocityTray} />
-            <Text variant="code-1" className={style.timeInit}>
-              Итого:
-            </Text>
-            <Text variant="code-1" className={style.flow}>
-              {sum.toFixed(2)}
-            </Text>
-          </div>
-        </ColumnFooter>
+          <ColumnFooter>
+            <div className="fields">
+              <Text variant="code-1" className={style.id} />
+              <Text variant="code-1" className={style.name} />
+              <Text variant="code-1" className={style.area} />
+              <Text variant="code-1" className={style.intensity} />
+              <Text variant="code-1" className={style.lengthPipe} />
+              <Text variant="code-1" className={style.lengthTray} />
+              <Text variant="code-1" className={style.velocityPipe} />
+              <Text variant="code-1" className={style.velocityTray} />
+              <Text variant="code-1" className={style.timeInit}>
+                Итого:
+              </Text>
+              <Text variant="code-1" className={style.flow}>
+                {sum.toFixed(2)}
+              </Text>
+            </div>
+          </ColumnFooter>
         )}
       </Column>
     </div>

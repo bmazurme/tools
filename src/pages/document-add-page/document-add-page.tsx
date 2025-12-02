@@ -2,11 +2,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  Button, Select, Text, TextInput,
-} from '@gravity-ui/uikit';
+import { Select, Text, TextInput } from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
+import Buttons from '../../components/buttons/buttons';
 import BackButton from '../../components/back-button/back-button';
 import {
   typesSelector,
@@ -34,7 +33,6 @@ export default function DocumentAddPage() {
     },
   });
 
-  const handleBack = () => navigate(-1);
   const onSubmit = async ({ name, type }: FormPayload) => {
     const result = await createDocument({
       name,
@@ -88,15 +86,7 @@ export default function DocumentAddPage() {
           />
         ))}
 
-        <div className="buttons">
-          <Button view="action" size="l" type="submit">
-            Сохранить
-          </Button>
-          <Button view="flat" size="l" onClick={handleBack}>
-            Отменить
-          </Button>
-        </div>
-
+        <Buttons />
       </form>
     </Content>
   );

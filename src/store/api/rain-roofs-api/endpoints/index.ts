@@ -30,7 +30,14 @@ const rainRoofsApiEndpoints = rainRoofsApi
         invalidatesTags: ['RainRoofs'],
       }),
 
-      getRainRoofItems: builder.mutation<ItemType[], number>({
+      getRainRoofsItems: builder.mutation<ItemType[], number>({
+        query: (id: number) => ({
+          url: `/rain-roofs/document/${id}`,
+          method: 'GET',
+        }),
+        invalidatesTags: ['RainRoofs'],
+      }),
+      getRainRoofsItem: builder.mutation<ItemType, number>({
         query: (id: number) => ({
           url: `/rain-roofs/${id}`,
           method: 'GET',
@@ -44,6 +51,7 @@ export const {
   useCreateRainRoofItemMutation,
   useGetRainRoofsMutation,
   useUpdateRainRoofsMutation,
-  useGetRainRoofItemsMutation,
+  useGetRainRoofsItemsMutation,
+  useGetRainRoofsItemMutation,
 } = rainRoofsApiEndpoints;
 export { rainRoofsApiEndpoints };

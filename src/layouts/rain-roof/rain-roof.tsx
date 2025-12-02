@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 
 import Board from './rain-roof-board';
 
-import { useGetBlocksMutation, useGetRainRoofItemsMutation } from '../../store';
+import { useGetBlocksMutation, useGetRainRoofsItemsMutation, documentSelector } from '../../store';
+import { useAppSelector } from '../../hooks';
 
-export default function RainRoofPage() {
-  const { id } = useParams();
+export default function RainRoofLayout() {
+  const { id, typeId } = useParams();
+  const document = useAppSelector(documentSelector);
   const [getBlock] = useGetBlocksMutation();
-  const [getItems] = useGetRainRoofItemsMutation();
+  const [getItems] = useGetRainRoofsItemsMutation();
 
   useEffect(() => {
     if (id) {
@@ -19,7 +21,7 @@ export default function RainRoofPage() {
 
   return (
     <div className="gapb">
-      <Board />
+      {document?.type.link !== typeId ? <>error</> : <Board />}
     </div>
   );
 }

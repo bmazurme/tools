@@ -22,9 +22,12 @@ const fields = [
 ];
 
 type FormPayload = { name: string };
+interface BlockProps {
+  blockId: number;
+  value: BlockType;
+}
 
-export default function Block({ blockId, value }
-  : { blockId: number; value: BlockType }) {
+export default function Block({ blockId, value }: BlockProps) {
   const [updateBlock] = useUpdateBlockMutation();
   const [deleteBlock] = useDeleteBlockMutation();
 
