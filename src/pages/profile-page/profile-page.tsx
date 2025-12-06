@@ -4,13 +4,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import {
-  Button, Text, TextInput, Icon,
+  Button, Text, TextInput, Icon, Checkbox,
 } from '@gravity-ui/uikit';
 import { Circle } from '@gravity-ui/icons';
 
 import Content from '../../components/content/content';
 import BackButton from '../../components/back-button/back-button';
-import { useUpdateUserMutation, useGetActivitiesMutation, activitiesSelector } from '../../store';
+import {
+  useUpdateUserMutation, useGetActivitiesMutation, activitiesSelector, useGetStatusMutation,
+  subscriptionsSelector,
+} from '../../store';
 import useUser from '../../hooks/use-user';
 import { TEXT_INPUT_PROPS } from '../../config';
 
@@ -40,7 +43,9 @@ export default function ProfilePage() {
   const user = useUser();
   const [updateUser] = useUpdateUserMutation();
   const [getActivities] = useGetActivitiesMutation();
+  const [getStatus] = useGetStatusMutation();
   const activities = useAppSelector(activitiesSelector);
+  const status = useAppSelector(subscriptionsSelector);
 
   const handleBack = () => navigate(-1);
   const { control, handleSubmit } = useForm<FormPayload>({
@@ -81,6 +86,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     getActivities();
+    getStatus();
   }, []);
 
   return (
@@ -131,7 +137,15 @@ export default function ProfilePage() {
         </div>
 
       </form>
+
       <div className="content">
+        <Checkbox
+          size="l"
+          disabled
+          checked={status}
+        >
+          Статус
+        </Checkbox>
         <Text variant="header-1">
           Активность
         </Text>

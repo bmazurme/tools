@@ -10,6 +10,7 @@ export { default as rainPlacesApi } from './rain-places-api/index';
 export { default as rainConditionsApi } from './rain-conditions-api/index';
 export { default as authApi } from './auth-api/index';
 export { default as activitiesApi } from './activities-api/index';
+export { default as subscriptionsApi } from './subscriptions-api/index';
 
 export * from './projects-api/endpoints/index';
 export * from './documents-api/endpoints/index';
@@ -23,3 +24,4 @@ export * from './rain-places-api/endpoints/index';
 export * from './rain-conditions-api/endpoints/index';
 export * from './auth-api/endpoints/index';
 export * from './activities-api/endpoints/index';
+export * from './subscriptions-api/endpoints/index';
