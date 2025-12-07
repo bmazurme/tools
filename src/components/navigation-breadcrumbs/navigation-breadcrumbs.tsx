@@ -20,6 +20,7 @@ export default function NavigationBreadcrumbs() {
     document: 'Документы',
     add: 'Добавить',
     edit: 'Редактировать',
+    subscriptions: 'Подписка',
     'rain-roof': 'Расчёт дождевых вод с кровли',
     'rain-runoff': 'Расчёт дождевых вод с территории',
   };
