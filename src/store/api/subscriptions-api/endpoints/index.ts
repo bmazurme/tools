@@ -17,10 +17,18 @@ const subscriptionsApiEndpoints = subscriptionsApi
         }),
         invalidatesTags: ['Subscriptions'],
       }),
+      renew: builder.mutation<void, { id: number }>({
+        query: ({ id }) => ({
+          url: `/subscriptions/${id}/renew`,
+          method: 'POST',
+        }),
+        invalidatesTags: ['Subscriptions'],
+      }),
     }),
   });
 
 export const {
   useGetStatusMutation,
+  useRenewMutation,
 } = subscriptionsApiEndpoints;
 export { subscriptionsApiEndpoints };
