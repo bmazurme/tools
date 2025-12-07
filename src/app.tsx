@@ -12,6 +12,7 @@ import ProjectEditPage from './pages/project-edit-page';
 import DocumentAddPage from './pages/document-add-page';
 import DocumentPage from './pages/document-page/document-page';
 import ProfilePage from './pages/profile-page';
+import SubscriptionsPage from './pages/subscriptions-page';
 
 import DynamicTypeLayout from './layouts/dynamic-type-layout';
 import DynamicTemplateLayout from './layouts/dynamic-template-layout';
@@ -29,6 +30,7 @@ function App() {
       <Routes location={background || location}>
         <Route path="projects/:pageId?" element={(<ProjectsPage />)} />
         <Route path="projects/add" element={(<ProjectAddPage />)} />
+        <Route path="subscriptions" element={(<SubscriptionsPage />)} />
 
         <Route
           path="project"
