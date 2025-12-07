@@ -34,51 +34,66 @@ export default function MainPage() {
         Hic, atque, quia sunt consectetur eius corrupti,
         expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
       </div>
-      <div className={style.cards}>
-        <Card
-          className={style.card}
-          theme="normal"
-          size="l"
-        >
-          <Text variant="subheader-1">Водоснабжение</Text>
-        </Card>
-        <Card
-          className={style.card}
-          theme="info"
-          size="l"
-        >
-          <Text variant="subheader-1">Водоотведение</Text>
-          <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
-          <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
-        </Card>
-        <Card
-          className={style.card}
-          theme="success"
-          size="l"
-        >
-          Success
-        </Card>
-        <Card
-          className={style.card}
-          theme="warning"
-          size="l"
-        >
-          Warning
-        </Card>
-        <Card
-          className={style.card}
-          theme="danger"
-          size="l"
-        >
-          Danger
-        </Card>
-        <Card
-          className={style.card}
-          theme="utility"
-          size="l"
-        >
-          Utility
-        </Card>
+
+      <div className={style.container}>
+        <Text variant="header-2">
+          Модули
+        </Text>
+        <div className={style.cards}>
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            <Text variant="subheader-3">Водоснабжение</Text>
+          </Card>
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            <Text variant="subheader-3">Водоотведение</Text>
+            <div className={style.list}>
+              <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
+              <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
+            </div>
+          </Card>
+
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            Success
+          </Card>
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            Warning
+          </Card>
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            Danger
+          </Card>
+          <Card
+            className={style.card}
+            theme="normal"
+            view="filled"
+            size="l"
+          >
+            Utility
+          </Card>
+        </div>
       </div>
     </div>
   );
