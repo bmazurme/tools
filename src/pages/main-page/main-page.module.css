@@ -34,15 +34,35 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
-  padding: 40px;
-  gap: 40px;
+  gap: 10px;
+  box-sizing: border-box;
+  margin-top: 20px;
 }
 
 .card {
-  width: 320px;
-  height: 100px;
+  min-height: 240px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 0 0 calc(33.333333% - 8px);
+  max-width: calc(33.333333% - 0px);
+  margin: 0;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: calc(1232px + 8px * 2 + 40px * 2);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0;
 }
