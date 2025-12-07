@@ -135,10 +135,13 @@ export default function ProfilePage() {
             Отменить
           </Button>
         </div>
-
       </form>
 
       <div className="content">
+        <Text variant="header-1">
+          Подписка
+        </Text>
+
         <Checkbox
           size="l"
           disabled
@@ -146,6 +149,18 @@ export default function ProfilePage() {
         >
           Статус
         </Checkbox>
+        <div className="buttons">
+          <Button
+            view="raised"
+            size="l"
+            onClick={() => navigate('/subscriptions')}
+          >
+            Продлить
+          </Button>
+        </div>
+      </div>
+
+      <div className="content">
         <Text variant="header-1">
           Активность
         </Text>
