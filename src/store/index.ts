@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {
   projectsApi, documentsApi, usersApi, typesApi, blocksApi,
   rainRoofsApi, rainRunoffsApi, rainPlacesApi, rainConditionsApi,
-  itemsApi, activitiesApi, subscriptionsApi, // authApi,
+  itemsApi, activitiesApi, subscriptionsApi, // paymentsApi, // authApi,
 } from './api/index';
 
 import documentsReducer from './slices/documents-slice';
@@ -33,6 +33,7 @@ export * from './api/rain-conditions-api/endpoints/index';
 export * from './api/auth-api/endpoints/index';
 export * from './api/activities-api/endpoints/index';
 export * from './api/subscriptions-api/endpoints/index';
+export * from './api/payments-api/endpoints/index';
 
 export * from './slices/index';
 
