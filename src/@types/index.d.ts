@@ -85,6 +85,8 @@ type UserType = {
   status: string;
   isDark: boolean;
   isCompact: boolean;
+  subscription: boolean;
+  roles: string[];
 }
 
 type TotalType = { total: number };
