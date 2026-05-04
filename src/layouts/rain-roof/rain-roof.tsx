@@ -9,6 +9,7 @@ import { useAppSelector } from '../../hooks';
 export default function RainRoofLayout() {
   const { id, typeId } = useParams();
   const document = useAppSelector(documentSelector);
+  // console.log(document);
   const [getBlock] = useGetBlocksMutation();
   const [getItems] = useGetRainRoofsItemsMutation();
 
