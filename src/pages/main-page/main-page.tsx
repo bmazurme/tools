@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Text } from '@gravity-ui/uikit';
-
-import style from './main-page.module.css';
 import useUser from '../../hooks/use-user';
 
+import style from './main-page.module.css';
+
 export default function MainPage() {
-  const user = useUser();
+  const { user } = useUser();
   const navigate = useNavigate();
   const handleProjects = () => navigate('/signin');
 
