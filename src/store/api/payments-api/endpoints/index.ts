@@ -1,8 +1,9 @@
 import paymentsApi from '../index';
 
-// export type Subscriptions = {
-//   isActive: boolean;
-// };
+export type Subscriptions = {
+  isActive: boolean;
+  id: number | null;
+};
 
 const paymentsApiEndpoints = paymentsApi
   .enhanceEndpoints({
@@ -10,7 +11,7 @@ const paymentsApiEndpoints = paymentsApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      payments: builder.mutation<void, void>({
+      payments: builder.mutation<Subscriptions, void>({
         query: () => ({
           url: '/payments',
           method: 'GET',

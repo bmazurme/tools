@@ -2,6 +2,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { authApiEndpoints } from '../api/auth-api/endpoints';
+import { paymentsApiEndpoints } from '../api/payments-api/endpoints';
 import type { RootState } from '..';
 
 type UsersState = {
@@ -63,6 +64,18 @@ const usersSlice = createSlice({
       )
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchPending,
+        (state) => ({ ...state, loading: true }),
+      )
+      .addMatcher(
+        paymentsApiEndpoints.endpoints.payments.matchFulfilled,
+        (state, action) => {
+          if (state.user !== null) {
+            state.user.subscription = action.payload.id;
+          }
+        },
+      )
+      .addMatcher(
+        paymentsApiEndpoints.endpoints.payments.matchRejected,
         (state) => ({ ...state, loading: true }),
       );
   },

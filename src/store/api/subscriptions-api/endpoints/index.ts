@@ -1,6 +1,6 @@
 import subscriptionsApi from '../index';
 
-export type Subscriptions = {
+type Subscriptions = {
   isActive: boolean;
   id: number;
 };

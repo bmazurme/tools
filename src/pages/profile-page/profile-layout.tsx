@@ -161,7 +161,7 @@ export default function ProfileLayout() {
         <Checkbox
           size="l"
           disabled
-          checked={user?.subscription}
+          checked={!!user?.subscription}
         >
           Статус
         </Checkbox>

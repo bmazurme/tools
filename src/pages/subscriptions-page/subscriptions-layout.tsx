@@ -1,26 +1,36 @@
 import { Text, Button } from '@gravity-ui/uikit';
 
 import useAppToaster from '../../hooks/use-app-toaster';
-import { useAppSelector } from '../../hooks';
+import useUser from '../../hooks/use-user';
 
-import { subscriptionIdSelector, usePaymentsMutation, useRenewMutation } from '../../store';
+import { usePaymentsMutation, useRenewMutation } from '../../store';
 
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 
-export default function SubscriptionsPage() {
+export default function SubscriptionsLayout() {
+  const { user } = useUser();
   const { showSuccess, showError } = useAppToaster();
-  const subId = useAppSelector(subscriptionIdSelector);
   const [sendPay] = usePaymentsMutation();
   const [renew] = useRenewMutation();
 
   const renewSubscription = async () => {
     try {
-      const result = await renew({ id: subId! }).unwrap() as unknown as { endDate: string };
+      const id = user!.subscription!;
+      const result = await renew({ id }).unwrap() as unknown as { endDate: string };
       const date = new Date(result.endDate);
       const localString = date.toLocaleString('ru-RU');
       showSuccess('Подписка успешно продлена', `до ${localString}`);
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении статуса');
+      showError(`${error}`, 'Ошибка при продлении подписки');
+    }
+  };
+  const createSubscription = async () => {
+    try {
+      // const result = 
+      await sendPay().unwrap() as unknown as { id: number| null, endDate: string };
+      showSuccess('Подписка успешно создана');
+    } catch (error) {
+      showError(`${error}`, 'Ошибка при создании подписки');
     }
   };
 
@@ -28,18 +38,12 @@ export default function SubscriptionsPage() {
     <LayoutWrapper isLoading={false}>
       <div className="content">
         <Text variant="header-1">Подписка</Text>
-        <Text variant="body-1">
-          Main
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-          Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
-          Hic, atque, quia sunt consectetur eius corrupti,
-          expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
-        </Text>
 
         <Button
           view="outlined-info"
           size="l"
-          onClick={() => sendPay()}
+          disabled={!!user?.subscription}
+          onClick={createSubscription}
         >
           Создать подписку
         </Button>
@@ -47,6 +51,7 @@ export default function SubscriptionsPage() {
         <Button
           view="outlined-success"
           size="l"
+          disabled={!user?.subscription}
           onClick={renewSubscription}
         >
           Продлить подписку
