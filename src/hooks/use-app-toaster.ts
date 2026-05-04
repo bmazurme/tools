@@ -3,7 +3,7 @@ import { useToaster } from '@gravity-ui/uikit';
 const useAppToaster = () => {
   const { add: addToast } = useToaster();
 
-  const showSuccess = (title: string, content: string) => {
+  const showSuccess = (title: string, content?: string) => {
     addToast({
       title,
       content,
