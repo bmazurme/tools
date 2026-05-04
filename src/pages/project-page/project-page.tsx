@@ -1,18 +1,16 @@
-import { Outlet } from 'react-router-dom';
-
+/* eslint-disable react/no-children-prop */
 import Content from '../../components/content/content';
-import BackButton from '../../components/back-button/back-button';
+import ProtectedWrapper from '../../hocs/protected-wrapper';
+import RedirectToLogin from '../../hocs/redirect-to-login';
+import ProjectLayout from './project-layout';
 
 export default function ProjectPage() {
   return (
     <Content sidebar>
-      <div className="content">
-        <BackButton />
-
-        <div className="project_main">
-          <Outlet />
-        </div>
-      </div>
+      <ProtectedWrapper
+        fallback={<RedirectToLogin />}
+        children={<ProjectLayout />}
+      />
     </Content>
   );
 }
