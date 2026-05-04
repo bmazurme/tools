@@ -8,7 +8,7 @@ interface ThemeWrapperProps {
 }
 
 export default function ThemeWrapper({ children }: ThemeWrapperProps) {
-  const user = useUser();
+  const { user } = useUser();
   const theme = React.useMemo(() => (user?.isDark ? 'dark' : 'light'), [user?.isDark]);
 
   return (

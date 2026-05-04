@@ -8,14 +8,18 @@ import {
   useGetDocumentMutation,
   useUpdateDocumentMutation,
   documentSelector,
+  setDocument,
 } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import fields from './document-page.fields';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 type FormPayload = { name: string };
 
 export default function DocumentPage() {
+  const dispatch = useAppDispatch();
+  const { showError } = useAppToaster();
   const { id } = useParams();
   const [getDocument] = useGetDocumentMutation();
   const [updateDocument] = useUpdateDocumentMutation();
@@ -34,16 +38,31 @@ export default function DocumentPage() {
         await updateDocument({ id: Number(id!), name });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при обновлении проекта:', error);
+      showError(`${error}`, 'Ошибка при обновлении проекта');
     }
   };
 
   useEffect(() => {
-    if (id) {
-      getDocument(Number(id));
-    }
-  }, [id]);
+    let isMounted = true;
+
+    const fetchData = async () => {
+      try {
+        const result = await getDocument(Number(id)).unwrap();
+
+        if (!isMounted) return;
+
+        dispatch(setDocument({ document: result }));
+      } catch (error) {
+        showError(`${error}`);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [getDocument, dispatch, id]);
 
   useEffect(() => {
     if (document) {

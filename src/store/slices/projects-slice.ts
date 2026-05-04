@@ -1,7 +1,6 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { projectsApiEndpoints } from '../api/projects-api/endpoints/index';
-import type { RootState } from '..';
+import { projectsApiEndpoints, type RootState } from '..';
 
 type ProjectsState = {
   data: ProjectType[];
@@ -38,13 +37,16 @@ const slice = createSlice({
       ...state,
       data: state.data.map((x) => (x.id !== data.id ? data : x)),
     }),
+    setProjects: (
+      state,
+      { payload }: PayloadAction<{ data: ProjectType[] }>,
+    ) => ({
+      ...state,
+      data: payload.data,
+    }),
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(
-        projectsApiEndpoints.endpoints.getProjectsByPage.matchFulfilled,
-        (state, action) => ({ ...state, data: action.payload.data, total: action.payload.total }),
-      )
       .addMatcher(
         projectsApiEndpoints.endpoints.removeProject.matchFulfilled,
         (state, action) => ({
@@ -56,8 +58,7 @@ const slice = createSlice({
   },
 });
 
-export const { addProject, removeProject } = slice.actions;
-
+export const { addProject, removeProject, setProjects } = slice.actions;
 export default slice.reducer;
 export const projectsSelector = (state: RootState) => state.projects.data;
 export const projectsTotalSelector = (state: RootState) => state.projects.total;

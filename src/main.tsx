@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Toaster, ToasterComponent, ToasterProvider } from '@gravity-ui/uikit';
 
+import ErrorBoundaryWrapper from './components/error-boundary-wrapper';
 import ThemeWrapper from './components/theme-wrapper/theme-wrapper';
 import App from './app';
 import { store } from './store';
@@ -22,7 +23,9 @@ createRoot(document.getElementById('root')!).render(
     <ThemeWrapper>
       <ToasterProvider toaster={toaster}>
         <BrowserRouter>
-          <App />
+          <ErrorBoundaryWrapper>
+            <App />
+          </ErrorBoundaryWrapper>
           <ToasterComponent />
         </BrowserRouter>
       </ToasterProvider>
@@ -31,6 +34,3 @@ createRoot(document.getElementById('root')!).render(
   // </StrictMode>
   ,
 );
-
-// eslint-disable-next-line import/prefer-default-export
-export { toaster };

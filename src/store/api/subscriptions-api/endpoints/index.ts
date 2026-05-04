@@ -2,6 +2,7 @@ import subscriptionsApi from '../index';
 
 export type Subscriptions = {
   isActive: boolean;
+  id: number;
 };
 
 const subscriptionsApiEndpoints = subscriptionsApi

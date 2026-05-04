@@ -1,7 +1,6 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { documentsApiEndpoints } from '../api/documents-api/endpoints/index';
-import type { RootState } from '..';
+import { documentsApiEndpoints, type RootState } from '..';
 
 export type DocumentType = {
   id: number;
@@ -22,7 +21,7 @@ export const initialStateDocuments: DocumentsState = {
   document: null,
 };
 
-const slice = createSlice({
+const documentSlice = createSlice({
   name: 'documents',
   initialState: initialStateDocuments,
   reducers: {
@@ -33,19 +32,23 @@ const slice = createSlice({
       ...state,
       data: state.data.map((x) => (x.id !== data.id ? data : x)),
     }),
+    setDocuments: (
+      state,
+      { payload }: PayloadAction<{ data: DocumentType[] }>,
+    ) => ({
+      ...state,
+      data: payload.data,
+    }),
+    setDocument: (
+      state,
+      { payload }: PayloadAction<{ document: DocumentType }>,
+    ) => ({
+      ...state,
+      document: payload.document,
+    }),
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(
-        documentsApiEndpoints.endpoints.getDocumentsByPage.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload.data, total: payload.total }),
-      )
-      .addMatcher(
-        documentsApiEndpoints.endpoints.getDocument.matchFulfilled,
-        (state, { payload }) => ({
-          ...state, data: state.data, total: state.total, document: payload,
-        }),
-      )
       .addMatcher(
         documentsApiEndpoints.endpoints.removeDocument.matchFulfilled,
         (state, { meta, payload }) => ({
@@ -57,7 +60,8 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
+export default documentSlice.reducer;
+export const { updateDocument, setDocuments, setDocument } = documentSlice.actions;
 export const documentSelector = (state: RootState) => state.documents.document;
 export const documentsSelector = (state: RootState) => state.documents.data;
 export const documentsTotalSelector = (state: RootState) => state.documents.total;

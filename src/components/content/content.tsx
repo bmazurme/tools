@@ -1,8 +1,11 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import {
-  useCallback, useMemo,
+  memo,
+  useCallback,
+  useMemo,
   type PropsWithChildren,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -24,6 +27,7 @@ import {
 
 import style from './content.module.css';
 import { useAppDispatch } from '../../hooks';
+import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
 
 type ContentProps = {
   sidebar?: boolean;
@@ -31,9 +35,10 @@ type ContentProps = {
 
 const b = block('collapse-button');
 
-export default function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
-  const user = useUser();
+const Content = memo(({ children, sidebar = false }: PropsWithChildren & ContentProps) => {
+  const { isLoading } = useIsAuthenticated();
   const dispatch = useAppDispatch();
+  const { user } = useUser();
   const [signOut] = useSignOutMutation();
   const [toggleTheme] = useToggleThemeMutation();
   const [setCompact] = useToggleCompactMutation();
@@ -82,6 +87,10 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
       </Button>
     </>
   ), [user?.isDark, handleThemeToggle]);
+
+  if (isLoading) {
+    return null; // или компонент загрузки: <LoadingSpinner />
+  }
 
   return (
     <div className={style.page}>
@@ -263,13 +272,11 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
           </div>
         </div>
         <div className={style.board}>
-          {children}
+          <>{children}</>
         </div>
       </div>
     </div>
   );
-}
+});
 
-// Content.defaultProps = {
-//   sidebar: false,
-// };
+export default Content;

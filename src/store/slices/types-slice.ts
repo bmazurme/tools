@@ -1,28 +1,26 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-import { typesApiEndpoints } from '../api/types-api/endpoints/index';
 import type { RootState, Type } from '..';
 
 type TypesState = {
-  data: Type[];
+  types: Type[];
 };
 
 export const initialStateTypes: TypesState = {
-  data: [],
+  types: [],
 };
 
-const slice = createSlice({
+const typesSlice = createSlice({
   name: 'types',
   initialState: initialStateTypes,
-  reducers: { },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        typesApiEndpoints.endpoints.getTypes.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
-      );
+  reducers: {
+    setTypes: (state, action) => {
+      state.types = action.payload;
+    },
   },
 });
 
-export default slice.reducer;
-export const typesSelector = (state: RootState) => state.types.data;
+export const { setTypes } = typesSlice.actions;
+export default typesSlice.reducer;
+export const typesSelector = (state: RootState) => state.types;

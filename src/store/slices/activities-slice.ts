@@ -1,28 +1,26 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
-import { activitiesApiEndpoints } from '../api/activities-api/endpoints/index';
 import type { RootState, Activity } from '..';
 
 type ActivitiesState = {
-  data: Activity[];
+  activities: Activity[];
 };
 
 export const initialStateActivities: ActivitiesState = {
-  data: [],
+  activities: [],
 };
 
-const slice = createSlice({
+const activitiesSlice = createSlice({
   name: 'activities',
   initialState: initialStateActivities,
-  reducers: { },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        activitiesApiEndpoints.endpoints.getActivities.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
-      );
+  reducers: {
+    setActivities: (state, action) => {
+      state.activities = action.payload.activities;
+    },
   },
 });
 
-export default slice.reducer;
-export const activitiesSelector = (state: RootState) => state.activities.data;
+export const { setActivities } = activitiesSlice.actions;
+export default activitiesSlice.reducer;
+export const activitiesSelector = (state: RootState) => state.activities.activities;

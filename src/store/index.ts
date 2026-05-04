@@ -1,24 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import {
-  projectsApi, documentsApi, usersApi, typesApi, blocksApi,
-  rainRoofsApi, rainRunoffsApi, rainPlacesApi, rainConditionsApi,
-  itemsApi, activitiesApi, subscriptionsApi, // paymentsApi, // authApi,
+  authApi,
+  usersApi,
+  projectsApi,
+  activitiesApi,
+  subscriptionsApi,
+  documentsApi,
+  paymentsApi,
+  typesApi,
+  blocksApi,
+  itemsApi,
+  rainRoofsApi,
+  rainRunoffsApi,
+  rainPlacesApi,
+  rainConditionsApi,
 } from './api/index';
 
-import documentsReducer from './slices/documents-slice';
-import projectsReducer from './slices/projects-slice';
+import authReducer from './slices/auth-slice';
 import usersReducer from './slices/users-slice';
+import activitiesReducer from './slices/activities-slice';
+import subscriptionsReducer from './slices/subscriptions-slice';
+import projectsReducer from './slices/projects-slice';
+import documentsReducer from './slices/documents-slice';
 import typesReducer from './slices/types-slice';
 import blocksReducer from './slices/blocks-slice';
 import itemsReducer from './slices/items-slice';
-import activitiesReducer from './slices/activities-slice';
-
 import rainRoofsReducer from './slices/rain-roofs-slice';
 import rainRunoffsReducer from './slices/rain-runoffs-slice';
 import rainPlacesReducer from './slices/rain-places-slice';
 import rainConditionsReducer from './slices/rain-conditions-slice';
-import subscriptionsReducer from './slices/subscriptions-slice';
 
 export * from './api/projects-api/endpoints/index';
 export * from './api/documents-api/endpoints/index';
@@ -34,26 +45,32 @@ export * from './api/auth-api/endpoints/index';
 export * from './api/activities-api/endpoints/index';
 export * from './api/subscriptions-api/endpoints/index';
 export * from './api/payments-api/endpoints/index';
+export * from './api/auth-api/endpoints/index';
 
 export * from './slices/index';
 
 export const store = configureStore({
   reducer: {
-    documents: documentsReducer,
+    auth: authReducer,
+    users: usersReducer,
+    activities: activitiesReducer,
+    subscriptions: subscriptionsReducer,
     projects: projectsReducer,
+    documents: documentsReducer,
+    types: typesReducer,
+    blocks: blocksReducer,
+    items: itemsReducer,
     rainRoofs: rainRoofsReducer,
     rainRunoffs: rainRunoffsReducer,
     rainPlaces: rainPlacesReducer,
     rainConditions: rainConditionsReducer,
-    users: usersReducer,
-    types: typesReducer,
-    blocks: blocksReducer,
-    items: itemsReducer,
-    activities: activitiesReducer,
-    subscriptions: subscriptionsReducer,
-    [projectsApi.reducerPath]: projectsApi.reducer,
-    [documentsApi.reducerPath]: documentsApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [projectsApi.reducerPath]: projectsApi.reducer,
+    [activitiesApi.reducerPath]: activitiesApi.reducer,
+    [subscriptionsApi.reducerPath]: subscriptionsApi.reducer,
+    [documentsApi.reducerPath]: documentsApi.reducer,
+    [paymentsApi.reducerPath]: paymentsApi.reducer,
     [typesApi.reducerPath]: typesApi.reducer,
     [blocksApi.reducerPath]: blocksApi.reducer,
     [itemsApi.reducerPath]: itemsApi.reducer,
@@ -61,14 +78,16 @@ export const store = configureStore({
     [rainRunoffsApi.reducerPath]: rainRunoffsApi.reducer,
     [rainPlacesApi.reducerPath]: rainPlacesApi.reducer,
     [rainConditionsApi.reducerPath]: rainConditionsApi.reducer,
-    [activitiesApi.reducerPath]: activitiesApi.reducer,
-    [subscriptionsApi.reducerPath]: subscriptionsApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
-      projectsApi.middleware,
-      documentsApi.middleware,
+      authApi.middleware,
       usersApi.middleware,
+      projectsApi.middleware,
+      activitiesApi.middleware,
+      subscriptionsApi.middleware,
+      documentsApi.middleware,
+      paymentsApi.middleware,
       typesApi.middleware,
       blocksApi.middleware,
       itemsApi.middleware,
@@ -76,8 +95,6 @@ export const store = configureStore({
       rainRunoffsApi.middleware,
       rainPlacesApi.middleware,
       rainConditionsApi.middleware,
-      activitiesApi.middleware,
-      subscriptionsApi.middleware,
     ),
 });
 
