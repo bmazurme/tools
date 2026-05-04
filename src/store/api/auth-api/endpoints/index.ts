@@ -1,8 +1,19 @@
-import oauthApi from '..';
+import authApi from '..';
 
-const authApiEndpoints = oauthApi
+type LoginResponse = {
+  accessToken: string;
+  expiresIn: number;
+};
+
+type CheckAuthResponse = {
+  accessToken: string;
+  isAuthenticated: boolean;
+  user: UserType;
+};
+
+const authApiEndpoints = authApi
   .enhanceEndpoints({
-    addTagTypes: ['User'],
+    addTagTypes: ['Auth'],
   })
   .injectEndpoints({
     endpoints: (builder) => ({
@@ -11,9 +22,24 @@ const authApiEndpoints = oauthApi
           url: '/auth/logout',
           method: 'POST',
         }),
+        invalidatesTags: ['Auth'],
+      }),
+      refresh: builder.mutation<LoginResponse, void>({
+        query: () => ({
+          url: '/auth/refresh',
+          method: 'POST',
+        }),
+        invalidatesTags: ['Auth'],
+      }),
+      checkAuth: builder.query<CheckAuthResponse, void>({
+        query: () => ({
+          url: '/auth/check',
+          method: 'GET',
+        }),
+        providesTags: ['Auth'],
       }),
     }),
   });
 
-export const { useSignOutMutation } = authApiEndpoints;
+export const { useSignOutMutation, useCheckAuthQuery, useRefreshMutation } = authApiEndpoints;
 export { authApiEndpoints };

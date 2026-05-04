@@ -3,6 +3,8 @@ import documentsApi from '../index';
 import { type DocumentType } from '../../../slices';
 
 type FormPayload = Omit<DocumentType, 'id'>;
+type DocumentRequest = { id: number; project: number };
+type DocumentResponse = { data: DocumentType[]; total: number };
 
 const documentsApiEndpoints = documentsApi
   .enhanceEndpoints({
@@ -10,9 +12,8 @@ const documentsApiEndpoints = documentsApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      // eslint-disable-next-line max-len
-      getDocumentsByPage: builder.mutation<{ data: DocumentType[], total: number }, { id: number, project: number }>({
-        query: ({ id, project }: { id: number, project: number }) => ({
+      getDocumentsByPage: builder.mutation<DocumentResponse, DocumentRequest>({
+        query: ({ id, project }: DocumentRequest) => ({
           url: `/documents/${project}/page/${id}`,
           method: 'GET',
         }),

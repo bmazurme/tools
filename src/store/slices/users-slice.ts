@@ -1,19 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { usersApiEndpoints } from '../api/users-api/endpoints/index';
 import { authApiEndpoints } from '../api/auth-api/endpoints';
 import type { RootState } from '..';
 
 type UsersState = {
-  data: UserType | null;
+  user: UserType | null;
+  loading: boolean;
 };
 
 export const initialStateUsers: UsersState = {
-  data: null,
+  user: null,
+  loading: true,
 };
 
-const slice = createSlice({
+const usersSlice = createSlice({
   name: 'users',
   initialState: initialStateUsers,
   reducers: {
@@ -21,67 +22,53 @@ const slice = createSlice({
       state,
       { payload }: PayloadAction<{ isCompact: boolean }>,
     ) => {
-      if (state.data !== null) {
-        state.data.isCompact = payload.isCompact;
+      if (state.user !== null) {
+        state.user.isCompact = payload.isCompact;
       }
     },
     toggleThemeOptimistic: (
       state,
       { payload }: PayloadAction<{ isDark: boolean }>,
     ) => {
-      if (state.data !== null) {
-        state.data.isDark = payload.isDark;
+      if (state.user !== null) {
+        state.user.isDark = payload.isDark;
       }
     },
   },
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        usersApiEndpoints.endpoints.getUserMe.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
+        authApiEndpoints.endpoints.checkAuth.matchFulfilled,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        (state, action) => ({ ...state, user: action.payload.user, loading: false }),
       )
       .addMatcher(
-        usersApiEndpoints.endpoints.updateUser.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
+        authApiEndpoints.endpoints.checkAuth.matchRejected,
+        // eslint-disable-next-line no-console
+        (_state, action) => console.log('rejected', action),
       )
       .addMatcher(
-        usersApiEndpoints.endpoints.toggleTheme.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
-      )
-      .addMatcher(
-        usersApiEndpoints.endpoints.toggleTheme.matchRejected,
-        (state, action) => {
-          if (state.data !== null && action.meta.arg !== undefined) {
-            state.data.isDark = !action.meta.arg;
-          }
-        },
-      )
-      .addMatcher(
-        usersApiEndpoints.endpoints.toggleCompact.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: payload }),
-      )
-      .addMatcher(
-        usersApiEndpoints.endpoints.toggleCompact.matchRejected,
-        (state, action) => {
-          if (state.data !== null && action.meta.arg !== undefined) {
-            state.data.isCompact = !action.meta.arg;
-          }
-        },
+        authApiEndpoints.endpoints.checkAuth.matchPending,
+        (state) => ({ ...state, loading: true }),
       )
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchFulfilled,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        (state, _action) => ({ ...state, data: null }),
+        (state, _action) => ({ ...state, user: null, loading: false }),
       )
       .addMatcher(
         authApiEndpoints.endpoints.signOut.matchRejected,
         // eslint-disable-next-line no-console
         (_state, action) => console.log('rejected', action),
+      )
+      .addMatcher(
+        authApiEndpoints.endpoints.signOut.matchPending,
+        (state) => ({ ...state, loading: true }),
       );
   },
 });
 
-export const { toggleCompactOptimistic, toggleThemeOptimistic } = slice.actions;
-
-export default slice.reducer;
-export const usersSelector = (state: RootState) => state.users.data;
+export const { toggleCompactOptimistic, toggleThemeOptimistic } = usersSlice.actions;
+export default usersSlice.reducer;
+export const usersSelector = (state: RootState) => state.users.user;
+export const usersLoadingSelector = (state: RootState) => state.users.loading;
