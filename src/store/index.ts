@@ -30,6 +30,7 @@ import rainRoofsReducer from './slices/rain-roofs-slice';
 import rainRunoffsReducer from './slices/rain-runoffs-slice';
 import rainPlacesReducer from './slices/rain-places-slice';
 import rainConditionsReducer from './slices/rain-conditions-slice';
+// import paymentsReducer from './slices/payments-slice';
 
 export * from './api/projects-api/endpoints/index';
 export * from './api/documents-api/endpoints/index';
@@ -64,6 +65,7 @@ export const store = configureStore({
     rainRunoffs: rainRunoffsReducer,
     rainPlaces: rainPlacesReducer,
     rainConditions: rainConditionsReducer,
+    // payments: paymentsReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [projectsApi.reducerPath]: projectsApi.reducer,
