@@ -1,13 +1,15 @@
-import { Text } from '@gravity-ui/uikit';
-
 import Content from '../../components/content/content';
+import ProtectedWrapper from '../../hocs/protected-wrapper';
+
+import RedirectToLogin from '../../hocs/redirect-to-login';
+import SettingsLayout from './settings-layout';
 
 export default function SettingsPage() {
   return (
     <Content sidebar>
-      <div className="content">
-        <Text variant="header-1">Settings</Text>
-      </div>
+      <ProtectedWrapper fallback={<RedirectToLogin />}>
+        <SettingsLayout />
+      </ProtectedWrapper>
     </Content>
   );
 }
