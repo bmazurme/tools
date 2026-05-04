@@ -10,10 +10,12 @@ import fields from './project-add-page.fields';
 
 import { useCreateProjectMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
 export default function ProjectAddPage() {
+  const { showError } = useAppToaster();
   const [createProject] = useCreateProjectMutation();
   const navigate = useNavigate();
 
@@ -27,8 +29,7 @@ export default function ProjectAddPage() {
       const { data: project } = await createProject(data) as unknown as { data: ProjectType };
       navigate(`/project/${project.id}`);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при создании проекта:', error);
+      showError(`${error}`, 'Ошибка при создании проекта');
     }
   };
 
