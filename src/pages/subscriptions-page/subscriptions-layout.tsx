@@ -26,7 +26,7 @@ export default function SubscriptionsLayout() {
   };
   const createSubscription = async () => {
     try {
-      // const result = 
+      // const result =
       await sendPay().unwrap() as unknown as { id: number| null, endDate: string };
       showSuccess('Подписка успешно создана');
     } catch (error) {
