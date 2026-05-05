@@ -117,81 +117,84 @@ export default function ProfileLayout() {
 
   return (
     <LayoutWrapper isLoading={isLoadingActivities || isLoadingStatus}>
-      <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <div className="project_main">
-          <Text variant="header-1">
-            Профиль
-          </Text>
-        </div>
-        {fields.map((input) => (
-          <Controller
-            key={input.name}
-            name={input.name as keyof FormPayload}
-            rules={{
-              pattern: input.pattern,
+      <div className="content">
+        <form className={style.block} onSubmit={handleSubmit(onSubmit)}>
+          <div className="project_main">
+            <Text variant="header-1">
+              Профиль
+            </Text>
+          </div>
+          {fields.map((input) => (
+            <Controller
+              key={input.name}
+              name={input.name as keyof FormPayload}
+              rules={{
+                pattern: input.pattern,
               // required: input.required,
-            }}
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                {...input}
-                {...TEXT_INPUT_PROPS}
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-        ))}
-
-        <div className="buttons">
-          <Button
-            view="action"
-            size="l"
-            type="submit"
-          >
-            Сохранить
-          </Button>
-        </div>
-      </form>
-
-      <div className="content">
-        <Text variant="header-1">
-          Подписка
-        </Text>
-        <Checkbox
-          size="l"
-          disabled
-          checked={!!user?.subscription}
-        >
-          Статус
-        </Checkbox>
-        <div className="buttons">
-          <Button
-            view="raised"
-            size="l"
-            onClick={() => navigate('/subscriptions')}
-          >
-            Продлить
-          </Button>
-        </div>
-      </div>
-
-      <div className="content">
-        <Text variant="header-1">
-          Активность
-        </Text>
-
-        <ul className={style.activities}>
-          {activities.map((x) => (
-            <li key={x.id} className={style.activity}>
-              <Icon data={Circle} />
-              <div className={style.description}>
-                {`${x.description} - ${formatDate(x.createdAt)}`}
-              </div>
-            </li>
+              }}
+              control={control}
+              render={({ field, fieldState }) => (
+                <TextInput
+                  {...field}
+                  {...input}
+                  {...TEXT_INPUT_PROPS}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
           ))}
-        </ul>
+
+          <div className="buttons">
+            <Button
+              view="action"
+              size="l"
+              type="submit"
+            >
+              Сохранить
+            </Button>
+          </div>
+        </form>
+
+        <div className={style.block}>
+          <Text variant="header-1">
+            Подписка
+          </Text>
+          <Checkbox
+            size="l"
+            disabled
+            checked={!!user?.subscription}
+          >
+            Статус
+          </Checkbox>
+          <div className="buttons">
+            <Button
+              view="raised"
+              size="l"
+              onClick={() => navigate('/subscriptions')}
+            >
+              Продлить
+            </Button>
+          </div>
+        </div>
+
+        <div className={style.block}>
+          <Text variant="header-1">
+            Активность
+          </Text>
+
+          <ul className={style.activities}>
+            {activities.map((x) => (
+              <li key={x.id} className={style.activity}>
+                <Icon data={Circle} />
+                <div className={style.description}>
+                  {`${x.description} - ${formatDate(x.createdAt)}`}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+
     </LayoutWrapper>
   );
 }

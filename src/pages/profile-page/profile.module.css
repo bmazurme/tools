@@ -13,3 +13,11 @@
 .description {
   padding-left: 10px;
 }
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+}
