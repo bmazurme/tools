@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Text } from '@gravity-ui/uikit';
+
 import useUser from '../../hooks/use-user';
+import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
 
 import style from './main-page.module.css';
 
 export default function MainPage() {
+  useIsAuthenticated();
   const { user } = useUser();
   const navigate = useNavigate();
   const handleProjects = () => navigate('/signin');
@@ -27,72 +30,75 @@ export default function MainPage() {
           </Button>
         </div>
       </div>
-      <div className={style.description}>
-        Main
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-        Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
-        Hic, atque, quia sunt consectetur eius corrupti,
-        expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
-      </div>
 
-      <div className={style.container}>
-        <Text variant="header-2">
-          Модули
-        </Text>
-        <div className={style.cards}>
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            <Text variant="subheader-3">Водоснабжение</Text>
-          </Card>
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            <Text variant="subheader-3">Водоотведение</Text>
-            <div className={style.list}>
-              <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
-              <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
-            </div>
-          </Card>
+      <div className={style.contentWrapper}>
+        <div className={style.description}>
+          Main
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+          Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
+          Hic, atque, quia sunt consectetur eius corrupti,
+          expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+        </div>
 
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            Success
-          </Card>
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            Warning
-          </Card>
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            Danger
-          </Card>
-          <Card
-            className={style.card}
-            theme="normal"
-            view="filled"
-            size="l"
-          >
-            Utility
-          </Card>
+        <div className={style.container}>
+          <Text variant="header-2" className={style.sectionTitle}>
+            Модули
+          </Text>
+          <div className={style.cardsGrid}>
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              <Text variant="subheader-3">Водоснабжение</Text>
+            </Card>
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              <Text variant="subheader-3">Водоотведение</Text>
+              <div className={style.list}>
+                <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
+                <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
+              </div>
+            </Card>
+
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              Success
+            </Card>
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              Warning
+            </Card>
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              Danger
+            </Card>
+            <Card
+              className={style.card}
+              theme="normal"
+              view="filled"
+              size="l"
+            >
+              Utility
+            </Card>
+          </div>
         </div>
       </div>
     </div>
