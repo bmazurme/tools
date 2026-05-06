@@ -2,7 +2,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/function-component-definition */
 import { memo } from 'react';
+import { Loader } from '@gravity-ui/uikit';
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
+
+// const style = {
+//   loader: {
+//     'justify-content': 'center',
+//   },
+// };
 
 const ProtectedWrapper = memo(({
   children,
@@ -14,8 +21,12 @@ const ProtectedWrapper = memo(({
   requiredRoles?: string[];
   fallback?: React.ReactNode;
   anyRole?: boolean; }) => {
-  const { isAuthenticated } = useIsAuthenticated();
+  const { isAuthenticated, isLoading } = useIsAuthenticated();
   const userRoles: string[] = [];
+
+  if (isLoading) {
+    return null; // или спиннер
+  }
 
   if (!isAuthenticated) {
     return fallback;
