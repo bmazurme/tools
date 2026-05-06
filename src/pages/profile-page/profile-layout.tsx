@@ -19,26 +19,9 @@ import { TEXT_INPUT_PROPS } from '../../config';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setStatus } from '../../store/slices/subscriptions-slice';
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
+import { profileFormConfig, type FormPayload } from './profile-form-config';
 
 import style from './profile.module.css';
-
-type FormPayload = { status: string; email: string };
-
-const fields = [
-  {
-    name: 'email',
-    label: 'Email',
-    disabled: true,
-  },
-  {
-    name: 'status',
-    label: 'Статус',
-    pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{0,50}$/,
-      message: 'Name is invalid',
-    },
-  },
-];
 
 export default function ProfileLayout() {
   const dispatch = useAppDispatch();
@@ -47,7 +30,7 @@ export default function ProfileLayout() {
   const activities = useAppSelector(activitiesSelector);
   const { showSuccess, showError } = useAppToaster();
 
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
   const [getActivities, { isLoading: isLoadingActivities }] = useGetActivitiesMutation();
   const [getStatus, { isLoading: isLoadingStatus }] = useGetStatusMutation();
 
@@ -63,7 +46,8 @@ export default function ProfileLayout() {
       await updateUser({ ...user!, status: data.status });
       showSuccess('Статус успешно обновлен', data.status);
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении статуса');
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      showError(`${message}`, 'Ошибка при обновлении статуса');
     }
   };
 
@@ -124,7 +108,7 @@ export default function ProfileLayout() {
               Профиль
             </Text>
           </div>
-          {fields.map((input) => (
+          {profileFormConfig.map((input) => (
             <Controller
               key={input.name}
               name={input.name as keyof FormPayload}
@@ -149,6 +133,7 @@ export default function ProfileLayout() {
               view="action"
               size="l"
               type="submit"
+              loading={isUpdating}
             >
               Сохранить
             </Button>
