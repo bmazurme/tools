@@ -77,10 +77,12 @@ export default function ProfileLayout() {
 
     const fetchData = async () => {
       try {
-        const [data1, data2] = await Promise.all([
-          getActivities(),
-          getStatus(),
-        ]);
+        const data1 = await getActivities();
+        const data2 = await getStatus();
+        // const [data1, data2] = await Promise.all([
+        //   getActivities(),
+        //   getStatus(),
+        // ]);
 
         if (!isMounted) return;
 
@@ -168,7 +170,7 @@ export default function ProfileLayout() {
           </Text>
 
           <ul className={style.activities}>
-            {activities.map((x) => (
+            {activities?.map((x) => (
               <li key={x.id} className={style.activity}>
                 <Icon data={Circle} />
                 <div className={style.description}>
