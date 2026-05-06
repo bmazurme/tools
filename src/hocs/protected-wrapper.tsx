@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/function-component-definition */
 import { memo } from 'react';
-import { Loader } from '@gravity-ui/uikit';
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 
 // const style = {
