@@ -149,6 +149,7 @@ export default function ProfileLayout() {
               view="action"
               size="l"
               type="submit"
+              loading={isUpdating}
             >
               Сохранить
             </Button>
