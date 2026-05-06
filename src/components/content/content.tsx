@@ -3,31 +3,30 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import {
-  memo,
-  useCallback,
-  useMemo,
+  memo, useMemo,
   type PropsWithChildren,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
+import { Button, Icon } from '@gravity-ui/uikit';
 import {
-  CaretLeft, CaretRight,
-  FolderOpen, Gear, Moon, Pencil, Person, SquareBars, Sun,
-  ArrowRightFromSquare,
+  CaretLeft, CaretRight, FolderOpen, Gear, Moon, SquareBars, Sun,
 } from '@gravity-ui/icons';
 
 import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcrumbs';
 import { block, Logo } from '../logo/logo';
 
 import useUser from '../../hooks/use-user';
-import {
-  useToggleCompactMutation, useToggleThemeMutation, useSignOutMutation, toggleCompactOptimistic,
-  toggleThemeOptimistic,
-} from '../../store';
-
-import style from './content.module.css';
 import { useAppDispatch } from '../../hooks';
 import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
+
+import {
+  useToggleCompactMutation, useToggleThemeMutation, toggleCompactOptimistic,
+  toggleThemeOptimistic,
+} from '../../store';
+import CompactMenu from './compact-menu';
+import FullMenu from './full-menu';
+
+import style from './content.module.css';
 
 type ContentProps = {
   sidebar?: boolean;
@@ -39,29 +38,20 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
   const { isLoading } = useIsAuthenticated();
   const dispatch = useAppDispatch();
   const { user } = useUser();
-  const [signOut] = useSignOutMutation();
   const [toggleTheme] = useToggleThemeMutation();
   const [setCompact] = useToggleCompactMutation();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const onSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
 
   const onToggleCompact = () => {
     dispatch(toggleCompactOptimistic({ isCompact: !user?.isCompact }));
     setCompact({ isCompact: !user?.isCompact });
   };
 
-  const handleThemeToggle = useCallback(
-    (isDark: boolean) => () => {
-      dispatch(toggleThemeOptimistic({ isDark }));
-      toggleTheme({ isDark });
-    },
-    [toggleTheme],
-  );
+  const handleThemeToggle = (isDark: boolean) => {
+    dispatch(toggleThemeOptimistic({ isDark }));
+    toggleTheme({ isDark });
+  };
 
   const themeButtons = useMemo(() => (
     <>
@@ -71,7 +61,7 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
         pin="round-clear"
         selected={!user?.isDark}
         aria-label="Светлая тема"
-        onClick={handleThemeToggle(false)}
+        onClick={() => handleThemeToggle(false)}
       >
         <Icon data={Sun} size={16} />
       </Button>
@@ -81,7 +71,7 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
         pin="clear-round"
         selected={user?.isDark}
         aria-label="Темная тема"
-        onClick={handleThemeToggle(true)}
+        onClick={() => handleThemeToggle(true)}
       >
         <Icon data={Moon} size={16} />
       </Button>
@@ -174,77 +164,7 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
               </div>
             )}
 
-            {!user?.isCompact ? (
-              <DropdownMenu
-                popupProps={{
-                  placement: 'right',
-                }}
-                renderSwitcher={(props) => (
-                  <button
-                    {...props}
-                    aria-label="Профиль"
-                    className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('profile') && 'gn-composite-bar-item-active'}`}
-                  >
-                    <div className="gn-composite-bar-item__icon-place">
-                      <Icon data={Person} size={18} />
-                    </div>
-                    <div className="gn-composite-bar-item__title" title="User profile">
-                      <div className="gn-composite-bar-item__title-text">
-                        Профиль
-                      </div>
-                    </div>
-                  </button>
-                )}
-                items={[
-                  {
-                    iconStart: <Icon size={16} data={Pencil} />,
-                    action: () => navigate('/profile'),
-                    text: 'Профиль',
-                  },
-                  {
-                    iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
-                    action: onSignOut,
-                    text: 'Выйти',
-                    theme: 'danger',
-                  },
-                ]}
-              />
-
-            ) : (
-              <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
-                <div className="gn-composite-bar-item__icon-place">
-                  <DropdownMenu
-                    popupProps={{
-                      placement: 'right',
-                    }}
-                    renderSwitcher={(props) => (
-                      <Button
-                        {...props}
-                        view={location.pathname.includes('profile') ? 'action' : 'flat'}
-                        size="l"
-                        aria-label="Профиль"
-                      >
-                        <Icon data={Person} size={18} />
-                      </Button>
-                    )}
-                    items={[
-                      {
-                        iconStart: <Icon size={16} data={Pencil} />,
-                        action: () => navigate('/profile'),
-                        text: 'Профиль',
-                      },
-                      {
-                        iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
-                        action: onSignOut,
-                        text: 'Выйти',
-                        theme: 'danger',
-                      },
-                    ]}
-                  />
-
-                </div>
-              </div>
-            )}
+            {!user?.isCompact ? <CompactMenu /> : <FullMenu />}
           </div>
 
           <button
