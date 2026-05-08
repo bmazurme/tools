@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import {
-  memo, useMemo,
+  useMemo,
   type PropsWithChildren,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
