@@ -25,14 +25,13 @@ export default function DocumentPage() {
   const [updateDocument] = useUpdateDocumentMutation();
   const document = useAppSelector(documentSelector);
 
-  const { control, reset } = useForm<FormPayload>({
+  const { control, reset, getValues } = useForm<FormPayload>({
     defaultValues: { name: '' },
   });
 
   const onSubmit = async () => {
     try {
-      // eslint-disable-next-line no-underscore-dangle
-      const { name } = control._formValues;
+      const { name } = getValues();
 
       if (id && document && document.name !== name) {
         await updateDocument({ id: Number(id!), name });
