@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import {
   Button, Card, Modal, Text,
 } from '@gravity-ui/uikit';
@@ -9,18 +10,32 @@ type ConfirmModalProps = {
   setOpen: (e: boolean) => void;
   onDelete: () => void;
   title: string;
+  isLoading?: boolean;
 };
 
 export default function ConfirmModal({
-  open, setOpen, onDelete, title,
+  open, setOpen, onDelete, title, isLoading = false,
 }: ConfirmModalProps) {
   return (
     <Modal open={open} disableOutsideClick>
       <Card theme="normal" size="l" className={style.modal}>
         <Text variant="subheader-3" className={style.title}>{title}</Text>
         <div className="buttons">
-          <Button view="action" size="l" onClick={onDelete}>Удалить</Button>
-          <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
+          <Button
+            view="action"
+            size="l"
+            onClick={onDelete}
+          >
+            Удалить
+          </Button>
+          <Button
+            view="flat"
+            size="l"
+            onClick={() => setOpen(false)}
+            disabled={isLoading}
+          >
+            Отмена
+          </Button>
         </div>
       </Card>
     </Modal>
