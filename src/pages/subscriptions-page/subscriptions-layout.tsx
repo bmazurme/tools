@@ -19,6 +19,7 @@ export default function SubscriptionsLayout() {
       const result = await renew({ id }).unwrap() as unknown as { endDate: string };
       const date = new Date(result.endDate);
       const localString = date.toLocaleString('ru-RU');
+
       showSuccess('Подписка успешно продлена', `до ${localString}`);
     } catch (error) {
       showError(`${error}`, 'Ошибка при продлении подписки');
@@ -56,7 +57,9 @@ export default function SubscriptionsLayout() {
         >
           Продлить подписку
         </Button>
-        <Button view="outlined-warning" size="l">Отменить подписку</Button>
+        <Button view="outlined-warning" size="l">
+          Отменить подписку
+        </Button>
       </div>
     </LayoutWrapper>
   );
