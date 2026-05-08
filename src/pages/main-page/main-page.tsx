@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Text } from '@gravity-ui/uikit';
 
@@ -10,43 +11,59 @@ export default function MainPage() {
   useIsAuthenticated();
   const { user } = useUser();
   const navigate = useNavigate();
+
   const handleProjects = () => navigate('/signin');
+  const handleCalculate = () => navigate('/projects');
 
   return (
     <div className={style.page}>
-      <div className={style.header}>
+      <header className={style.header}>
         <div className={style.logo}>
-          <Text variant="header-2">
+          <Text variant="header-2" as="h1">
             tools.ntlstl
           </Text>
         </div>
-        <div className={style.navbar}>
+        <nav className={style.navbar}>
           <Button
             view="flat"
             size="l"
             onClick={handleProjects}
           >
-            {!user ? 'Войти' : user.email }
+            {!user ? 'Войти' : user.email}
           </Button>
-        </div>
-      </div>
+        </nav>
+      </header>
 
-      <div className={style.contentWrapper}>
-        <div className={style.description}>
-          <div className={style.text}>
-            Сервис создан для проектировщиков и строительных организаций.
+      <main className={style.contentWrapper}>
+        {/* Основной баннер с описанием */}
+        <section className={style.hero}>
+          <div className={style.heroContent}>
+            <Text variant="display-1" className={style.heroTitle}>
+              Инженерные расчёты онлайн
+            </Text>
+            <div className={style.heroDescription}>
+              <Text variant="body-2">
+                Сервис для инженеров‑проектировщиков, архитекторов и строительных организаций.
+              </Text>
+              <Text variant="body-2">
+                Мгновенный расчёт и готовый отчёт для проектной документации. Интуитивный интерфейс — начните работу без обучения.
+              </Text>
+            </div>
+            <Button
+              view="action"
+              size="xl"
+              className={style.ctaButton}
+              onClick={handleCalculate}
+            >
+              Создать проект
+            </Button>
           </div>
-          <div className={style.text}>
-            Мгновенный результат и готовый отчёт для проектной документации.
-          </div>
-          <div className={style.text}>
-            Интуитивный интерфейс — не требует длительного обучения.
-          </div>
-        </div>
+        </section>
 
-        <div className={style.container}>
+        {/* Секция модулей */}
+        <section className={style.modulesSection}>
           <Text variant="header-2" className={style.sectionTitle}>
-            Модули
+            Доступные модули для расчёта
           </Text>
           <div className={style.cardsGrid}>
             <Card
@@ -65,52 +82,26 @@ export default function MainPage() {
             >
               <Text variant="subheader-3">Водоотведение</Text>
               <div className={style.list}>
-                <Text variant="body-1">Расчет дождевых вод СП 30.13330.2020</Text>
-                <Text variant="body-1">Расчет дождевых вод СП 32.13330.2018</Text>
+                <Text variant="body-1">Расчёт дождевых вод СП 30.13330.2020</Text>
+                <Text variant="body-1">Расчёт дождевых вод СП 32.13330.2018</Text>
               </div>
             </Card>
-
-            <Card
-              className={style.card}
-              theme="normal"
-              view="filled"
-              size="l"
-            >
-              Success
+            <Card className={style.card} theme="normal" view="filled" size="l">
+              <Text variant="subheader-3">Гидравлика</Text>
             </Card>
-            <Card
-              className={style.card}
-              theme="normal"
-              view="filled"
-              size="l"
-            >
-              Warning
-            </Card>
-            <Card
-              className={style.card}
-              theme="normal"
-              view="filled"
-              size="l"
-            >
-              Danger
-            </Card>
-            <Card
-              className={style.card}
-              theme="normal"
-              view="filled"
-              size="l"
-            >
-              Utility
+            <Card className={style.card} theme="normal" view="filled" size="l">
+              <Text variant="subheader-3">Теплотехника</Text>
             </Card>
           </div>
-        </div>
+        </section>
 
-        <div className={style.description}>
-          <div className={style.text}>
+        {/* Футер секции */}
+        <footer className={style.footer}>
+          <Text variant="caption-1" className={style.disclaimer}>
             Ответственность за окончательное проектное решение несёт инженер‑проектировщик.
-          </div>
-        </div>
-      </div>
+          </Text>
+        </footer>
+      </main>
     </div>
   );
 }
