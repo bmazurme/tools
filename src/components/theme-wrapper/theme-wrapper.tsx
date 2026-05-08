@@ -12,7 +12,7 @@ export default function ThemeWrapper({ children }: ThemeWrapperProps) {
   const theme = React.useMemo(() => (user?.isDark ? 'dark' : 'light'), [user?.isDark]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme || 'light'}>
       {children}
     </ThemeProvider>
   );

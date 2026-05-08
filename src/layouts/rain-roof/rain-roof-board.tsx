@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks';
 
 export default function RainRoofBoard() {
   const { id } = useParams();
-  const [createBlock] = useCreateBlockMutation();
+  const [createBlock, { isLoading: isCreatingBlock }] = useCreateBlockMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const onHandleAddBlock = async () => {
     if (document) {
@@ -36,6 +36,8 @@ export default function RainRoofBoard() {
           size="m"
           title="Добавить блок"
           onClick={onHandleAddBlock}
+          loading={isCreatingBlock}
+          disabled={isCreatingBlock}
         >
           Добавить блок
         </Button>

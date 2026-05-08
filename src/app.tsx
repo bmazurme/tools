@@ -16,6 +16,7 @@ import ProjectPage from './pages/project-page';
 import DocumentPage from './pages/document-page';
 import DocumentsPage from './pages/documents-page';
 import DocumentAddPage from './pages/document-add-page';
+
 import DynamicTypeLayout from './layouts/dynamic-type-layout';
 import DynamicTemplateLayout from './layouts/dynamic-template-layout';
 

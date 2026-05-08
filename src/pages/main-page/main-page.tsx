@@ -33,11 +33,15 @@ export default function MainPage() {
 
       <div className={style.contentWrapper}>
         <div className={style.description}>
-          Main
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-          Voluptates asperiores accusamus est, ab rerum harum hic delectus fuga veniam!
-          Hic, atque, quia sunt consectetur eius corrupti,
-          expedita sapiente exercitationem aperiam quibusdam libero ipsa veritatis quisquam!
+          <div className={style.text}>
+            Сервис создан для проектировщиков и строительных организаций.
+          </div>
+          <div className={style.text}>
+            Мгновенный результат и готовый отчёт для проектной документации.
+          </div>
+          <div className={style.text}>
+            Интуитивный интерфейс — не требует длительного обучения.
+          </div>
         </div>
 
         <div className={style.container}>
@@ -98,6 +102,12 @@ export default function MainPage() {
             >
               Utility
             </Card>
+          </div>
+        </div>
+
+        <div className={style.description}>
+          <div className={style.text}>
+            Ответственность за окончательное проектное решение несёт инженер‑проектировщик.
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ type FormPayload = Omit<ProjectType, 'id'>;
 
 export default function ProjectAddPage() {
   const { showError } = useAppToaster();
-  const [createProject] = useCreateProjectMutation();
+  const [createProject, { isLoading: isCreatingProject }] = useCreateProjectMutation();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<FormPayload>({
@@ -59,7 +59,10 @@ export default function ProjectAddPage() {
           />
         ))}
 
-        <Buttons />
+        <Buttons
+          isLoading={isCreatingProject}
+          isDisabled={isCreatingProject}
+        />
       </form>
     </Content>
   );

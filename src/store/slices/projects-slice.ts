@@ -12,7 +12,7 @@ export const initialStateProjects: ProjectsState = {
   total: 0,
 };
 
-const slice = createSlice({
+const projectsSlice = createSlice({
   name: 'projects',
   initialState: initialStateProjects,
   reducers: {
@@ -58,7 +58,7 @@ const slice = createSlice({
   },
 });
 
-export const { addProject, removeProject, setProjects } = slice.actions;
-export default slice.reducer;
+export const { addProject, removeProject, setProjects } = projectsSlice.actions;
+export default projectsSlice.reducer;
 export const projectsSelector = (state: RootState) => state.projects.data;
 export const projectsTotalSelector = (state: RootState) => state.projects.total;

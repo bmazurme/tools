@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { TEXT_INPUT_PROPS } from '../../config';
 import { useDeleteBlockMutation, useUpdateBlockMutation } from '../../store';
 import ConfirmModal from '../confirm-modal/confirm-modal';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 const fields = [
   {
@@ -28,24 +29,24 @@ interface BlockProps {
 }
 
 export default function Block({ blockId, value }: BlockProps) {
-  const [updateBlock] = useUpdateBlockMutation();
+  const [updateBlock, { isLoading: isBlockUpdating }] = useUpdateBlockMutation();
   const [deleteBlock] = useDeleteBlockMutation();
+  const { showError } = useAppToaster();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { control } = useForm<FormPayload>({
+  const { control, getValues } = useForm<FormPayload>({
     defaultValues: { name: value.name },
   });
   const onSubmit = async () => {
     try {
-      // eslint-disable-next-line no-underscore-dangle
-      const { name } = control._formValues;
+      const { name } = getValues();
 
       if (value.id && value.name !== name) {
         await updateBlock({ ...value, name });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при обновлении проекта:', error);
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      showError(`${message}`, 'Ошибка при обновлении статуса');
     }
   };
   const onHandleConfirmDelete = () => {
@@ -82,6 +83,7 @@ export default function Block({ blockId, value }: BlockProps) {
         size="l"
         onClick={onHandleConfirmDelete}
         title="Удалить блок"
+        disabled={isBlockUpdating}
       >
         <Icon
           data={TrashBin}
