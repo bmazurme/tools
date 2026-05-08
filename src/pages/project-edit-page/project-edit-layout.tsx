@@ -19,7 +19,7 @@ export default function ProjectEditLayout() {
   const { projectId: projectIdString } = useParams();
   const projectId = parseInt(projectIdString || '', 10);
   const [getProject] = useGetProjectMutation();
-  const [updateProject] = useUpdateProjectMutation();
+  const [updateProject, { isLoading: isUpdatingProject }] = useUpdateProjectMutation();
   const navigate = useNavigate();
 
   const { control, handleSubmit, reset } = useForm<FormPayload>({
@@ -74,7 +74,10 @@ export default function ProjectEditLayout() {
         />
       ))}
 
-      <Buttons />
+      <Buttons
+        isLoading={isUpdatingProject}
+        isDisabled={isUpdatingProject}
+      />
     </form>
   );
 }
