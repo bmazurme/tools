@@ -6,10 +6,10 @@ import DocumentAddLayout from './document-add-layout';
 
 export default function DocumentAddPage() {
   return (
-    <Content sidebar>
-      <ProtectedWrapper fallback={<RedirectToLogin />}>
+    <ProtectedWrapper fallback={<RedirectToLogin />}>
+      <Content sidebar>
         <DocumentAddLayout />
-      </ProtectedWrapper>
-    </Content>
+      </Content>
+    </ProtectedWrapper>
   );
 }

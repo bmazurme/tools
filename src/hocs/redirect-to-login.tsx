@@ -7,7 +7,7 @@ function RedirectToLogin() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/signin', { replace: true });
-    }, 1000);
+    }, 0);
 
     return () => clearTimeout(timer);
   }, [navigate]);
