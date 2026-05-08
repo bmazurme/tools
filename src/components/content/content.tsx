@@ -34,8 +34,8 @@ type ContentProps = {
 
 const b = block('collapse-button');
 
-const Content = memo(({ children, sidebar = false }: PropsWithChildren & ContentProps) => {
-  const { isLoading } = useIsAuthenticated();
+function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
+  const { isLoading, isChecking } = useIsAuthenticated();
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const [toggleTheme] = useToggleThemeMutation();
@@ -78,7 +78,8 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
     </>
   ), [user?.isDark, handleThemeToggle]);
 
-  if (isLoading) {
+  console.log(isChecking);
+  if (isLoading || !isChecking) {
     return null; // или компонент загрузки: <LoadingSpinner />
   }
 
@@ -197,6 +198,6 @@ const Content = memo(({ children, sidebar = false }: PropsWithChildren & Content
       </div>
     </div>
   );
-});
+}
 
 export default Content;

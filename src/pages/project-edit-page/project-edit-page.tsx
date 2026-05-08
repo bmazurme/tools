@@ -6,10 +6,10 @@ import RedirectToLogin from '../../hocs/redirect-to-login';
 
 export default function ProjectEditPage() {
   return (
-    <Content sidebar>
-      <ProtectedWrapper fallback={<RedirectToLogin />}>
+    <ProtectedWrapper fallback={<RedirectToLogin />}>
+      <Content sidebar>
         <ProjectEditLayout />
-      </ProtectedWrapper>
-    </Content>
+      </Content>
+    </ProtectedWrapper>
   );
 }

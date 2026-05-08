@@ -6,10 +6,10 @@ import SettingsLayout from './settings-layout';
 
 export default function SettingsPage() {
   return (
-    <Content sidebar>
-      <ProtectedWrapper fallback={<RedirectToLogin />}>
+    <ProtectedWrapper fallback={<RedirectToLogin />}>
+      <Content sidebar>
         <SettingsLayout />
-      </ProtectedWrapper>
-    </Content>
+      </Content>
+    </ProtectedWrapper>
   );
 }

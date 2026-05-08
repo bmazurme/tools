@@ -6,10 +6,10 @@ import ProjectsLayout from './projects-layout';
 
 export default function ProjectsPage() {
   return (
-    <Content sidebar>
-      <ProtectedWrapper fallback={<RedirectToLogin />}>
+    <ProtectedWrapper fallback={<RedirectToLogin />}>
+      <Content sidebar>
         <ProjectsLayout />
-      </ProtectedWrapper>
-    </Content>
+      </Content>
+    </ProtectedWrapper>
   );
 }

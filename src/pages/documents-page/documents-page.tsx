@@ -6,10 +6,10 @@ import DocumentsLayout from './documents-layout';
 
 export default function DocumentsPage() {
   return (
-    <Content sidebar>
-      <ProtectedWrapper fallback={<RedirectToLogin />}>
+    <ProtectedWrapper fallback={<RedirectToLogin />}>
+      <Content sidebar>
         <DocumentsLayout />
-      </ProtectedWrapper>
-    </Content>
+      </Content>
+    </ProtectedWrapper>
   );
 }
