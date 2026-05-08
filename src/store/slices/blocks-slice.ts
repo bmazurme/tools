@@ -18,7 +18,11 @@ export const initialStateBlocks: BlocksState = {
 const slice = createSlice({
   name: 'blocks',
   initialState: initialStateBlocks,
-  reducers: { },
+  reducers: {
+    addBlock: (state, action: PayloadAction<BlockType>) => {
+      state.data.blocks.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addMatcher(
