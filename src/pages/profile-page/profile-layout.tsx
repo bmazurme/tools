@@ -155,7 +155,7 @@ export default function ProfileLayout() {
           </Checkbox>
           <div className="buttons">
             <Button
-              view="raised"
+              view="outlined-action"
               size="l"
               onClick={() => navigate('/subscriptions')}
             >
