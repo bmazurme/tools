@@ -4,12 +4,6 @@
 import { memo } from 'react';
 import { useIsAuthenticated } from '../hooks/use-is-authenticated';
 
-// const style = {
-//   loader: {
-//     'justify-content': 'center',
-//   },
-// };
-
 const ProtectedWrapper = memo(({
   children,
   requiredRoles = [],

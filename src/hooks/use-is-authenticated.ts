@@ -13,7 +13,9 @@ interface UseIsAuthenticatedResult {
 
 export const useIsAuthenticated = (): UseIsAuthenticatedResult => {
   const dispatch = useAppDispatch();
-  const { data, isLoading, error } = useCheckAuthQuery();
+  const { data, isLoading, error } = useCheckAuthQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const isAuthenticated = useAppSelector((state: RootState) => state.auth.isAuthenticated);
   const status = useAppSelector((state: RootState) => state.auth.status);
 
@@ -24,7 +26,7 @@ export const useIsAuthenticated = (): UseIsAuthenticatedResult => {
       dispatch(logout());
     } else if (data?.isAuthenticated) {
       if (data.accessToken) {
-        dispatch(setCredentials({ accessToken: data.accessToken, isAuthenticated: true }));
+        dispatch(setCredentials({ accessToken: data.accessToken }));
       }
     } else {
       dispatch(logout());

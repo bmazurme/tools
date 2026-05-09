@@ -2,22 +2,19 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import SigninLayout from '../../layouts/signin-layout/signin-layout';
-import useUser from '../../hooks/use-user';
+import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
 
-// eslint-disable-next-line react-refresh/only-export-components
 function SignInPage() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { isAuthenticated, isChecking } = useIsAuthenticated();
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate('/projects', { replace: true });
     }
-  }, [user, navigate]);
+  }, [isAuthenticated, isChecking, navigate]);
 
   return (<SigninLayout />);
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-// export default withUser(SignInPage, false);
 export default SignInPage;
