@@ -17,7 +17,7 @@ import { block, Logo } from '../logo/logo';
 
 import useUser from '../../hooks/use-user';
 import { useAppDispatch } from '../../hooks';
-import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
+// import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
 
 import {
   useToggleCompactMutation, useToggleThemeMutation, toggleCompactOptimistic,
@@ -35,7 +35,7 @@ type ContentProps = {
 const b = block('collapse-button');
 
 function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
-  const { isLoading, isChecking } = useIsAuthenticated();
+  // const { isLoading } = useIsAuthenticated();
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const [toggleTheme] = useToggleThemeMutation();
@@ -78,10 +78,9 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
     </>
   ), [user?.isDark, handleThemeToggle]);
 
-  console.log(isChecking);
-  if (isLoading || !isChecking) {
-    return null; // или компонент загрузки: <LoadingSpinner />
-  }
+  // if (isLoading) {
+  //   return null; // или компонент загрузки: <LoadingSpinner />
+  // }
 
   return (
     <div className={style.page}>
