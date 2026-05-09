@@ -82,8 +82,8 @@ export default function MainPage() {
             >
               <Text variant="subheader-3">Водоотведение</Text>
               <div className={style.list}>
-                <Text variant="body-1">Расчёт дождевых вод СП 30.13330.2020</Text>
-                <Text variant="body-1">Расчёт дождевых вод СП 32.13330.2018</Text>
+                <Text variant="body-1">Расчёт дождевых вод СП 30.13330.2020</Text>
+                <Text variant="body-1">Расчёт дождевых вод СП 32.13330.2018</Text>
               </div>
             </Card>
             <Card className={style.card} theme="normal" view="filled" size="l">

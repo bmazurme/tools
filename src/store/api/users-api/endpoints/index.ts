@@ -6,12 +6,19 @@ const usersApiEndpoints = usersApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      getUserMe: builder.mutation<UserType, void>({
-        query: () => ({
-          url: '/users/me',
+      // getUserMe: builder.mutation<UserType, void>({
+      //   query: () => ({
+      //     url: '/users/me',
+      //     method: 'GET',
+      //   }),
+      //   invalidatesTags: ['Users'],
+      // }),
+      getUserByEmail: builder.mutation<UserType, string>({
+        query: (email: string) => ({
+          url: `/users/email/${email}`,
           method: 'GET',
         }),
-        invalidatesTags: ['Users'],
+        // invalidatesTags: ['Users'],
       }),
       updateUser: builder.mutation<UserType, UserType>({
         query: ({ id, status }: UserType) => ({
@@ -41,7 +48,8 @@ const usersApiEndpoints = usersApi
   });
 
 export const {
-  useGetUserMeMutation,
+  // useGetUserMeMutation,
+  useGetUserByEmailMutation,
   useUpdateUserMutation,
   useToggleThemeMutation,
   useToggleCompactMutation,
