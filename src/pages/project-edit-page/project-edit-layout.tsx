@@ -23,6 +23,7 @@ import useAppToaster from '../../hooks/use-app-toaster';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import style from './project-edit-layout.module.css';
+import useUser from '../../hooks/use-user';
 
 // type FormPayload = Omit<Omit<ProjectType, 'id'>, 'participants'>;
 type FormPayload = {
@@ -44,6 +45,7 @@ export default function ProjectEditLayout() {
   const [removeUserFromProject] = useRemoveUserFromProjectMutation();
   const project = useAppSelector(projectSelector);
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const onHandleOpenModal = () => {
     setIsOpen(true);
@@ -94,7 +96,10 @@ export default function ProjectEditLayout() {
 
   return (
     <div className="content">
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="form mb"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <BackButton />
         <Text variant="header-1">Редактировать проект</Text>
 
@@ -123,48 +128,53 @@ export default function ProjectEditLayout() {
           isDisabled={isUpdatingProject}
         />
       </form>
-      <Button
-        view="flat"
-        size="l"
-        onClick={onHandleOpenModal}
-        title="Добавить пользователя к документу"
-      >
-        <Icon
-          data={PersonPlus}
-          size={20}
-        />
-      </Button>
-      {isOpen && (
+
+      <div className="form">
+        <Text variant="header-1">Участники</Text>
+        <Button
+          view="flat"
+          size="l"
+          onClick={onHandleOpenModal}
+          title="Добавить пользователя к проекту"
+        >
+          <Icon
+            data={PersonPlus}
+            size={20}
+          />
+        </Button>
+        {isOpen && (
         <AddUserModal
           open={isOpen}
           setOpen={setIsOpen}
           onAddUserToProject={onAddUserToProject}
           title="Добавить пользователя к документу"
         />
-      )}
-      {project?.participants.map((worker) => (
-        <div
-          className={style.item}
-          key={worker.id}
-        >
-          <User
-            avatar={{ text: worker.email, theme: 'brand' }}
-            name={worker.email}
-            description={worker.email}
-            size="xs"
-          />
-          <Button
-            view="flat"
-            size="l"
-            onClick={() => onRemoveUserFromProject(worker.id)}
+        )}
+        {project?.participants.map((worker) => (
+          <div
+            className={style.item}
+            key={worker.id}
           >
-            <Icon
-              data={Minus}
-              size={16}
+            <User
+              avatar={{ text: worker.email, theme: 'brand' }}
+              name={worker.email}
+              description={worker.email}
+              size="xs"
             />
-          </Button>
-        </div>
-      ))}
+            <Button
+              view="flat"
+              size="l"
+              onClick={() => onRemoveUserFromProject(worker.id)}
+              disabled={project.creator.id !== user?.id}
+            >
+              <Icon
+                data={Minus}
+                size={16}
+              />
+            </Button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
