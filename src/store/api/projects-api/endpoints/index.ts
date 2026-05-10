@@ -2,6 +2,11 @@ import projectsApi from '../index';
 
 type FormPayload = Omit<ProjectType, 'id'>;
 
+type UpdateProjectUsers = {
+  projectId: number;
+  userId: number;
+}
+
 const projectsApiEndpoints = projectsApi
   .enhanceEndpoints({
     addTagTypes: ['Projects'],
@@ -45,6 +50,20 @@ const projectsApiEndpoints = projectsApi
           body: { address, description, name },
         }),
       }),
+      addUserToProject: builder.mutation<ProjectType, UpdateProjectUsers>({
+        query: (data: UpdateProjectUsers) => ({
+          url: '/projects/participants',
+          method: 'PATCH',
+          body: data,
+        }),
+      }),
+      removeUserFromProject: builder.mutation<ProjectType, UpdateProjectUsers>({
+        query: ({ projectId, userId }: UpdateProjectUsers) => ({
+          url: '/projects/participants',
+          method: 'DELETE',
+          body: { projectId, userId },
+        }),
+      }),
     }),
   });
 
@@ -54,5 +73,7 @@ export const {
   useRemoveProjectMutation,
   useGetProjectMutation,
   useUpdateProjectMutation,
+  useAddUserToProjectMutation,
+  useRemoveUserFromProjectMutation,
 } = projectsApiEndpoints;
 export { projectsApiEndpoints };
