@@ -90,4 +90,5 @@ type ProjectType = {
   description: string;
   address: string;
   participants: UserType[];
+  creator: { id: number };
 };

@@ -13,7 +13,11 @@ import { useCreateProjectMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import useAppToaster from '../../hooks/use-app-toaster';
 
-type FormPayload = Omit<Omit<ProjectType, 'id'>, 'participants'>;
+type FormPayload = {
+  name: string;
+  description: string;
+  address: string;
+};
 
 export default function ProjectAddPage() {
   const { showError } = useAppToaster();
