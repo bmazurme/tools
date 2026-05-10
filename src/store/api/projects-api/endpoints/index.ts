@@ -1,6 +1,10 @@
 import projectsApi from '../index';
 
-type FormPayload = Omit<ProjectType, 'id'>;
+type FormPayload = {
+  name: string;
+  description: string;
+  address: string;
+};
 
 type UpdateProjectUsers = {
   projectId: number;
@@ -41,7 +45,7 @@ const projectsApiEndpoints = projectsApi
           body: data,
         }),
       }),
-      updateProject: builder.mutation<ProjectType, ProjectType>({
+      updateProject: builder.mutation<ProjectType, FormPayload& { id: number }>({
         query: ({
           address, description, name, id,
         }: ProjectType) => ({

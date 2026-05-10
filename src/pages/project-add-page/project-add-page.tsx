@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,7 +13,7 @@ import { useCreateProjectMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import useAppToaster from '../../hooks/use-app-toaster';
 
-type FormPayload = Omit<ProjectType, 'id'>;
+type FormPayload = Omit<Omit<ProjectType, 'id'>, 'participants'>;
 
 export default function ProjectAddPage() {
   const { showError } = useAppToaster();
