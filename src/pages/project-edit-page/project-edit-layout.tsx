@@ -24,7 +24,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import style from './project-edit-layout.module.css';
 
-type FormPayload = Omit<ProjectType, 'id'>;
+// type FormPayload = Omit<Omit<ProjectType, 'id'>, 'participants'>;
+type FormPayload = {
+  // id: number;
+  name: string;
+  description: string;
+  address: string;
+};
 
 export default function ProjectEditLayout() {
   const dispatch = useAppDispatch();
