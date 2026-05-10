@@ -1,10 +1,3 @@
-type ProjectType = {
-  id: number;
-  name: string;
-  description: string;
-  address: string;
-};
-
 type BlockType = {
   id: number;
   name: string;
@@ -90,3 +83,11 @@ type UserType = {
 }
 
 type TotalType = { total: number };
+
+type ProjectType = {
+  id: number;
+  name: string;
+  description: string;
+  address: string;
+  participants: UserType[];
+};

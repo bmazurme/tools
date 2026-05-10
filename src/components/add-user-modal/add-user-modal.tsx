@@ -20,6 +20,7 @@ type ConfirmModalProps = {
   setOpen: (e: boolean) => void;
   title: string;
   isLoading?: boolean;
+  onAddUserToProject: (id: number) => void;
 };
 
 type FormPayload = { email: string };
@@ -39,9 +40,10 @@ const fields = [
 
 export default function AddUserModal({
   open, setOpen, title, isLoading = false,
+  onAddUserToProject,
 }: ConfirmModalProps) {
   const document = useAppSelector(documentSelector);
-  const [workers, setWorkers] = useState<UserType | null>(null);
+  const [worker, setWorker] = useState<UserType | null>(null);
   const [getUserByEmail] = useGetUserByEmailMutation();
   const { showError } = useAppToaster();
   const { control, getValues } = useForm<FormPayload>({
@@ -53,8 +55,16 @@ export default function AddUserModal({
     try {
       const { email } = getValues();
       const user = await getUserByEmail(email).unwrap();
-      setWorkers(user);
-      // console.log(user);
+      setWorker(user);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      showError(`${message}`, 'Ошибка');
+    }
+  };
+
+  const onAdd = async () => {
+    try {
+      onAddUserToProject(worker!.id);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
       showError(`${message}`, 'Ошибка');
@@ -100,19 +110,19 @@ export default function AddUserModal({
           </Button>
         </form>
         <div>
-          {workers
+          {worker
             && (
-            <div className={style.item} key={workers.id}>
+            <div className={style.item} key={worker.id}>
               <User
-                avatar={{ text: workers.email, theme: 'brand' }}
-                name={workers.email}
-                description={workers.email}
+                avatar={{ text: worker.email, theme: 'brand' }}
+                name={worker.email}
+                description={worker.email}
                 size="xs"
               />
               <Button
                 view="flat"
                 size="l"
-                disabled
+                onClick={onAdd}
               >
                 <Icon
                   data={true ? Plus : Minus}

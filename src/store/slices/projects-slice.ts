@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { projectsApiEndpoints, type RootState } from '..';
@@ -5,17 +6,26 @@ import { projectsApiEndpoints, type RootState } from '..';
 type ProjectsState = {
   data: ProjectType[];
   total: number;
+  project: ProjectType | null;
 };
 
 export const initialStateProjects: ProjectsState = {
   data: [],
   total: 0,
+  project: null,
 };
 
 const projectsSlice = createSlice({
   name: 'projects',
   initialState: initialStateProjects,
   reducers: {
+    setProject: (
+      state,
+      { payload }: PayloadAction<{ project: ProjectType }>,
+    ) => {
+      state.project = payload.project;
+    },
+
     addProject: (
       state,
       { payload }: PayloadAction<{ data: ProjectType }>,
@@ -48,6 +58,18 @@ const projectsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
+        projectsApiEndpoints.endpoints.addUserToProject.matchFulfilled,
+        (state, action) => {
+          state.project = action.payload;
+        },
+      )
+      .addMatcher(
+        projectsApiEndpoints.endpoints.removeUserFromProject.matchFulfilled,
+        (state, action) => {
+          state.project = action.payload;
+        },
+      )
+      .addMatcher(
         projectsApiEndpoints.endpoints.removeProject.matchFulfilled,
         (state, action) => ({
           ...state,
@@ -58,7 +80,10 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { addProject, removeProject, setProjects } = projectsSlice.actions;
+export const {
+  addProject, removeProject, setProjects, setProject,
+} = projectsSlice.actions;
 export default projectsSlice.reducer;
+export const projectSelector = (state: RootState) => state.projects.project;
 export const projectsSelector = (state: RootState) => state.projects.data;
 export const projectsTotalSelector = (state: RootState) => state.projects.total;
