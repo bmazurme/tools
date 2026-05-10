@@ -1,11 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Outlet, useParams } from 'react-router-dom';
-import { Button, Icon, TextInput } from '@gravity-ui/uikit';
-import { PersonPlus } from '@gravity-ui/icons';
-
-import AddUserModal from '../../components/add-user-modal/add-user-modal';
+import { TextInput } from '@gravity-ui/uikit';
 
 import {
   useGetDocumentMutation,
@@ -21,7 +18,6 @@ import useAppToaster from '../../hooks/use-app-toaster';
 type FormPayload = { name: string };
 
 export default function DocumentPage() {
-  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { showError } = useAppToaster();
   const { id } = useParams();
@@ -43,10 +39,6 @@ export default function DocumentPage() {
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
-  };
-
-  const onHandleOpenModal = () => {
-    setIsOpen(true);
   };
 
   useEffect(() => {
@@ -100,28 +92,9 @@ export default function DocumentPage() {
             )}
           />
         ))}
-        <Button
-          view="flat"
-          size="l"
-          onClick={onHandleOpenModal}
-          title="Добавить пользователя к документу"
-          // disabled={isBlockUpdating}
-        >
-          <Icon
-            data={PersonPlus}
-            size={20}
-          />
-        </Button>
       </form>
 
       <Outlet />
-      {isOpen && (
-        <AddUserModal
-          open={isOpen}
-          setOpen={setIsOpen}
-          title="Добавить пользователя к документу"
-        />
-      )}
     </div>
   );
 }
