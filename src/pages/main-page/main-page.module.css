@@ -1,5 +1,5 @@
 .page {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -111,7 +111,7 @@
 /* Стили для футера */
 .footer {
   text-align: center;
-  padding: 40px 20px; /* Увеличены отступы: вертикальный — до 40 px, горизонтальный — до 20 px */
+  /* padding: 40px 20px; */
 }
 
 .disclaimer {
