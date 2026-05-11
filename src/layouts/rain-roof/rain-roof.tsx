@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Skeleton } from '@gravity-ui/uikit';
 
 import Board from './rain-roof-board';
 
 import { useGetBlocksMutation, useGetRainRoofsItemsMutation, documentSelector } from '../../store';
 import { useAppSelector } from '../../hooks';
+
+import style from './rain-roof.module.css';
 
 export default function RainRoofLayout() {
   const { id, typeId } = useParams();
@@ -21,7 +24,7 @@ export default function RainRoofLayout() {
 
   return (
     <div className="gapb">
-      {document?.type.link !== typeId ? <>error</> : <Board />}
+      {document?.type.link !== typeId ? <Skeleton className={style.loader} /> : <Board />}
     </div>
   );
 }
