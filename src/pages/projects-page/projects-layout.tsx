@@ -117,7 +117,11 @@ export default function ProjectsPage() {
     <LayoutWrapper isLoading={isLoading}>
       <div className="content">
         <Text variant="header-1">Проекты</Text>
-        <Button view="action" size="m" onClick={() => navigate('add')}>
+        <Button
+          view="action"
+          size="m"
+          onClick={() => navigate('add')}
+        >
           <Icon data={Plus} size={18} />
           Добавить проект
         </Button>
