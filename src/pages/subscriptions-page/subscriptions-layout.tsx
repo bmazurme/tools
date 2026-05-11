@@ -27,7 +27,6 @@ export default function SubscriptionsLayout() {
   };
   const createSubscription = async () => {
     try {
-      // const result =
       await sendPay().unwrap() as unknown as { id: number| null, endDate: string };
       showSuccess('Подписка успешно создана');
     } catch (error) {
@@ -57,7 +56,10 @@ export default function SubscriptionsLayout() {
         >
           Продлить подписку
         </Button>
-        <Button view="outlined-warning" size="l">
+        <Button
+          view="outlined-warning"
+          size="l"
+        >
           Отменить подписку
         </Button>
       </div>
