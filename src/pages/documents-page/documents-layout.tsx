@@ -13,6 +13,7 @@ import {
 } from '../../store';
 import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import useAppToaster from '../../hooks/use-app-toaster';
+import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 
 const MyTable = withTableActions(Table);
 const columns = [
@@ -31,7 +32,7 @@ export default function DocumentsLayout() {
   const total = useAppSelector(documentsTotalSelector);
   const navigate = useNavigate();
   const [state, setState] = useState({ page: Number(searchParams.get('page')) || 1, pageSize: 10 });
-  const [getDocuments] = useGetDocumentsByPageMutation();
+  const [getDocuments, { isLoading }] = useGetDocumentsByPageMutation();
   const [removeDocument] = useRemoveDocumentMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,39 +102,41 @@ export default function DocumentsLayout() {
   }, [getDocuments, dispatch, state.page]);
 
   return (
-    <div className="content">
-      <Text variant="header-1">Документы</Text>
-      <Button
-        view="action"
-        size="m"
-        onClick={() => navigate('add')}
-      >
-        <Icon data={Plus} size={18} />
-        Добавить документ
-      </Button>
+    <LayoutWrapper isLoading={isLoading}>
+      <div className="content">
+        <Text variant="header-1">Документы</Text>
+        <Button
+          view="action"
+          size="m"
+          onClick={() => navigate('add')}
+        >
+          <Icon data={Plus} size={18} />
+          Добавить документ
+        </Button>
 
-      <MyTable
-        className="table"
-        data={documents}
-        columns={columns}
-        getRowActions={getRowActions}
-        onRowClick={handleRowClick}
-      />
-
-      <Pagination
-        page={state.page}
-        pageSize={state.pageSize}
-        total={total}
-        onUpdate={handleUpdate}
-      />
-      {isModalOpen && (
-        <ConfirmModal
-          open={isModalOpen}
-          setOpen={cancelDelete}
-          onDelete={confirmDelete}
-          title="Вы действительно хотите удалить строку?"
+        <MyTable
+          className="table"
+          data={documents}
+          columns={columns}
+          getRowActions={getRowActions}
+          onRowClick={handleRowClick}
         />
-      )}
-    </div>
+
+        <Pagination
+          page={state.page}
+          pageSize={state.pageSize}
+          total={total}
+          onUpdate={handleUpdate}
+        />
+        {isModalOpen && (
+          <ConfirmModal
+            open={isModalOpen}
+            setOpen={cancelDelete}
+            onDelete={confirmDelete}
+            title="Вы действительно хотите удалить строку?"
+          />
+        )}
+      </div>
+    </LayoutWrapper>
   );
 }
