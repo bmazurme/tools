@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/require-default-props */
 import {
@@ -6,14 +7,13 @@ import {
   User,
 } from '@gravity-ui/uikit';
 import { Controller, useForm } from 'react-hook-form';
-import { Magnifier, Minus, Plus } from '@gravity-ui/icons';
+import { Magnifier, Plus } from '@gravity-ui/icons';
 
 import { useState } from 'react';
 import style from './add-user-modal.module.css';
 import { TEXT_INPUT_PROPS } from '../../config';
-import { documentSelector, useGetUserByEmailMutation } from '../../store';
+import { useGetUserByEmailMutation } from '../../store';
 import useAppToaster from '../../hooks/use-app-toaster';
-import { useAppSelector } from '../../hooks';
 
 type ConfirmModalProps = {
   open: boolean;
@@ -21,6 +21,7 @@ type ConfirmModalProps = {
   title: string;
   isLoading?: boolean;
   onAddUserToProject: (id: number) => void;
+  project: ProjectType;
 };
 
 type FormPayload = { email: string };
@@ -40,16 +41,14 @@ const fields = [
 
 export default function AddUserModal({
   open, setOpen, title, isLoading = false,
-  onAddUserToProject,
+  onAddUserToProject, project,
 }: ConfirmModalProps) {
-  const document = useAppSelector(documentSelector);
   const [worker, setWorker] = useState<UserType | null>(null);
   const [getUserByEmail] = useGetUserByEmailMutation();
   const { showError } = useAppToaster();
   const { control, getValues } = useForm<FormPayload>({
     defaultValues: { email: '' },
   });
-  console.log(document);
 
   const onSubmit = async () => {
     try {
@@ -123,9 +122,10 @@ export default function AddUserModal({
                 view="flat"
                 size="l"
                 onClick={onAdd}
+                disabled={project.participants.some((x) => x.id === worker.id) || worker.id === project.creator.id}
               >
                 <Icon
-                  data={true ? Plus : Minus}
+                  data={Plus}
                   size={16}
                 />
               </Button>

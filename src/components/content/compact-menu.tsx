@@ -28,7 +28,7 @@ const CompactMenu = memo(() => {
         <button
           {...props}
           aria-label="Профиль"
-          className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('profile') && 'gn-composite-bar-item-active'}`}
+          className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('profile') && 'gn-composite-bar-item-active'}`}
         >
           <div className="gn-composite-bar-item__icon-place">
             <Icon data={Person} size={18} />

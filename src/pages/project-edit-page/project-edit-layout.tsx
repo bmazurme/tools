@@ -4,8 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { PersonPlus, Minus } from '@gravity-ui/icons';
 import {
-  Button, Icon, TextInput, Text,
-  User,
+  Button, Icon, TextInput, Text, User,
 } from '@gravity-ui/uikit';
 
 import AddUserModal from '../../components/add-user-modal/add-user-modal';
@@ -25,9 +24,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import style from './project-edit-layout.module.css';
 import useUser from '../../hooks/use-user';
 
-// type FormPayload = Omit<Omit<ProjectType, 'id'>, 'participants'>;
 type FormPayload = {
-  // id: number;
   name: string;
   description: string;
   address: string;
@@ -73,6 +70,7 @@ export default function ProjectEditLayout() {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
   };
+
   const onRemoveUserFromProject = async (userId: number) => {
     try {
       await removeUserFromProject({ projectId, userId });
@@ -130,25 +128,29 @@ export default function ProjectEditLayout() {
       </form>
 
       <div className="form">
-        <Text variant="header-1">Участники</Text>
-        <Button
-          view="flat"
-          size="l"
-          onClick={onHandleOpenModal}
-          title="Добавить пользователя к проекту"
-        >
-          <Icon
-            data={PersonPlus}
-            size={20}
-          />
-        </Button>
+        <div className={style.header}>
+          <Text variant="header-1">Участники</Text>
+          <Button
+            view="flat"
+            size="l"
+            onClick={onHandleOpenModal}
+            title="Добавить пользователя к проекту"
+          >
+            <Icon
+              data={PersonPlus}
+              size={20}
+            />
+          </Button>
+        </div>
+
         {isOpen && (
-        <AddUserModal
-          open={isOpen}
-          setOpen={setIsOpen}
-          onAddUserToProject={onAddUserToProject}
-          title="Добавить пользователя к документу"
-        />
+          <AddUserModal
+            open={isOpen}
+            setOpen={setIsOpen}
+            onAddUserToProject={onAddUserToProject}
+            title="Добавить пользователя к документу"
+            project={project!}
+          />
         )}
         {project?.participants.map((worker) => (
           <div

@@ -17,7 +17,6 @@ import { block, Logo } from '../logo/logo';
 
 import useUser from '../../hooks/use-user';
 import { useAppDispatch } from '../../hooks';
-// import { useIsAuthenticated } from '../../hooks/use-is-authenticated';
 
 import {
   useToggleCompactMutation, useToggleThemeMutation, toggleCompactOptimistic,
@@ -35,7 +34,6 @@ type ContentProps = {
 const b = block('collapse-button');
 
 function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
-  // const { isLoading } = useIsAuthenticated();
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const [toggleTheme] = useToggleThemeMutation();
@@ -78,10 +76,6 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
     </>
   ), [user?.isDark, handleThemeToggle]);
 
-  // if (isLoading) {
-  //   return null; // или компонент загрузки: <LoadingSpinner />
-  // }
-
   return (
     <div className={style.page}>
       {sidebar
@@ -116,7 +110,7 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
                 </div>
               </button>
             ) : (
-              <div className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
+              <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
                 <div className="gn-composite-bar-item__icon-place">
                   <Button
                     view={location.pathname.includes('project') ? 'action' : 'flat'}
@@ -150,7 +144,7 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
                 </div>
               </button>
             ) : (
-              <div className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
+              <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
                 <div className="gn-composite-bar-item__icon-place">
                   <Button
                     view="flat"
@@ -172,7 +166,11 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
             className={b({ compact: user?.isCompact }, 'gn-collapse-button gn-collapse-button_compact')}
             aria-label="Компакт"
           >
-            <Icon data={user?.isCompact ? CaretRight : CaretLeft} className={b('icon')} size={16} />
+            <Icon
+              data={user?.isCompact ? CaretRight : CaretLeft}
+              className={b('icon')}
+              size={16}
+            />
           </button>
         </div>
         )}

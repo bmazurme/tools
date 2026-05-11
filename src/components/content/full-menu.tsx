@@ -51,7 +51,6 @@ const FullMenu = memo(() => {
             },
           ]}
         />
-
       </div>
     </div>
   );
