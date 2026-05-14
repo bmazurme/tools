@@ -8,10 +8,12 @@ import {
   useGetBlocksMutation, useGetHeatConsumptionItemsMutation, documentSelector, setItems,
 } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 import style from './heat-consumption.module.css';
 
 export default function HeatConsumptionLayout() {
+  const { showError } = useAppToaster();
   const dispatch = useAppDispatch();
   const { id, typeId } = useParams();
   const document = useAppSelector(documentSelector);
@@ -21,13 +23,19 @@ export default function HeatConsumptionLayout() {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
-        getBlock(Number(id));
-        const items = await getItems(Number(id)).unwrap();
-        dispatch(setItems({ items }));
+        try {
+          getBlock(Number(id));
+          const items = await getItems(Number(id)).unwrap();
+          dispatch(setItems({ items }));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+          showError(`${message}`, 'Ошибка');
+        }
       }
     };
+
     fetchData();
-  }, [getBlock, id]);
+  }, [getBlock, getItems, dispatch, id]);
 
   return (
     <div className="gapb">

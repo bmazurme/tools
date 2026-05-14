@@ -16,6 +16,7 @@ import {
   useUpdateItemMutation,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 import style from './heat-consumption-column.module.css';
 
@@ -41,6 +42,7 @@ interface IHeatConsumptionItem {
 }
 
 export default function HeatConsumptionItem({ item, index }: IHeatConsumptionItem) {
+  const { showError } = useAppToaster();
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,8 +140,8 @@ export default function HeatConsumptionItem({ item, index }: IHeatConsumptionIte
         });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при обновлении проекта:', error);
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      showError(`${message}`, 'Ошибка');
     }
   };
 

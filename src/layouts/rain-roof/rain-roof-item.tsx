@@ -16,6 +16,7 @@ import {
   useUpdateItemMutation,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 import style from './rain-roof-column.module.css';
 
@@ -41,6 +42,7 @@ interface IRainRoofItem {
 }
 
 export default function RainRoofItem({ item, index }: IRainRoofItem) {
+  const { showError } = useAppToaster();
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -138,8 +140,8 @@ export default function RainRoofItem({ item, index }: IRainRoofItem) {
         });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при обновлении проекта:', error);
+      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+      showError(`${message}`, 'Ошибка');
     }
   };
 
@@ -179,7 +181,6 @@ export default function RainRoofItem({ item, index }: IRainRoofItem) {
           <Text variant="code-1" className={style.q5}>{item.rainRoof?.q5}</Text>
           <Text variant="code-1" className={style.q20}>{item.rainRoof?.q20}</Text>
           <Text variant="code-1" className={style.n}>{item.rainRoof?.n}</Text>
-          <Text variant="code-1" className={style.slope}>{item.rainRoof?.slope}</Text>
           <Text variant="code-1" className={style.flow}>{item.rainRoof?.flow}</Text>
         </ul>
       </Item>

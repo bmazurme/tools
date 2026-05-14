@@ -46,29 +46,17 @@ const FIELD_CONFIG = [
     },
     required: 'Обязательно к заполнению',
   },
-  {
-    name: 'slope',
-    label: 'Уклон',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
 ];
 
 export default function RainRoofModal({ item, open, setOpen }:
   { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
   const [updateRainRoofs] = useUpdateRainRoofsMutation();
-  const {
-    control, handleSubmit,
-  } = useForm<FormPayload>({
+  const { control, handleSubmit } = useForm<FormPayload>({
     defaultValues: {
       areaRoof: item.rainRoof?.areaRoof ?? 0,
       areaFacade: item.rainRoof?.areaFacade ?? 0,
       q20: item.rainRoof?.q20 ?? 0,
       n: item.rainRoof?.n ?? 0,
-      slope: item.rainRoof?.slope ?? 0,
     },
   });
 

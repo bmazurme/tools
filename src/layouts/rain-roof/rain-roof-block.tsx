@@ -21,7 +21,6 @@ type RainRoofBlockProps = { block: BlockType; index: number };
 
 export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
   const { id } = useParams();
-
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
@@ -122,8 +121,7 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
               <Text variant="code-1" className={style.wall} />
               <Text variant="code-1" className={style.q5} />
               <Text variant="code-1" className={style.q20} />
-              <Text variant="code-1" className={style.n} />
-              <Text variant="code-1" className={style.slope}>
+              <Text variant="code-1" className={style.n}>
                 Итого:
               </Text>
               <Text variant="code-1" className={style.flow}>

@@ -105,12 +105,6 @@ export default function RainRoofColumn({ children, blockId, length }: ColumnType
           </Text>
           <Text
             variant="code-1"
-            className={style.slope}
-          >
-            Уклон, %
-          </Text>
-          <Text
-            variant="code-1"
             title="Расход, л/с"
             className={style.flow}
           >

@@ -13,7 +13,6 @@ type RainRoof = {
   n: number;
   q5: number;
   q20: number;
-  slope: number;
   sumRoofArea: number;
   flow: number;
 };
