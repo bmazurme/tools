@@ -23,6 +23,7 @@ export default function NavigationBreadcrumbs() {
     subscriptions: 'Подписка',
     'rain-roof': 'Расчёт дождевых вод с кровли',
     'rain-runoff': 'Расчёт дождевых вод с территории',
+    'heat-consumption': 'Расчет тепла для приготовления горячей воды',
   };
 
   // Функция для капитализации первой буквы
