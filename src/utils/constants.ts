@@ -2,6 +2,8 @@ export const NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
 export const VELOCITY_RATE_PATTERN = /^(?:0\.[0-9][0-9]*|[1-9](?:\.[0-9]+)?|10(?:\.0+)?)$/;
 export const INTENSITY_PATTERN = /^(?:0(?:\.[0-9]+)?|[1-9][0-9]?(?:\.[0-9]+)?|1[0-4][0-9](?:\.[0-9]+)?|150(?:\.0+)?)$/;
 export const ZERO_TO_ONE_PATTERN = /^(?:0(?:\.[0-9]+)?|1(?:\.0+)?)$/;
+export const ZERO_TO_HUNDRED_PATTERN = /^(?:0*(?:[0-9]|[1-9][0-9]|100)(?:\.[0-9]+)?|100(?:\.0+)?)$/;
+export const POSITIVE_INTEGER_PATTERN = /^[1-9]\d*$/;
 
 export const { VITE_API_URL = 'http://localhost:3000' } = import.meta.env;
 export const { VITE_TOKEN = '2f47d503901842298d06b55c9ba625b4' } = import.meta.env;
@@ -29,6 +31,13 @@ export const LATEX = {
   mr: '$m_{r}$',
   gamma: '$\\gamma$',
   m2: '$\\text{м}^{2}$',
+  tc: '$t^{c}$',
+  th: '$t^{h}$',
+  maxHotWaterPerHour: '$q_{hr}^h$',
+  avgHotWaterPerHour: '$q_{T}^h$',
+  hwPipelineHeatLoss: '$Q^{ht}$',
+  meanHourlyHeatForHotWater: '$Q_h^{T}$',
+  maxHourlyHeatForHotWater: '$Q_{hr}^{t}$',
   formula: {
     Qr: '$Q_{r}=\\cfrac{Z_{mid}\\cdot A^{1.2}\\cdot F}{t_r^{1.2n-0.1}}$',
     A: '$A=q_{20}\\cdot20^n\\left(1+\\cfrac{lgP}{lgm_r}\\right)^\\gamma$',
@@ -37,5 +46,7 @@ export const LATEX = {
     tr: '$t_r=t_{con}+t_{can}+t_{p}$',
     Q: '$Q=\\cfrac{F\\cdot q_{5}}{10000}$',
     q5: '$q_5=4^n\\cdot q_{20}$',
+    QhT: '$Q_{T}^{h}=1,16\\cdot q_{T}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
+    Qhhr: '$Q_{hr}^{h}=1,16\\cdot q_{hr}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
   },
 };
