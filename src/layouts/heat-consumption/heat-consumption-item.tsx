@@ -3,8 +3,8 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
-// import { TextInput, Text } from '@gravity-ui/uikit';
-// import { Controller, useForm } from 'react-hook-form';
+import { TextInput, Text } from '@gravity-ui/uikit';
+import { Controller, useForm } from 'react-hook-form';
 
 import Item from '../../components/item/item';
 import HeatConsumptionModal from './heat-consumption-modal';
@@ -17,30 +17,30 @@ import {
 } from '../../store';
 import { useAppSelector } from '../../hooks';
 
-// import style from './rain-roof-column.module.css';
+import style from './heat-consumption-column.module.css';
 
-// type FormPayload = { name: string };
+type FormPayload = { name: string };
 
-// const fields = [
-//   {
-//     name: 'name',
-//     // label: 'Название',
-//     placeholder: 'Название',
-//     pattern: {
-//       value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-//       message: 'Name is invalid',
-//     },
-//     required: 'Обязательно к заполнению',
-//     autoComplete: 'name',
-//   },
-// ];
+const fields = [
+  {
+    name: 'name',
+    // label: 'Название',
+    placeholder: 'Название',
+    pattern: {
+      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
+      message: 'Name is invalid',
+    },
+    required: 'Обязательно к заполнению',
+    autoComplete: 'name',
+  },
+];
 
-interface IRainRoofItem {
+interface IHeatConsumptionItem {
   item: (ItemType);
   index: number;
 }
 
-export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
+export default function HeatConsumptionItem({ item, index }: IHeatConsumptionItem) {
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,9 +50,9 @@ export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
   const [refreshItems] = useRefreshItemsMutation();
   const ref = useRef<HTMLLIElement>(null);
 
-  // const { control } = useForm<FormPayload>({
-  //   defaultValues: { name: item.name },
-  // });
+  const { control, getValues } = useForm<FormPayload>({
+    defaultValues: { name: item.name },
+  });
 
   const moveCardHandler = async (dragIndex: number, hoverIndex: number, it: ItemType) => {
     const blockItems = items.filter((x) => x.block.id === it.block.id);
@@ -69,7 +69,7 @@ export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    async hover(_item: (ItemType & RainRoof), monitor) {
+    async hover(_item: (ItemType & HeatConsumption), monitor) {
       if (!ref.current) {
         return;
       }
@@ -127,22 +127,21 @@ export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
-  // const onSubmit = async () => {
-  //   try {
-  //     // eslint-disable-next-line no-underscore-dangle
-  //     const { name } = control._formValues;
+  const onSubmit = async () => {
+    try {
+      const { name } = getValues();
 
-  //     if (item.name !== name) {
-  //       const { id, block } = item;
-  //       await updateItem({
-  //         id, name, index, block,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     // eslint-disable-next-line no-console
-  //     console.error('Ошибка при обновлении проекта:', error);
-  //   }
-  // };
+      if (item.name !== name) {
+        const { id, block } = item;
+        await updateItem({
+          id, name, index, block,
+        });
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Ошибка при обновлении проекта:', error);
+    }
+  };
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
@@ -152,7 +151,7 @@ export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
         detailAction={linkToDetails}
       >
         <ul className="fields">
-          {/* <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
+          <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
           {fields.map((input) => (
             <Controller
               key={input.name}
@@ -175,13 +174,27 @@ export default function HeatConsumptionItem({ item, index }: IRainRoofItem) {
               )}
             />
           ))}
-          <Text variant="code-1" className={style.roof}>{item.rainRoof?.areaRoof}</Text>
-          <Text variant="code-1" className={style.wall}>{item.rainRoof?.areaFacade}</Text>
-          <Text variant="code-1" className={style.q5}>{item.rainRoof?.q5}</Text>
-          <Text variant="code-1" className={style.q20}>{item.rainRoof?.q20}</Text>
-          <Text variant="code-1" className={style.n}>{item.rainRoof?.n}</Text>
-          <Text variant="code-1" className={style.slope}>{item.rainRoof?.slope}</Text>
-          <Text variant="code-1" className={style.flow}>{item.rainRoof?.flow}</Text> */}
+          <Text variant="code-1" className={style.tc}>
+            {item.heatConsumption?.tc}
+          </Text>
+          <Text variant="code-1" className={style.th}>
+            {item.heatConsumption?.th}
+          </Text>
+          <Text variant="code-1" className={style.maxHotWaterPerHour}>
+            {item.heatConsumption?.maxHotWaterPerHour}
+          </Text>
+          <Text variant="code-1" className={style.avgHotWaterPerHour}>
+            {item.heatConsumption?.avgHotWaterPerHour}
+          </Text>
+          <Text variant="code-1" className={style.hwPipelineHeatLoss}>
+            {item.heatConsumption?.hwPipelineHeatLoss}
+          </Text>
+          <Text variant="code-1" className={style.meanHourlyHeatForHotWater}>
+            {item.heatConsumption?.meanHourlyHeatForHotWater}
+          </Text>
+          <Text variant="code-1" className={style.maxHourlyHeatForHotWater}>
+            {item.heatConsumption?.maxHourlyHeatForHotWater}
+          </Text>
         </ul>
       </Item>
       {isModalOpen
