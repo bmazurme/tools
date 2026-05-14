@@ -11,3 +11,4 @@ export * from './rain-roofs-slice';
 export * from './rain-runoffs-slice';
 export * from './rain-places-slice';
 export * from './rain-conditions-slice';
+export * from './heat-consumption-slice';

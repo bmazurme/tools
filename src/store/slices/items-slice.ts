@@ -1,8 +1,10 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import { itemsApiEndpoints } from '../api/items-api/endpoints/index';
 import { rainRoofsApiEndpoints } from '../api/rain-roofs-api/endpoints/index';
 import { rainRunoffsApiEndpoints } from '../api/rain-runoffs-api/endpoints/index';
+import { heatConsumptionEndpoints } from '../api/heat-consumption-api/endpoints/index';
 
 import { type RootState } from '..';
 
@@ -18,10 +20,23 @@ export const initialStateItems: ItemsState = {
   },
 };
 
-const slice = createSlice({
+const itemsSlice = createSlice({
   name: 'items',
   initialState: initialStateItems,
-  reducers: { },
+  reducers: {
+    setItems: (
+      state,
+      { payload }: PayloadAction<{ items: ItemType[] }>,
+    ) => {
+      state.data.items = payload.items;
+    },
+    setItem: (
+      state,
+      { payload }: PayloadAction<{ item: ItemType }>,
+    ) => {
+      state.data.items.push(payload.item);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addMatcher(
@@ -93,6 +108,17 @@ const slice = createSlice({
         }),
       )
       .addMatcher(
+        heatConsumptionEndpoints.endpoints.updateHeatConsumption.matchFulfilled,
+        (state, { payload }) => ({
+          ...state,
+          data: {
+            items: state.data.items.map((x) => (x.heatConsumption!.id === payload.id
+              ? { ...x, heatConsumption: payload }
+              : x)),
+          },
+        }),
+      )
+      .addMatcher(
         itemsApiEndpoints.endpoints.deleteItem.matchFulfilled,
         (state, { meta, payload }) => ({
           ...state,
@@ -132,5 +158,8 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
+export const {
+  setItems, setItem,
+} = itemsSlice.actions;
+export default itemsSlice.reducer;
 export const itemsSelector = (state: RootState) => state.items.data;
