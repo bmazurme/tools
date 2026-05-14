@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 import { useGetHeatConsumptionItemMutation } from '../../store';
 import { heatConsumptionItemSelector, setHeatConsumption } from '../../store/slices/heat-consumption-slice';
 import NotFoundLayout from '../not-found-layout';
@@ -9,6 +10,7 @@ import HeatConsumptionTemplate from './heat-consumption-template';
 
 export default function HeatConsumptionLayout() {
   const dispatch = useAppDispatch();
+  const { showError } = useAppToaster();
   const { itemId } = useParams<{ itemId: string }>();
   const [getHeatConsumptionItem] = useGetHeatConsumptionItemMutation();
   const item = useAppSelector(heatConsumptionItemSelector);
@@ -19,15 +21,15 @@ export default function HeatConsumptionLayout() {
         const data = await getHeatConsumptionItem(+id).unwrap();
         dispatch(setHeatConsumption({ item: data }));
       } catch (error) {
-        console.log(error);
+        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+        showError(`${message}`, 'Ошибка');
       }
     };
     // eslint-disable-next-line no-restricted-globals
     if (itemId && !isNaN(+itemId) && +itemId > 0) {
       fetchData(itemId);
     } else {
-      // eslint-disable-next-line no-console
-      console.error('Invalid itemId:', itemId);
+      showError(`Invalid itemId: ${itemId}`, 'Ошибка');
     }
   }, []);
 

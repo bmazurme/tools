@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 import { useGetRainRoofsItemMutation } from '../../store';
 import { rainRoofsItemSelector } from '../../store/slices/rain-roofs-slice';
 import NotFoundLayout from '../not-found-layout';
 import RainRoofTemplate from './rain-roof-template';
 
 export default function RainRoofTemplateLayout() {
+  const { showError } = useAppToaster();
   const { itemId } = useParams<{ itemId: string }>();
   const [getRainRoofItem] = useGetRainRoofsItemMutation();
   const item = useAppSelector(rainRoofsItemSelector);
@@ -17,8 +19,7 @@ export default function RainRoofTemplateLayout() {
     if (itemId && !isNaN(+itemId) && +itemId > 0) {
       getRainRoofItem(+itemId);
     } else {
-      // eslint-disable-next-line no-console
-      console.error('Invalid itemId:', itemId);
+      showError(`Invalid itemId: ${itemId}`, 'Ошибка');
     }
   }, []);
 

@@ -112,7 +112,10 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
     >
       <Block blockId={block.id} value={block} />
 
-      <Column blockId={block.id} length={blockItems.length}>
+      <Column
+        blockId={block.id}
+        length={blockItems.length}
+      >
         {returnItemsForColumn(blockItems)}
         {blockItems.length > 0
         && (
@@ -124,13 +127,23 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
               <Text variant="code-1" className={style.th} />
               <Text variant="code-1" className={style.maxHotWaterPerHour} />
               <Text variant="code-1" className={style.avgHotWaterPerHour} />
-              <Text variant="code-1" className={style.hwPipelineHeatLoss}>
+
+              <Text
+                variant="code-1"
+                className={style.hwPipelineHeatLoss}
+              >
                 Итого:
               </Text>
-              <Text variant="code-1" className={style.meanHourlyHeatForHotWater}>
+              <Text
+                variant="code-1"
+                className={style.meanHourlyHeatForHotWater}
+              >
                 {sumAvg.toFixed(2)}
               </Text>
-              <Text variant="code-1" className={style.maxHourlyHeatForHotWater}>
+              <Text
+                variant="code-1"
+                className={style.maxHourlyHeatForHotWater}
+              >
                 {sumMax.toFixed(2)}
               </Text>
             </div>

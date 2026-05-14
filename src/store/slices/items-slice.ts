@@ -46,13 +46,13 @@ const itemsSlice = createSlice({
           data: { items: payload },
         }),
       )
-      .addMatcher(
-        rainRoofsApiEndpoints.endpoints.getRainRoofsItems.matchFulfilled,
-        (state, { payload }: PayloadAction<ItemType[]>) => ({
-          ...state,
-          data: { items: payload },
-        }),
-      )
+      // .addMatcher(
+      //   rainRoofsApiEndpoints.endpoints.getRainRoofsItems.matchFulfilled,
+      //   (state, { payload }: PayloadAction<ItemType[]>) => ({
+      //     ...state,
+      //     data: { items: payload },
+      //   }),
+      // )
       .addMatcher(
         itemsApiEndpoints.endpoints.updateItem.matchFulfilled,
         (state, { payload }) => ({

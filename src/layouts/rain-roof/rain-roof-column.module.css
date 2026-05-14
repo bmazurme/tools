@@ -32,10 +32,6 @@
   composes: base;
   width: 100px;
 }
-.slope {
-  composes: base;
-  width: 100px;
-}
 .flow {
   composes: base;
   width: 100px;
