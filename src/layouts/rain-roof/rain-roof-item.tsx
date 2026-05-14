@@ -50,7 +50,7 @@ export default function RainRoofItem({ item, index }: IRainRoofItem) {
   const [refreshItems] = useRefreshItemsMutation();
   const ref = useRef<HTMLLIElement>(null);
 
-  const { control } = useForm<FormPayload>({
+  const { control, getValues } = useForm<FormPayload>({
     defaultValues: { name: item.name },
   });
 
@@ -129,8 +129,7 @@ export default function RainRoofItem({ item, index }: IRainRoofItem) {
 
   const onSubmit = async () => {
     try {
-      // eslint-disable-next-line no-underscore-dangle
-      const { name } = control._formValues;
+      const { name } = getValues();
 
       if (item.name !== name) {
         const { id, block } = item;

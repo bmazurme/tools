@@ -1,0 +1,42 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 300px;
+  justify-content: flex-start;
+}
+.tc {
+  composes: base;
+  width: 100px;
+}
+.th {
+  composes: base;
+  width: 100px;
+}
+.maxHotWaterPerHour {
+  composes: base;
+  width: 100px;
+}
+.avgHotWaterPerHour {
+  composes: base;
+  width: 100px;
+}
+.hwPipelineHeatLoss {
+  composes: base;
+  width: 100px;
+}
+.meanHourlyHeatForHotWater {
+  composes: base;
+  width: 100px;
+}
+.maxHourlyHeatForHotWater {
+  composes: base;
+  width: 100px;
+}

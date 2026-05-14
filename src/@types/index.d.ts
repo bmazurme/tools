@@ -47,6 +47,17 @@ type RainRunoff = {
   condition: { id: number; name: string; };
 };
 
+type HeatConsumption = {
+  id: number;
+  th: number;
+  tc: number;
+  maxHotWaterPerHour: number;
+  avgHotWaterPerHour: number;
+  hwPipelineHeatLoss: number;
+  meanHourlyHeatForHotWater: number;
+  maxHourlyHeatForHotWater: number;
+};
+
 type RainCondition = {
   id: number;
   name: string;
@@ -68,6 +79,7 @@ type ItemType = {
   index: number;
   rainRoof?: RainRoof;
   rainRunoff?: RainRunoff;
+  heatConsumption?: HeatConsumption;
 };
 type RawBlockType = BlockType & { items: ItemType };
 

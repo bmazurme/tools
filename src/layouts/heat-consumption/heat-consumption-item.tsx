@@ -1,44 +1,46 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
-import { Controller, useForm } from 'react-hook-form';
 import { TextInput, Text } from '@gravity-ui/uikit';
+import { Controller, useForm } from 'react-hook-form';
 
 import Item from '../../components/item/item';
-import RainRunoffModal from './rain-runoff-modal';
+import HeatConsumptionModal from './heat-consumption-modal';
 
 import { TARGET_TYPE } from '../../config';
-import { useAppSelector } from '../../hooks';
 import {
   itemsSelector,
   useRefreshItemsMutation,
   useUpdateItemMutation,
 } from '../../store';
+import { useAppSelector } from '../../hooks';
 
-import style from './rain-runoff-column.module.css';
+import style from './heat-consumption-column.module.css';
 
 type FormPayload = { name: string };
 
-interface IRainRunoffItem {
-  item: ItemType;
-  index: number;
-}
-
-const FIELD_CONFIG = [
+const fields = [
   {
-    name: 'name' as const,
+    name: 'name',
+    // label: 'Название',
     placeholder: 'Название',
     pattern: {
       value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-      message: 'Название должно содержать от 3 до 50 символов (буквы, цифры, пробелы, точки, запятые, дефисы)',
+      message: 'Name is invalid',
     },
     required: 'Обязательно к заполнению',
     autoComplete: 'name',
   },
-] as const;
+];
 
-export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
+interface IHeatConsumptionItem {
+  item: (ItemType);
+  index: number;
+}
+
+export default function HeatConsumptionItem({ item, index }: IHeatConsumptionItem) {
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,13 +62,14 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       const newItems = [...blockItems];
       const [movedItem] = newItems.splice(dragIndex, 1);
       newItems.splice(hoverIndex, 0, movedItem);
+
       await refreshItems(newItems.filter((t) => t).map((x, i) => ({ ...x, index: i })));
     }
   };
 
   const [, drop] = useDrop({
     accept: TARGET_TYPE.ITEMS,
-    hover(_item: ItemType, monitor) {
+    async hover(_item: (ItemType & HeatConsumption), monitor) {
       if (!ref.current) {
         return;
       }
@@ -94,7 +97,6 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
         }
 
         moveCardHandler(dragIndex, hoverIndex, item);
-        // eslint-disable-next-line no-param-reassign
         _item.index = hoverIndex;
       }
     },
@@ -130,8 +132,9 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       const { name } = getValues();
 
       if (item.name !== name) {
+        const { id, block } = item;
         await updateItem({
-          id: item.id, name, index, block: item.block,
+          id, name, index, block,
         });
       }
     } catch (error) {
@@ -149,7 +152,7 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
-          {FIELD_CONFIG.map((input) => (
+          {fields.map((input) => (
             <Controller
               key={input.name}
               name={input.name as keyof FormPayload}
@@ -171,17 +174,37 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
               )}
             />
           ))}
-          <Text variant="code-1" className={style.area}>{item.rainRunoff?.area}</Text>
-          <Text variant="code-1" className={style.intensity}>{item.rainRunoff?.intensity}</Text>
-          <Text variant="code-1" className={style.lengthPipe}>{item.rainRunoff?.lengthPipe}</Text>
-          <Text variant="code-1" className={style.lengthTray}>{item.rainRunoff?.lengthTray}</Text>
-          <Text variant="code-1" className={style.velocityPipe}>{item.rainRunoff?.velocityPipe}</Text>
-          <Text variant="code-1" className={style.velocityTray}>{item.rainRunoff?.velocityTray}</Text>
-          <Text variant="code-1" className={style.timeInit}>{item.rainRunoff?.timeInit}</Text>
-          <Text variant="code-1" className={style.flow}>{item.rainRunoff?.flow}</Text>
+          <Text variant="code-1" className={style.tc}>
+            {item.heatConsumption?.tc}
+          </Text>
+          <Text variant="code-1" className={style.th}>
+            {item.heatConsumption?.th}
+          </Text>
+          <Text variant="code-1" className={style.maxHotWaterPerHour}>
+            {item.heatConsumption?.maxHotWaterPerHour}
+          </Text>
+          <Text variant="code-1" className={style.avgHotWaterPerHour}>
+            {item.heatConsumption?.avgHotWaterPerHour}
+          </Text>
+          <Text variant="code-1" className={style.hwPipelineHeatLoss}>
+            {item.heatConsumption?.hwPipelineHeatLoss}
+          </Text>
+          <Text variant="code-1" className={style.meanHourlyHeatForHotWater}>
+            {item.heatConsumption?.meanHourlyHeatForHotWater}
+          </Text>
+          <Text variant="code-1" className={style.maxHourlyHeatForHotWater}>
+            {item.heatConsumption?.maxHourlyHeatForHotWater}
+          </Text>
         </ul>
       </Item>
-      {isModalOpen && <RainRunoffModal item={item} open={isModalOpen} setOpen={setIsModalOpen} />}
+      {isModalOpen
+        && (
+        <HeatConsumptionModal
+          item={item}
+          open={isModalOpen}
+          setOpen={setIsModalOpen}
+        />
+        )}
     </li>
   );
 }

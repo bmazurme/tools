@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import RainRunoffTemplate from '../rain-runoff-template-layout';
 import RainRoofTemplateLayout from '../rain-roof-template-layout';
 import NotFoundLayout from '../not-found-layout';
+import HeatConsumptionLayout from '../heat-consumption-template-layout';
 
 export default function DynamicTemplateLayout() {
   const { typeId } = useParams();
@@ -10,6 +11,7 @@ export default function DynamicTemplateLayout() {
   const LayoutComponent = {
     'rain-runoff': RainRunoffTemplate,
     'rain-roof': RainRoofTemplateLayout,
+    'heat-consumption': HeatConsumptionLayout,
   }[typeId!] || NotFoundLayout;
 
   return (

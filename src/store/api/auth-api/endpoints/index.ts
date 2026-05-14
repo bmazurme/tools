@@ -37,6 +37,7 @@ const authApiEndpoints = authApi
           method: 'GET',
         }),
         providesTags: ['Auth'],
+        keepUnusedDataFor: 0,
       }),
     }),
   });
