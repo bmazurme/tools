@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
-// import { Text } from '@gravity-ui/uikit';
+import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
 import Column from './heat-consumption-column';
@@ -16,11 +16,11 @@ import {
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
 
-// import style from './heat-consumption-column.module.css';
+import style from './heat-consumption-column.module.css';
 
-type RainRoofBlockProps = { block: BlockType; index: number };
+type HeatConsumptionBlockProps = { block: BlockType; index: number };
 
-export default function HeatConsumptionBlock({ block, index }: RainRoofBlockProps) {
+export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBlockProps) {
   const { id } = useParams();
 
   const [refreshBlocks] = useRefreshBlocksMutation();
@@ -101,7 +101,8 @@ export default function HeatConsumptionBlock({ block, index }: RainRoofBlockProp
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.block.id === block.id);
-  // const sum = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
+  const sumAvg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
+  const sumMax = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
 
   return (
     <div
@@ -117,19 +118,21 @@ export default function HeatConsumptionBlock({ block, index }: RainRoofBlockProp
         && (
           <ColumnFooter>
             <div className="fields">
-              {/* <Text variant="code-1" className={style.id} />
+              <Text variant="code-1" className={style.id} />
               <Text variant="code-1" className={style.name} />
-              <Text variant="code-1" className={style.roof} />
-              <Text variant="code-1" className={style.wall} />
-              <Text variant="code-1" className={style.q5} />
-              <Text variant="code-1" className={style.q20} />
-              <Text variant="code-1" className={style.n} />
-              <Text variant="code-1" className={style.slope}>
+              <Text variant="code-1" className={style.tc} />
+              <Text variant="code-1" className={style.th} />
+              <Text variant="code-1" className={style.maxHotWaterPerHour} />
+              <Text variant="code-1" className={style.avgHotWaterPerHour} />
+              <Text variant="code-1" className={style.hwPipelineHeatLoss}>
                 Итого:
               </Text>
-              <Text variant="code-1" className={style.flow}>
-                {sum.toFixed(2)}
-              </Text> */}
+              <Text variant="code-1" className={style.meanHourlyHeatForHotWater}>
+                {sumAvg.toFixed(2)}
+              </Text>
+              <Text variant="code-1" className={style.maxHourlyHeatForHotWater}>
+                {sumMax.toFixed(2)}
+              </Text>
             </div>
           </ColumnFooter>
         )}
