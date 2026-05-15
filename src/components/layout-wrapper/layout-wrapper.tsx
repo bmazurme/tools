@@ -12,7 +12,7 @@ export default function LayoutWrapper({ children, isLoading = false }: PropsLayo
         ? (
           <Loader
             size="l"
-            className={style.loader}
+            className="loader"
           />
         )
         : children}
