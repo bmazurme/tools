@@ -8,8 +8,8 @@ import {
   rainPlacesSelector, useGetRainConditionsMutation, rainConditionsSelector,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
-import { FormButtons } from '../../components/form-buttons';
-import ModalHeader from '../../components/modal-header';
+import { FormButtons } from '../../components/form-buttons/form-buttons';
+import ModalHeader from '../../components/modal-header/modal-header';
 
 import { FIELD_CONFIG } from './field-config';
 
