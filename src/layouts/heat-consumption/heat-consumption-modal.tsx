@@ -1,64 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useCallback } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Button, Modal, TextInput, Text,
 } from '@gravity-ui/uikit';
 
 import { useUpdateHeatConsumptionMutation } from '../../store';
-import {
-  NUMBER_PATTERN,
-  ZERO_TO_HUNDRED_PATTERN,
-} from '../../utils/constants';
+import { FIELD_CONFIG } from './field-config';
 
 type FormPayload = ItemType & HeatConsumption;
-
-const FIELD_CONFIG = [
-  {
-    name: 'th',
-    label: 'Температура горячей воды, °С, в местах водоразбора',
-    pattern: {
-      value: ZERO_TO_HUNDRED_PATTERN,
-      message: 'Укажите значение от 0 до 100',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'tc',
-    label: 'Температура холодной воды, °С, в сети водопровода',
-    pattern: {
-      value: ZERO_TO_HUNDRED_PATTERN,
-      message: 'Укажите значение от 0 до 100',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'avgHotWaterPerHour',
-    label: 'Средний часовой расход горячей воды, м3',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'maxHotWaterPerHour',
-    label: 'Максимальный часовой расход горячей воды, м3',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'hwPipelineHeatLoss',
-    label: 'Потери тепла трубопроводами на расчетном участке, кВт',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-];
 
 export default function HeatConsumptionModal({ item, open, setOpen }:
   { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
@@ -78,11 +28,16 @@ export default function HeatConsumptionModal({ item, open, setOpen }:
   });
 
   const onSubmit = async (data: FormPayload) => {
-    await updateHeatConsumption({ ...item.heatConsumption, ...data });
-    setOpen(false);
+    try {
+      await updateHeatConsumption({ ...item.heatConsumption, ...data }).unwrap();
+      setOpen(false);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to update heat consumption:', error);
+    }
   };
 
-  const renderInput = (fieldConfig: (typeof FIELD_CONFIG)[number]) => (
+  const renderInput = useCallback((fieldConfig: (typeof FIELD_CONFIG)[number]) => (
     <Controller
       key={fieldConfig.name}
       name={fieldConfig.name as keyof FormPayload}
@@ -102,7 +57,7 @@ export default function HeatConsumptionModal({ item, open, setOpen }:
         />
       )}
     />
-  );
+  ), [control]);
 
   return (
     <Modal open={open} disableOutsideClick>
