@@ -1,24 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { Modal } from '@gravity-ui/uikit';
+import { Controller, useForm } from 'react-hook-form';
+import { Modal, TextInput } from '@gravity-ui/uikit';
 
 import { useUpdateHeatConsumptionMutation } from '../../store';
-import { FIELD_CONFIG } from './field-config';
-import FormField from '../../components/form-field';
+import { FIELD_CONFIG, type FieldConfig } from './field-config';
+// import FormField from '../../components/form-field';
 import { FormButtons } from '../../components/form-buttons';
 import ModalHeader from '../../components/modal-header';
 
 type FormPayload = ItemType & HeatConsumption;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
-type HeatConsumptionField =
-  | 'th'
-  | 'tc'
-  | 'maxHotWaterPerHour'
-  | 'avgHotWaterPerHour'
-  | 'hwPipelineHeatLoss'
-  | 'meanHourlyHeatForHotWater'
-  | 'maxHourlyHeatForHotWater';
 
 export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps) {
   const [updateHeatConsumption] = useUpdateHeatConsumptionMutation();
@@ -47,17 +39,28 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
   };
 
   const formFields = useMemo(
-    () => FIELD_CONFIG.map((fieldConfig) => {
-      const name = fieldConfig.name as HeatConsumptionField;
-
-      return (
-        <FormField
-          key={name}
-          fieldConfig={{ ...fieldConfig, name }}
-          control={control}
-        />
-      );
-    }),
+    () => FIELD_CONFIG.map((fieldConfig: FieldConfig) => (
+      <Controller
+        key={fieldConfig.name}
+        name={fieldConfig.name}
+        rules={{
+          pattern: fieldConfig.pattern,
+          required: fieldConfig.required,
+        }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <TextInput
+            {...field}
+            {...fieldConfig}
+            value={`${field.value}`}
+            size="l"
+            type="text"
+            error={fieldState.error?.message}
+            label={fieldConfig.label}
+          />
+        )}
+      />
+    )),
     [control],
   );
 
