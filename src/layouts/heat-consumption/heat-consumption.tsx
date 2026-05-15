@@ -10,8 +10,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
 
-import style from './heat-consumption.module.css';
-
 export default function HeatConsumptionLayout() {
   const { showError } = useAppToaster();
   const dispatch = useAppDispatch();
@@ -39,7 +37,7 @@ export default function HeatConsumptionLayout() {
 
   return (
     <div className="gapb">
-      {document?.type.link !== typeId ? <Skeleton className={style.loader} /> : <Board />}
+      {document?.type.link !== typeId ? <Skeleton className="layout-loader" /> : <Board />}
     </div>
   );
 }
