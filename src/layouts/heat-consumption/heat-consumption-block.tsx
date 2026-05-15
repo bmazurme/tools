@@ -1,9 +1,7 @@
 /* eslint-disable max-len */
-import { useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
-
-import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
 import Column from './heat-consumption-column';
@@ -15,8 +13,10 @@ import {
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
+import { getFieldsConfig } from './get-fields-config';
 
 import style from './heat-consumption-column.module.css';
+import ColumnFooterFields from '../../components/column-footer-fields';
 
 type HeatConsumptionBlockProps = { block: BlockType; index: number };
 
@@ -87,13 +87,13 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
     }),
   });
 
-  const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = useCallback((itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
       key={item.id}
       index={idx}
       item={item}
     />
-  ));
+  )), []);
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
@@ -101,8 +101,14 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.block.id === block.id);
-  const sumAvg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
-  const sumMax = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
+
+  const { sumAvg, sumMax } = useMemo(() => {
+    const avg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
+    const max = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
+    return { sumAvg: avg, sumMax: max };
+  }, [items, block.id]);
+
+  const fieldConfig = useMemo(() => getFieldsConfig(sumAvg, sumMax), [sumAvg, sumMax]);
 
   return (
     <div
@@ -111,7 +117,6 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
       className="block"
     >
       <Block blockId={block.id} value={block} />
-
       <Column
         blockId={block.id}
         length={blockItems.length}
@@ -120,33 +125,10 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
         {blockItems.length > 0
         && (
           <ColumnFooter>
-            <div className="fields">
-              <Text variant="code-1" className={style.id} />
-              <Text variant="code-1" className={style.name} />
-              <Text variant="code-1" className={style.tc} />
-              <Text variant="code-1" className={style.th} />
-              <Text variant="code-1" className={style.maxHotWaterPerHour} />
-              <Text variant="code-1" className={style.avgHotWaterPerHour} />
-
-              <Text
-                variant="code-1"
-                className={style.hwPipelineHeatLoss}
-              >
-                Итого:
-              </Text>
-              <Text
-                variant="code-1"
-                className={style.meanHourlyHeatForHotWater}
-              >
-                {sumAvg.toFixed(2)}
-              </Text>
-              <Text
-                variant="code-1"
-                className={style.maxHourlyHeatForHotWater}
-              >
-                {sumMax.toFixed(2)}
-              </Text>
-            </div>
+            <ColumnFooterFields
+              fieldConfig={fieldConfig}
+              style={style}
+            />
           </ColumnFooter>
         )}
       </Column>
