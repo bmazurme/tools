@@ -11,6 +11,15 @@ import FormField from '../../components/form-field';
 
 type FormPayload = ItemType & RainRoof;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
+type RainRoofField =
+  'id' |
+  'areaRoof' |
+  'areaFacade' |
+  'n' |
+  'q5' |
+  'q20' |
+  'sumRoofArea' |
+  'flow';
 
 export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   const [updateRainRoofs] = useUpdateRainRoofsMutation();
@@ -29,13 +38,16 @@ export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   };
 
   const formFields = useMemo(
-    () => FIELD_CONFIG.map((fieldConfig) => (
-      <FormField
-        key={fieldConfig.name}
-        fieldConfig={fieldConfig}
-        control={control}
-      />
-    )),
+    () => FIELD_CONFIG.map((fieldConfig) => {
+      const name = fieldConfig.name as RainRoofField;
+      return (
+        <FormField
+          key={name}
+          fieldConfig={fieldConfig}
+          control={control}
+        />
+      );
+    }),
     [control],
   );
 
