@@ -4,7 +4,6 @@ import { POSITIVE_NUMBER_PATTERN, ZERO_TO_HUNDRED_PATTERN } from '../../utils/co
 type FormPayload = ItemType & HeatConsumption;
 
 export type FormPayloadPaths = keyof FormPayload & string;
-
 export type FieldConfig = {
   name: FormPayloadPaths;
   label: string;
