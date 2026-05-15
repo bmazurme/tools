@@ -15,28 +15,15 @@ import {
   useRefreshItemsMutation,
   useUpdateItemMutation,
 } from '../../store';
+import { itemFieldsConfig } from '../../components/item/item-field-config';
 
 import style from './rain-runoff-column.module.css';
 
 type FormPayload = { name: string };
-
 interface IRainRunoffItem {
   item: ItemType;
   index: number;
 }
-
-const FIELD_CONFIG = [
-  {
-    name: 'name' as const,
-    placeholder: 'Название',
-    pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-      message: 'Название должно содержать от 3 до 50 символов (буквы, цифры, пробелы, точки, запятые, дефисы)',
-    },
-    required: 'Обязательно к заполнению',
-    autoComplete: 'name',
-  },
-] as const;
 
 export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
   const navigate = useNavigate();
@@ -149,7 +136,7 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
-          {FIELD_CONFIG.map((input) => (
+          {itemFieldsConfig.map((input) => (
             <Controller
               key={input.name}
               name={input.name as keyof FormPayload}

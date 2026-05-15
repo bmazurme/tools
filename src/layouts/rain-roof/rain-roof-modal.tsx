@@ -5,9 +5,8 @@ import { Modal, TextInput } from '@gravity-ui/uikit';
 
 import { useUpdateRainRoofsMutation } from '../../store';
 import { FIELD_CONFIG } from './field-config';
-import { FormButtons } from '../../components/form-buttons';
-import ModalHeader from '../../components/modal-header';
-// import FormField from '../../components/form-field';
+import { FormButtons } from '../../components/form-buttons/form-buttons';
+import ModalHeader from '../../components/modal-header/modal-header';
 
 type FormPayload = ItemType & RainRoof;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
@@ -24,8 +23,13 @@ export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   });
 
   const onSubmit = async (data: FormPayload) => {
-    await updateRainRoofs({ ...item.rainRoof, ...data });
-    setOpen(false);
+    try {
+      await updateRainRoofs({ ...item.rainRoof, ...data });
+      setOpen(false);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to update heat consumption:', error);
+    }
   };
 
   const formFields = useMemo(

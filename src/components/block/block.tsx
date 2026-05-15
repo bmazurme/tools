@@ -32,11 +32,11 @@ export default function Block({ blockId, value }: BlockProps) {
   const [updateBlock, { isLoading: isBlockUpdating }] = useUpdateBlockMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { showError } = useAppToaster();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { control, getValues } = useForm<FormPayload>({
     defaultValues: { name: value.name },
   });
+
   const onSubmit = async () => {
     try {
       const { name } = getValues();
@@ -46,7 +46,7 @@ export default function Block({ blockId, value }: BlockProps) {
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка при обновлении статуса');
+      showError(message, 'Ошибка при обновлении статуса');
     }
   };
   const onHandleConfirmDelete = () => {

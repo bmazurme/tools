@@ -5,6 +5,3 @@
   display: grid;
   overflow: auto;
 }
-.loader {
-  justify-content: center;
-}

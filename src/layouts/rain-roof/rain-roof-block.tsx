@@ -13,7 +13,7 @@ import {
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
-import ColumnFooterFields from '../../components/column-footer-fields';
+import ColumnFooterFields from '../../components/column-footer-fields/column-footer-fields';
 import { getFieldsConfig } from './get-fields-config';
 
 import style from './rain-roof-column.module.css';

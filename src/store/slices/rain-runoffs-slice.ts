@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { rainRunoffsApiEndpoints } from '../api/rain-runoffs-api/endpoints/index';
 import type { RootState } from '..';
 
 type RainRunoffsState = {
@@ -13,19 +13,22 @@ export const initialRainRunoffsState: RainRunoffsState = {
   rainRunoffs: null,
 };
 
-const slice = createSlice({
+const rainRunOffsSlice = createSlice({
   name: 'rain-runoffs',
   initialState: initialRainRunoffsState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        rainRunoffsApiEndpoints.endpoints.getRainRunoffsItem.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: state.data, rainRunoffs: payload }),
-      );
+  reducers: {
+    setRainRunOffs: (
+      state,
+      { payload }: PayloadAction<{ item: ItemType }>,
+    ) => {
+      state.rainRunoffs = payload.item;
+    },
   },
 });
 
-export default slice.reducer;
+export const {
+  setRainRunOffs,
+} = rainRunOffsSlice.actions;
+export default rainRunOffsSlice.reducer;
 export const rainRunoffsSelector = (state: RootState) => state.rainRunoffs.data;
 export const rainRunoffsItemSelector = (state: RootState) => state.rainRunoffs.rainRunoffs;

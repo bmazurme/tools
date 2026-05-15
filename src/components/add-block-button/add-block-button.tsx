@@ -5,8 +5,7 @@ interface AddBlockButtonProps {
   isCreatingBlock: boolean;
 }
 
-export default function AddBlockButton({ onHandleAddBlock, isCreatingBlock }
-  :AddBlockButtonProps) {
+export default function AddBlockButton({ onHandleAddBlock, isCreatingBlock }:AddBlockButtonProps) {
   return (
     <Button
       view="action"

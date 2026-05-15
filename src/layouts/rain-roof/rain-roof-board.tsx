@@ -6,7 +6,7 @@ import Block from './rain-roof-block';
 
 import { blocksSelector, useCreateBlockMutation } from '../../store';
 import { useAppSelector } from '../../hooks';
-import AddBlockButton from '../../components/add-block-button';
+import AddBlockButton from '../../components/add-block-button/add-block-button';
 
 export default function RainRoofBoard() {
   const { id } = useParams();

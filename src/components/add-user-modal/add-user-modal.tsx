@@ -57,7 +57,7 @@ export default function AddUserModal({
       setWorker(user);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка');
+      showError(message, 'Ошибка');
     }
   };
 
@@ -66,7 +66,7 @@ export default function AddUserModal({
       onAddUserToProject(worker!.id);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка');
+      showError(message, 'Ошибка');
     }
   };
 

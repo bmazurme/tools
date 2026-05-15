@@ -1,25 +1,38 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Skeleton } from '@gravity-ui/uikit';
 
 import RainRunoffTemplate from './rain-runoff-template';
-import NotFoundLayout from '../not-found-layout';
-import { rainRunoffsItemSelector, useGetRainRunoffsItemMutation } from '../../store';
-import { useAppSelector } from '../../hooks';
+import { rainRunoffsItemSelector, setRainRunOffs, useGetRainRunoffsItemMutation } from '../../store';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
+import { isValidItemId } from '../is-valid-item-id';
 
 export default function RainRunoffDetailPage() {
+  const dispatch = useAppDispatch();
+  const { showError } = useAppToaster();
   const { itemId } = useParams<{ itemId: string }>();
   const [getRainRunoffsItem] = useGetRainRunoffsItemMutation();
   const item = useAppSelector(rainRunoffsItemSelector);
 
   useEffect(() => {
-    // eslint-disable-next-line no-restricted-globals
-    if (itemId && !isNaN(+itemId) && +itemId > 0) {
-      getRainRunoffsItem(+itemId);
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('Invalid itemId:', itemId);
+    if (!isValidItemId(itemId)) {
+      showError(`Invalid itemId: ${itemId}`, 'Ошибка');
+      return;
     }
-  }, []);
+
+    const fetchData = async (id: string) => {
+      try {
+        const data = await getRainRunoffsItem(+id).unwrap();
+        dispatch(setRainRunOffs({ item: data }));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+        showError(message, 'Ошибка');
+      }
+    };
+
+    fetchData(itemId);
+  }, [itemId]);
 
   return (
     item?.rainRunoff
@@ -30,11 +43,7 @@ export default function RainRunoffDetailPage() {
         />
       )
       : (
-        <NotFoundLayout
-          title="404 — Страница не найдена"
-          description="К сожалению, запрошенный документ не существует."
-          buttonLabel="Вернуться на главную"
-        />
+        <Skeleton className="layout-loader" />
       )
   );
 }

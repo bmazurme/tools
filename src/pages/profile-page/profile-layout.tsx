@@ -47,7 +47,7 @@ export default function ProfileLayout() {
       showSuccess('Статус успешно обновлен', data.status);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка при обновлении статуса');
+      showError(message, 'Ошибка при обновлении статуса');
     }
   };
 

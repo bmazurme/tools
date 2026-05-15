@@ -14,15 +14,14 @@ import {
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
 import { getFieldsConfig } from './get-fields-config';
+import ColumnFooterFields from '../../components/column-footer-fields/column-footer-fields';
 
 import style from './heat-consumption-column.module.css';
-import ColumnFooterFields from '../../components/column-footer-fields';
 
 type HeatConsumptionBlockProps = { block: BlockType; index: number };
 
 export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBlockProps) {
   const { id } = useParams();
-
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
