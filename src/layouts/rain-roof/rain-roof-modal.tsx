@@ -1,25 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { Modal } from '@gravity-ui/uikit';
+import { Controller, useForm } from 'react-hook-form';
+import { Modal, TextInput } from '@gravity-ui/uikit';
 
 import { useUpdateRainRoofsMutation } from '../../store';
 import { FIELD_CONFIG } from './field-config';
 import { FormButtons } from '../../components/form-buttons';
 import ModalHeader from '../../components/modal-header';
-import FormField from '../../components/form-field';
+// import FormField from '../../components/form-field';
 
 type FormPayload = ItemType & RainRoof;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
-type RainRoofField =
-  'id' |
-  'areaRoof' |
-  'areaFacade' |
-  'n' |
-  'q5' |
-  'q20' |
-  'sumRoofArea' |
-  'flow';
 
 export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   const [updateRainRoofs] = useUpdateRainRoofsMutation();
@@ -38,16 +29,28 @@ export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   };
 
   const formFields = useMemo(
-    () => FIELD_CONFIG.map((fieldConfig) => {
-      const name = fieldConfig.name as RainRoofField;
-      return (
-        <FormField
-          key={name}
-          fieldConfig={fieldConfig}
-          control={control}
-        />
-      );
-    }),
+    () => FIELD_CONFIG.map((fieldConfig) => (
+      <Controller
+        key={fieldConfig.name}
+        name={fieldConfig.name}
+        rules={{
+          pattern: fieldConfig.pattern,
+          required: fieldConfig.required,
+        }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <TextInput
+            {...field}
+            {...fieldConfig}
+            value={`${field.value}`}
+            size="l"
+            type="text"
+            error={fieldState.error?.message}
+            label={fieldConfig.label}
+          />
+        )}
+      />
+    )),
     [control],
   );
 

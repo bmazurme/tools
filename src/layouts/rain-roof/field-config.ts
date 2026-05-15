@@ -1,7 +1,22 @@
 /* eslint-disable import/prefer-default-export */
 import { INTENSITY_PATTERN, POSITIVE_NUMBER_PATTERN, ZERO_TO_ONE_PATTERN } from '../../utils/constants';
 
-export const FIELD_CONFIG = [
+type FormPayload = ItemType & RainRoof;
+
+export type FormPayloadPaths = keyof FormPayload & string;
+
+export type FieldConfig = {
+  name: FormPayloadPaths;
+  label: string;
+  required?: string;
+  pattern?: {
+    value: RegExp;
+    message: string;
+  };
+  placeholder?: string;
+}
+
+export const FIELD_CONFIG: FieldConfig[] = [
   {
     name: 'areaRoof',
     label: 'Водосборная площадь кровли, F',

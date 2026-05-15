@@ -1,7 +1,22 @@
 /* eslint-disable import/prefer-default-export */
 import { POSITIVE_NUMBER_PATTERN, ZERO_TO_HUNDRED_PATTERN } from '../../utils/constants';
 
-export const FIELD_CONFIG = [
+type FormPayload = ItemType & HeatConsumption;
+
+export type FormPayloadPaths = keyof FormPayload & string;
+
+export type FieldConfig = {
+  name: FormPayloadPaths;
+  label: string;
+  required?: string;
+  pattern?: {
+    value: RegExp;
+    message: string;
+  };
+  placeholder?: string;
+}
+
+export const FIELD_CONFIG: FieldConfig[] = [
   {
     name: 'th',
     label: 'Температура горячей воды, °С, в местах водоразбора',
