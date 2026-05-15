@@ -27,7 +27,7 @@ export default function RainRoofLayout() {
           dispatch(setItems({ items }));
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-          showError(`${message}`, 'Ошибка');
+          showError(message, 'Ошибка');
         }
       }
     };
