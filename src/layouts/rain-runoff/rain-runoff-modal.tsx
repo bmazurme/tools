@@ -1,148 +1,23 @@
 /* eslint-disable no-return-await */
 /* eslint-disable react/jsx-props-no-spreading */
 import { Controller, useForm } from 'react-hook-form';
-import {
-  Button, Modal, TextInput, Text, Select,
-} from '@gravity-ui/uikit';
+import { Modal, TextInput, Select } from '@gravity-ui/uikit';
 
 import {
   useUpdateRainRunoffsMutation, useGetRainPlaceMutation,
   rainPlacesSelector, useGetRainConditionsMutation, rainConditionsSelector,
 } from '../../store';
 import { useAppSelector } from '../../hooks';
-import { NUMBER_PATTERN, VELOCITY_RATE_PATTERN, INTENSITY_PATTERN } from '../../utils/constants';
+import { FormButtons } from '../../components/form-buttons';
+import ModalHeader from '../../components/modal-header';
+
+import { FIELD_CONFIG } from './field-config';
 
 import style from './modal.module.css';
 
 type FormPayload = ItemType
   & Omit<Omit<RainRunoff, 'condition'>, 'place'>
   & { place: string; condition: string };
-
-const FIELD_CONFIG = [
-  {
-    name: 'roof',
-    label: 'Кровля зданий и сооружений, асфальтобетонные покрытия дорог',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 1,
-  },
-  {
-    name: 'cobblestone',
-    label: 'Брусчатые мостовые и чёрные щебёночные покрытия дорог',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 2,
-  },
-  {
-    name: 'lawns',
-    label: 'Газоны',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 1,
-  },
-  {
-    name: 'pavements',
-    label: 'Щебеночные покрытия, не обработанные вяжущими',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 2,
-  },
-  {
-    name: 'ground',
-    label: 'Грунтовые поверхности (спланированные)',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 1,
-  },
-  {
-    name: 'tracks',
-    label: 'Гравийные садово-парковые дорожки',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 2,
-  },
-  {
-    name: 'stone',
-    label: 'Булыжные мостовые',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 1,
-  },
-  {
-    name: 'lengthPipe',
-    label: 'Длина трубы, м',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 1,
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'lengthTray',
-    label: 'Длина лотка, м',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 2,
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'velocityPipe',
-    label: 'Скорость в трубе, м/с',
-    pattern: {
-      value: VELOCITY_RATE_PATTERN,
-      message: 'Допустимое значение от 0 до 10',
-    },
-    column: 1,
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'velocityTray',
-    label: 'Скорость в лотке, м/с',
-    pattern: {
-      value: VELOCITY_RATE_PATTERN,
-      message: 'Допустимое значение от 0 до 10',
-    },
-    column: 2,
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'intensity',
-    label: 'Интенсивность дождя, л/с',
-    pattern: {
-      value: INTENSITY_PATTERN,
-      message: 'Допустимое значение от 0 до 150',
-    },
-    column: 1,
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'timeInit',
-    label: 'Время',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    column: 2,
-    required: 'Обязательно к заполнению',
-  },
-] as const;
 
 interface IRainRunoffModal {
   item: (ItemType);
@@ -161,21 +36,21 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
     control, handleSubmit, formState: { errors },
   } = useForm<FormPayload>({
     defaultValues: {
-      roof: item.rainRunoff?.roof ?? 0,
-      cobblestone: item.rainRunoff?.cobblestone ?? 0,
-      ground: item.rainRunoff?.ground ?? 0,
-      lawns: item.rainRunoff?.lawns ?? 0,
-      tracks: item.rainRunoff?.tracks ?? 0,
-      pavements: item.rainRunoff?.pavements ?? 0,
-      stone: item.rainRunoff?.stone ?? 0,
-      intensity: item.rainRunoff?.intensity ?? 0,
-      lengthPipe: item.rainRunoff?.lengthPipe ?? 0,
-      lengthTray: item.rainRunoff?.lengthTray ?? 0,
-      velocityPipe: item.rainRunoff?.velocityPipe ?? 0,
-      velocityTray: item.rainRunoff?.velocityTray ?? 0,
-      timeInit: item.rainRunoff?.timeInit ?? 0,
-      place: item.rainRunoff?.place?.name ?? '',
-      condition: item.rainRunoff?.condition?.name ?? '',
+      roof: item.rainRunoff?.roof,
+      cobblestone: item.rainRunoff?.cobblestone,
+      ground: item.rainRunoff?.ground,
+      lawns: item.rainRunoff?.lawns,
+      tracks: item.rainRunoff?.tracks,
+      pavements: item.rainRunoff?.pavements,
+      stone: item.rainRunoff?.stone,
+      intensity: item.rainRunoff?.intensity,
+      lengthPipe: item.rainRunoff?.lengthPipe,
+      lengthTray: item.rainRunoff?.lengthTray,
+      velocityPipe: item.rainRunoff?.velocityPipe,
+      velocityTray: item.rainRunoff?.velocityTray,
+      timeInit: item.rainRunoff?.timeInit,
+      place: item.rainRunoff?.place?.name,
+      condition: item.rainRunoff?.condition?.name,
     },
     shouldUnregister: false,
   });
@@ -235,12 +110,11 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
   return (
     <Modal open={open} disableOutsideClick>
       <form className="dialog" onSubmit={handleSubmit(onSubmit)}>
-        <Text variant="header-1">
-          {item.name}
-        </Text>
-        <Text variant="subheader-1">
-          Расчетный расход дождевых вод Q, л/с, с водосборной площади
-        </Text>
+        <ModalHeader
+          itemName={item.name}
+          itemSubName="Расчетный расход дождевых вод Q, л/с, с водосборной площади"
+        />
+
         <Controller
           name="place"
           control={control}
@@ -282,10 +156,7 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
         <div className={style.grid}>
           {FIELD_CONFIG.map(renderInput)}
         </div>
-        <div className="buttons">
-          <Button view="action" size="l" type="submit">Сохранить</Button>
-          <Button view="flat" size="l" onClick={() => setOpen(false)}>Отмена</Button>
-        </div>
+        <FormButtons onCancel={() => setOpen(false)} />
       </form>
     </Modal>
   );

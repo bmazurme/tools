@@ -20,7 +20,7 @@ const columns = [
   { id: 'name', name: 'Название документа', width: '100%' },
   { id: 'type.name', name: 'Тип документа' },
   { id: 'type.description', name: 'Описание' },
-  { id: 'id', name: 'id' },
+  // { id: 'id', name: 'id' },
 ];
 
 export default function DocumentsLayout() {

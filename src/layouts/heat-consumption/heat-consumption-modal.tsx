@@ -1,137 +1,75 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Controller, useForm } from 'react-hook-form';
-import {
-  Button, Modal, TextInput, Text,
-} from '@gravity-ui/uikit';
+import { useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { Modal } from '@gravity-ui/uikit';
 
 import { useUpdateHeatConsumptionMutation } from '../../store';
-import {
-  NUMBER_PATTERN,
-  ZERO_TO_HUNDRED_PATTERN,
-} from '../../utils/constants';
+import { FIELD_CONFIG } from './field-config';
+import FormField from '../../components/form-field';
+import { FormButtons } from '../../components/form-buttons';
+import ModalHeader from '../../components/modal-header';
 
 type FormPayload = ItemType & HeatConsumption;
+type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
 
-const FIELD_CONFIG = [
-  {
-    name: 'th',
-    label: 'Температура горячей воды, °С, в местах водоразбора',
-    pattern: {
-      value: ZERO_TO_HUNDRED_PATTERN,
-      message: 'Укажите значение от 0 до 100',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'tc',
-    label: 'Температура холодной воды, °С, в сети водопровода',
-    pattern: {
-      value: ZERO_TO_HUNDRED_PATTERN,
-      message: 'Укажите значение от 0 до 100',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'avgHotWaterPerHour',
-    label: 'Средний часовой расход горячей воды, м3',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'maxHotWaterPerHour',
-    label: 'Максимальный часовой расход горячей воды, м3',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-  {
-    name: 'hwPipelineHeatLoss',
-    label: 'Потери тепла трубопроводами на расчетном участке, кВт',
-    pattern: {
-      value: NUMBER_PATTERN,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-  },
-];
-
-export default function HeatConsumptionModal({ item, open, setOpen }:
-  { item: (ItemType); open: boolean; setOpen: (val: boolean) => void }) {
+export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps) {
   const [updateHeatConsumption] = useUpdateHeatConsumptionMutation();
   const {
-    control, handleSubmit,
+    control, handleSubmit, reset,
   } = useForm<FormPayload>({
     defaultValues: {
-      th: item.heatConsumption?.th || 0,
-      tc: item.heatConsumption?.tc || 5,
-      maxHotWaterPerHour: item.heatConsumption?.maxHotWaterPerHour || 0,
-      avgHotWaterPerHour: item.heatConsumption?.avgHotWaterPerHour || 0,
-      hwPipelineHeatLoss: item.heatConsumption?.hwPipelineHeatLoss || 0,
-      meanHourlyHeatForHotWater: item.heatConsumption?.meanHourlyHeatForHotWater || 0,
-      maxHourlyHeatForHotWater: item.heatConsumption?.maxHourlyHeatForHotWater || 0,
+      th: item.heatConsumption?.th,
+      tc: item.heatConsumption?.tc,
+      maxHotWaterPerHour: item.heatConsumption?.maxHotWaterPerHour,
+      avgHotWaterPerHour: item.heatConsumption?.avgHotWaterPerHour,
+      hwPipelineHeatLoss: item.heatConsumption?.hwPipelineHeatLoss,
+      meanHourlyHeatForHotWater: item.heatConsumption?.meanHourlyHeatForHotWater,
+      maxHourlyHeatForHotWater: item.heatConsumption?.maxHourlyHeatForHotWater,
     },
   });
 
   const onSubmit = async (data: FormPayload) => {
-    await updateHeatConsumption({ ...item.heatConsumption, ...data });
-    setOpen(false);
+    try {
+      await updateHeatConsumption({ ...item.heatConsumption, ...data }).unwrap();
+      setOpen(false);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to update heat consumption:', error);
+    }
   };
 
-  const renderInput = (fieldConfig: (typeof FIELD_CONFIG)[number]) => (
-    <Controller
-      key={fieldConfig.name}
-      name={fieldConfig.name as keyof FormPayload}
-      rules={{
-        pattern: fieldConfig.pattern,
-        required: fieldConfig.required,
-      }}
-      control={control}
-      render={({ field, fieldState }) => (
-        <TextInput
-          {...field}
-          {...fieldConfig}
-          value={`${field.value}`}
-          size="l"
-          type="text"
-          error={fieldState.error?.message}
-        />
-      )}
-    />
+  const formFields = useMemo(
+    () => FIELD_CONFIG.map((fieldConfig) => (
+      <FormField
+        key={fieldConfig.name}
+        fieldConfig={fieldConfig}
+        control={control}
+      />
+    )),
+    [control],
   );
 
+  useEffect(() => {
+    if (!open) {
+      reset();
+    }
+  }, [open, reset]);
+
   return (
-    <Modal open={open} disableOutsideClick>
-      <form className="dialog" onSubmit={handleSubmit(onSubmit)}>
-        <Text variant="header-1">
-          {item.name}
-        </Text>
-        <Text variant="subheader-1">
-          Расчет тепла для нагрева горячей воды, кВт
-        </Text>
-
-        {FIELD_CONFIG.map(renderInput)}
-
-        <div className="buttons">
-          <Button
-            view="action"
-            size="l"
-            type="submit"
-          >
-            Сохранить
-          </Button>
-          <Button
-            view="flat"
-            size="l"
-            onClick={() => setOpen(false)}
-          >
-            Отмена
-          </Button>
-        </div>
+    <Modal
+      open={open}
+      disableOutsideClick
+    >
+      <form
+        className="dialog"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <ModalHeader
+          itemName={item.name}
+          itemSubName="Расчет тепла для нагрева горячей воды, кВт"
+        />
+        {formFields}
+        <FormButtons onCancel={() => setOpen(false)} />
       </form>
     </Modal>
   );

@@ -1,9 +1,13 @@
+/* eslint-disable max-len */
 export const NUMBER_PATTERN = /^-?\d+(\.\d+)?$/;
 export const VELOCITY_RATE_PATTERN = /^(?:0\.[0-9][0-9]*|[1-9](?:\.[0-9]+)?|10(?:\.0+)?)$/;
 export const INTENSITY_PATTERN = /^(?:0(?:\.[0-9]+)?|[1-9][0-9]?(?:\.[0-9]+)?|1[0-4][0-9](?:\.[0-9]+)?|150(?:\.0+)?)$/;
 export const ZERO_TO_ONE_PATTERN = /^(?:0(?:\.[0-9]+)?|1(?:\.0+)?)$/;
-export const ZERO_TO_HUNDRED_PATTERN = /^(?:0*(?:[0-9]|[1-9][0-9]|100)(?:\.[0-9]+)?|100(?:\.0+)?)$/;
-export const POSITIVE_INTEGER_PATTERN = /^[1-9]\d*$/;
+// export const ZERO_TO_HUNDRED_PATTERN = /^(?:0*(?:[0-9]|[1-9][0-9]|100)(?:\.[0-9]+)?|100(?:\.0+)?)$/;
+export const ZERO_TO_HUNDRED_PATTERN = /^(0|[1-9][0-9]?|100)$/;
+
+// export const POSITIVE_NUMBER_PATTERN = /^[1-9]\d*(?:\.\d+)?$/;
+export const POSITIVE_NUMBER_PATTERN = /^(?:0(?:\.\d*)?|[1-9]\d*(?:\.\d+)?)$/;
 
 export const { VITE_API_URL = 'http://localhost:3000' } = import.meta.env;
 export const { VITE_TOKEN = '2f47d503901842298d06b55c9ba625b4' } = import.meta.env;

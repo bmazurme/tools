@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+/* eslint-disable max-len */
+import { useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
-import { Text } from '@gravity-ui/uikit';
 
 import Block from '../../components/block/block';
 import Column from './rain-runoff-column';
@@ -13,6 +13,8 @@ import {
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
 import ColumnFooter from '../../components/column/column-footer';
+import ColumnFooterFields from '../../components/column-footer-fields';
+import { getFieldsConfig } from './get-fields-config';
 
 import style from './rain-runoff-column.module.css';
 
@@ -97,7 +99,12 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
   drag(drop(ref));
 
   const blockItems = items.filter((x) => x.block.id === block.id);
-  const sum = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRunoff?.flow || 0), 0);
+  const { sum } = useMemo(() => {
+    const sumRain = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRunoff?.flow || 0), 0);
+    return { sum: sumRain };
+  }, [items, block.id]);
+
+  const fieldConfig = useMemo(() => getFieldsConfig(sum), [sum]);
 
   return (
     <div
@@ -112,22 +119,10 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
         {blockItems.length > 0
         && (
           <ColumnFooter>
-            <div className="fields">
-              <Text variant="code-1" className={style.id} />
-              <Text variant="code-1" className={style.name} />
-              <Text variant="code-1" className={style.area} />
-              <Text variant="code-1" className={style.intensity} />
-              <Text variant="code-1" className={style.lengthPipe} />
-              <Text variant="code-1" className={style.lengthTray} />
-              <Text variant="code-1" className={style.velocityPipe} />
-              <Text variant="code-1" className={style.velocityTray} />
-              <Text variant="code-1" className={style.timeInit}>
-                Итого:
-              </Text>
-              <Text variant="code-1" className={style.flow}>
-                {sum.toFixed(2)}
-              </Text>
-            </div>
+            <ColumnFooterFields
+              fieldConfig={fieldConfig}
+              style={style}
+            />
           </ColumnFooter>
         )}
       </Column>

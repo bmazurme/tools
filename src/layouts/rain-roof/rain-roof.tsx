@@ -10,8 +10,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
 
-import style from './rain-roof.module.css';
-
 export default function RainRoofLayout() {
   const { showError } = useAppToaster();
   const { id, typeId } = useParams();
@@ -29,7 +27,7 @@ export default function RainRoofLayout() {
           dispatch(setItems({ items }));
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-          showError(`${message}`, 'Ошибка');
+          showError(message, 'Ошибка');
         }
       }
     };
@@ -39,7 +37,7 @@ export default function RainRoofLayout() {
 
   return (
     <div className="gapb">
-      {document?.type.link !== typeId ? <Skeleton className={style.loader} /> : <Board />}
+      {document?.type.link !== typeId ? <Skeleton className="layout-loader" /> : <Board />}
     </div>
   );
 }
