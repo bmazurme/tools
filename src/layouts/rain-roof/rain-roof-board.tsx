@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Button } from '@gravity-ui/uikit';
 
 import Block from './rain-roof-block';
 
 import { blocksSelector, useCreateBlockMutation } from '../../store';
 import { useAppSelector } from '../../hooks';
+import AddBlockButton from '../../components/add-block-button';
 
 export default function RainRoofBoard() {
   const { id } = useParams();
@@ -31,16 +31,10 @@ export default function RainRoofBoard() {
     <DndProvider backend={HTML5Backend}>
       {returnBlocksForColumn()}
       <div>
-        <Button
-          view="action"
-          size="m"
-          title="Добавить блок"
-          onClick={onHandleAddBlock}
-          loading={isCreatingBlock}
-          disabled={isCreatingBlock}
-        >
-          Добавить блок
-        </Button>
+        <AddBlockButton
+          onHandleAddBlock={onHandleAddBlock}
+          isCreatingBlock={isCreatingBlock}
+        />
       </div>
     </DndProvider>
   );
