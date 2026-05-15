@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { rainRoofsApiEndpoints } from '../api/rain-roofs-api/endpoints/index';
 import { type RootState } from '..';
 
 export type RainRoofsBlocksState = {
@@ -13,19 +13,22 @@ export const initialStateRainRoofsBlock: RainRoofsBlocksState = {
   rainRoofs: null,
 };
 
-const slice = createSlice({
+const rainRoofsSlice = createSlice({
   name: 'rain-roofs',
   initialState: initialStateRainRoofsBlock,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        rainRoofsApiEndpoints.endpoints.getRainRoofsItem.matchFulfilled,
-        (state, { payload }) => ({ ...state, data: state.data, rainRoofs: payload }),
-      );
+  reducers: {
+    setRainRoofs: (
+      state,
+      { payload }: PayloadAction<{ item: ItemType }>,
+    ) => {
+      state.rainRoofs = payload.item;
+    },
   },
 });
 
-export default slice.reducer;
+export const {
+  setRainRoofs,
+} = rainRoofsSlice.actions;
+export default rainRoofsSlice.reducer;
 export const rainRoofsSelector = (state: RootState) => state.rainRoofs.data;
 export const rainRoofsItemSelector = (state: RootState) => state.rainRoofs.rainRoofs;
