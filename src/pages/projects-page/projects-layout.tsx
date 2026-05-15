@@ -26,7 +26,7 @@ import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 
 const columns = [
   { id: 'name', name: 'Название проекта', width: '100%' },
-  { id: 'id', name: 'id', width: 60 },
+  // { id: 'id', name: 'id', width: 60 },
 ];
 const MyTable = withTableActions(Table);
 
