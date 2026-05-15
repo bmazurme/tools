@@ -10,9 +10,10 @@ import { TARGET_TYPE } from '../../config';
 import { LATEX } from '../../utils/constants';
 import { setItem, useCreateHeatConsumptionItemMutation } from '../../store';
 
-import style from './heat-consumption-column.module.css';
 import { useAppDispatch } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
+
+import style from './heat-consumption-column.module.css';
 
 type ColumnType = {
   children: ReactNode;
@@ -58,7 +59,7 @@ export default function HeatConsumptionColumn({ children, blockId, length }: Col
       dispatch(setItem({ item }));
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка при обновлении статуса');
+      showError(message, 'Ошибка при обновлении статуса');
     }
   };
 

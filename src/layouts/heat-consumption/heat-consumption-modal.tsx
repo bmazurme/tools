@@ -5,9 +5,8 @@ import { Modal, TextInput } from '@gravity-ui/uikit';
 
 import { useUpdateHeatConsumptionMutation } from '../../store';
 import { FIELD_CONFIG, type FieldConfig } from './field-config';
-// import FormField from '../../components/form-field';
-import { FormButtons } from '../../components/form-buttons';
-import ModalHeader from '../../components/modal-header';
+import { FormButtons } from '../../components/form-buttons/form-buttons';
+import ModalHeader from '../../components/modal-header/modal-header';
 
 type FormPayload = ItemType & HeatConsumption;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };

@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Block from './heat-consumption-block';
-import AddBlockButton from '../../components/add-block-button';
+import AddBlockButton from '../../components/add-block-button/add-block-button';
 
 import { blocksSelector, useCreateBlockMutation } from '../../store';
 import { useAppSelector } from '../../hooks';

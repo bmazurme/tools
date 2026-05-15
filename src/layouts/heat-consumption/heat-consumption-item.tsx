@@ -17,25 +17,11 @@ import {
 } from '../../store';
 import { useAppSelector } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
+import { itemFieldsConfig } from '../../components/item/item-field-config';
 
 import style from './heat-consumption-column.module.css';
 
 type FormPayload = { name: string };
-
-const fields = [
-  {
-    name: 'name',
-    // label: 'Название',
-    placeholder: 'Название',
-    pattern: {
-      value: /^[A-Za-zА-Яа-я0-9., -]{3,50}$/,
-      message: 'Name is invalid',
-    },
-    required: 'Обязательно к заполнению',
-    autoComplete: 'name',
-  },
-];
-
 interface IHeatConsumptionItem {
   item: (ItemType);
   index: number;
@@ -141,7 +127,7 @@ export default function HeatConsumptionItem({ item, index }: IHeatConsumptionIte
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(`${message}`, 'Ошибка');
+      showError(message, 'Ошибка');
     }
   };
 
@@ -154,7 +140,7 @@ export default function HeatConsumptionItem({ item, index }: IHeatConsumptionIte
       >
         <ul className="fields">
           <Text variant="code-1" className={style.id}>{item.index + 1}</Text>
-          {fields.map((input) => (
+          {itemFieldsConfig.map((input) => (
             <Controller
               key={input.name}
               name={input.name as keyof FormPayload}
