@@ -11,6 +11,14 @@ import ModalHeader from '../../components/modal-header';
 
 type FormPayload = ItemType & HeatConsumption;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
+type HeatConsumptionField =
+  | 'th'
+  | 'tc'
+  | 'maxHotWaterPerHour'
+  | 'avgHotWaterPerHour'
+  | 'hwPipelineHeatLoss'
+  | 'meanHourlyHeatForHotWater'
+  | 'maxHourlyHeatForHotWater';
 
 export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps) {
   const [updateHeatConsumption] = useUpdateHeatConsumptionMutation();
@@ -39,13 +47,17 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
   };
 
   const formFields = useMemo(
-    () => FIELD_CONFIG.map((fieldConfig) => (
-      <FormField
-        key={fieldConfig.name}
-        fieldConfig={fieldConfig}
-        control={control}
-      />
-    )),
+    () => FIELD_CONFIG.map((fieldConfig) => {
+      const name = fieldConfig.name as HeatConsumptionField;
+
+      return (
+        <FormField
+          key={name}
+          fieldConfig={{ ...fieldConfig, name }}
+          control={control}
+        />
+      );
+    }),
     [control],
   );
 
