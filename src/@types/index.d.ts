@@ -103,3 +103,9 @@ type ProjectType = {
   participants: UserType[];
   creator: { id: number };
 };
+
+type ModuleType = {
+  id: number;
+  name: string;
+  description: string;
+}
