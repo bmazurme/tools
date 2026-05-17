@@ -18,20 +18,20 @@ export default function RainRunoffLayout() {
   const [getBlock] = useGetBlocksMutation();
   const [getItems] = useGetRainRunoffsItemsMutation();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id) {
-        try {
-          getBlock(Number(id));
-          const items = await getItems(Number(id)).unwrap();
-          dispatch(setItems({ items }));
-        } catch (error) {
-          const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-          showError(message, 'Ошибка');
-        }
+  const fetchData = async () => {
+    if (id) {
+      try {
+        getBlock(Number(id));
+        const items = await getItems(Number(id)).unwrap();
+        dispatch(setItems({ items }));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
+        showError(message, 'Ошибка');
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [getBlock, getItems, dispatch, id]);
 
