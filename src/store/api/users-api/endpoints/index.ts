@@ -13,6 +13,13 @@ const usersApiEndpoints = usersApi
       //   }),
       //   invalidatesTags: ['Users'],
       // }),
+      getUserSettings: builder.query<ModuleType[], void>({
+        query: () => ({
+          url: '/users/settings',
+          method: 'GET',
+        }),
+        // providesTags: ['Users'],
+      }),
       getUserByEmail: builder.mutation<UserType, string>({
         query: (email: string) => ({
           url: `/users/email/${email}`,
@@ -36,6 +43,24 @@ const usersApiEndpoints = usersApi
         }),
         invalidatesTags: ['Users'],
       }),
+
+      addTypeToUser: builder.mutation<ModuleType[], number>({
+        query: (typeId: number) => ({
+          url: '/users/settings',
+          method: 'PUT',
+          body: { typeId },
+        }),
+        invalidatesTags: ['Users'],
+      }),
+      removeTypeFromUser: builder.mutation<ModuleType[], number>({
+        query: (typeId: number) => ({
+          url: '/users/settings',
+          method: 'DELETE',
+          body: { typeId },
+        }),
+        invalidatesTags: ['Users'],
+      }),
+
       toggleCompact: builder.mutation<UserType, { isCompact: boolean }>({
         query: (data: { isCompact: boolean }) => ({
           url: '/users/sidebar',
@@ -53,5 +78,9 @@ export const {
   useUpdateUserMutation,
   useToggleThemeMutation,
   useToggleCompactMutation,
+  useGetUserSettingsQuery,
+
+  useAddTypeToUserMutation,
+  useRemoveTypeFromUserMutation,
 } = usersApiEndpoints;
 export { usersApiEndpoints };
