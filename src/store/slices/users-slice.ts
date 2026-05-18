@@ -8,11 +8,13 @@ import type { RootState } from '..';
 type UsersState = {
   user: UserType | null;
   loading: boolean;
+  availableTypes: ModuleType[];
 };
 
 export const initialStateUsers: UsersState = {
   user: null,
   loading: true,
+  availableTypes: [],
 };
 
 const usersSlice = createSlice({
@@ -33,6 +35,14 @@ const usersSlice = createSlice({
     ) => {
       if (state.user !== null) {
         state.user.isDark = payload.isDark;
+      }
+    },
+    setAvailableTypes: (
+      state,
+      { payload }: PayloadAction<{ availableTypes: ModuleType[] }>,
+    ) => {
+      if (state.user !== null) {
+        state.availableTypes = payload.availableTypes;
       }
     },
   },
@@ -81,7 +91,10 @@ const usersSlice = createSlice({
   },
 });
 
-export const { toggleCompactOptimistic, toggleThemeOptimistic } = usersSlice.actions;
+export const {
+  toggleCompactOptimistic, toggleThemeOptimistic, setAvailableTypes,
+} = usersSlice.actions;
 export default usersSlice.reducer;
 export const usersSelector = (state: RootState) => state.users.user;
 export const usersLoadingSelector = (state: RootState) => state.users.loading;
+export const usersAvailableTypesSelector = (state: RootState) => state.users.availableTypes;
