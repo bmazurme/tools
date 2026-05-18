@@ -5,14 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { Select, Text, TextInput } from '@gravity-ui/uikit';
 
-import useAppToaster from '../../hooks/use-app-toaster';
+// import useAppToaster from '../../hooks/use-app-toaster';
 import Buttons from '../../components/buttons/buttons';
 import BackButton from '../../components/back-button/back-button';
 import {
-  setTypes,
-  typesSelector,
-  useCreateDocumentMutation,
-  useGetTypesMutation,
+  setAvailableTypes, useCreateDocumentMutation,
+  useGetUserSettingsQuery, usersAvailableTypesSelector,
   type DocumentType,
 } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -23,10 +21,12 @@ type FormPayload = Omit<DocumentType, 'id'>;
 
 export default function DocumentAddLayout() {
   const dispatch = useAppDispatch();
-  const { showError } = useAppToaster();
-  const { types } = useAppSelector(typesSelector);
+  // const { showError } = useAppToaster();
+  const { data, isLoading } = useGetUserSettingsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const availableTypes = useAppSelector(usersAvailableTypesSelector);
   const [createDocument] = useCreateDocumentMutation();
-  const [getTypes, { isLoading }] = useGetTypesMutation();
   const navigate = useNavigate();
   const { projectId } = useParams();
   const {
@@ -47,19 +47,18 @@ export default function DocumentAddLayout() {
   };
 
   useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const result = await getTypes().unwrap();
-        dispatch(setTypes(result));
-      } catch (error) {
-        showError(`${error}`, 'Ошибка при обновлении статуса');
-      }
-    };
-    fetchOptions();
-  }, []);
+    if (data && data.length > 0) {
+      dispatch(setAvailableTypes({
+        availableTypes: data,
+      }));
+    }
+  }, [data, dispatch]);
 
   return (
-    <form className="content" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="content"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <BackButton />
       <Text variant="header-1">Добавить документ</Text>
 
@@ -93,9 +92,9 @@ export default function DocumentAddLayout() {
                   errorMessage={fieldState.error?.message}
                   validationState={errors?.type ? 'invalid' : undefined}
                   placeholder={isLoading ? 'Загрузка...' : 'Выберите вариант'}
-                  disabled={isLoading} // Блокируем во время загрузки
+                  disabled={isLoading}
                     // eslint-disable-next-line max-len
-                  options={types.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
+                  options={availableTypes.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
                 />
               )
           )}
