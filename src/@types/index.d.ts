@@ -57,6 +57,13 @@ type HeatConsumption = {
   maxHourlyHeatForHotWater: number;
 };
 
+type ThrottlePlate = {
+  id: number;
+  flowRate: number;
+  excessHead: number;
+  diameter: number;
+};
+
 type RainCondition = {
   id: number;
   name: string;
@@ -79,6 +86,7 @@ type ItemType = {
   rainRoof?: RainRoof;
   rainRunoff?: RainRunoff;
   heatConsumption?: HeatConsumption;
+  throttlePlate?: ThrottlePlate;
 };
 type RawBlockType = BlockType & { items: ItemType };
 

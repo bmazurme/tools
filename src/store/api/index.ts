@@ -13,6 +13,7 @@ export { default as activitiesApi } from './activities-api/index';
 export { default as subscriptionsApi } from './subscriptions-api/index';
 export { default as paymentsApi } from './payments-api/index';
 export { default as heatConsumptionsApi } from './heat-consumption-api/index';
+export { default as throttlePlateApi } from './throttle-plate-api/index';
 
 export * from './projects-api/endpoints/index';
 export * from './documents-api/endpoints/index';
@@ -29,3 +30,4 @@ export * from './activities-api/endpoints/index';
 export * from './subscriptions-api/endpoints/index';
 export * from './payments-api/endpoints/index';
 export * from './heat-consumption-api/endpoints/index';
+export * from './throttle-plate-api/endpoints/index';

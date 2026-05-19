@@ -7,7 +7,7 @@ import useAppToaster from '../../hooks/use-app-toaster';
 import { useGetHeatConsumptionItemMutation } from '../../store';
 import { heatConsumptionItemSelector, setHeatConsumption } from '../../store/slices/heat-consumption-slice';
 import HeatConsumptionTemplate from './heat-consumption-template';
-import { isValidItemId } from '../is-valid-item-id';
+import { isValidItemId } from '../../utils/is-valid-item-id';
 
 export default function HeatConsumptionLayout() {
   const dispatch = useAppDispatch();

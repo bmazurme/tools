@@ -6,7 +6,7 @@ import RainRunoffTemplate from './rain-runoff-template';
 import { rainRunoffsItemSelector, setRainRunOffs, useGetRainRunoffsItemMutation } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
-import { isValidItemId } from '../is-valid-item-id';
+import { isValidItemId } from '../../utils/is-valid-item-id';
 
 export default function RainRunoffDetailPage() {
   const dispatch = useAppDispatch();
