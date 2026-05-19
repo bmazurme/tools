@@ -17,13 +17,13 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
     defaultValues: {
-      th: item.heatConsumption?.th,
-      tc: item.heatConsumption?.tc,
-      maxHotWaterPerHour: item.heatConsumption?.maxHotWaterPerHour,
-      avgHotWaterPerHour: item.heatConsumption?.avgHotWaterPerHour,
-      hwPipelineHeatLoss: item.heatConsumption?.hwPipelineHeatLoss,
-      meanHourlyHeatForHotWater: item.heatConsumption?.meanHourlyHeatForHotWater,
-      maxHourlyHeatForHotWater: item.heatConsumption?.maxHourlyHeatForHotWater,
+      th: item.heatConsumption?.th || 65,
+      tc: item.heatConsumption?.tc || 5,
+      maxHotWaterPerHour: item.heatConsumption?.maxHotWaterPerHour || 0,
+      avgHotWaterPerHour: item.heatConsumption?.avgHotWaterPerHour || 0,
+      hwPipelineHeatLoss: item.heatConsumption?.hwPipelineHeatLoss || 0,
+      meanHourlyHeatForHotWater: item.heatConsumption?.meanHourlyHeatForHotWater || 0,
+      maxHourlyHeatForHotWater: item.heatConsumption?.maxHourlyHeatForHotWater || 0,
     },
   });
 

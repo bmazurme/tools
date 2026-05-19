@@ -2,31 +2,42 @@ import { useEffect, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { Skeleton } from '@gravity-ui/uikit';
 
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
 import {
-  useGetBlocksMutation, useGetThrottlePlateItemsMutation, documentSelector, setItems,
+  useGetBlocksMutation, documentSelector, setItems,
 } from '../store';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import useAppToaster from '../hooks/use-app-toaster';
 
 interface WrapperProps {
   children: ReactNode;
+  getItems: (id: number) => Promise<{
+    data?: ItemType[];
+    error?: FetchBaseQueryError | SerializedError | null;
+  }>;
 }
 
 // вынести во wrapper
-export default function Wrapper({ children }: WrapperProps) {
+export default function Wrapper({ children, getItems }: WrapperProps) {
   const { showError } = useAppToaster();
   const dispatch = useAppDispatch();
   const { id, typeId } = useParams();
   const document = useAppSelector(documentSelector);
   const [getBlock] = useGetBlocksMutation();
-  const [getItems] = useGetThrottlePlateItemsMutation();
 
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
         try {
           getBlock(Number(id));
-          const items = await getItems(Number(id)).unwrap();
+          const result = await getItems(Number(id));
+
+          if (result.error) {
+            throw new Error('Failed to fetch items');
+          }
+
+          const items = result.data || [];
           dispatch(setItems({ items }));
         } catch (error) {
           const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
