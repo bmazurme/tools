@@ -36,21 +36,21 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
     control, handleSubmit, formState: { errors },
   } = useForm<FormPayload>({
     defaultValues: {
-      roof: item.rainRunoff?.roof,
-      cobblestone: item.rainRunoff?.cobblestone,
-      ground: item.rainRunoff?.ground,
-      lawns: item.rainRunoff?.lawns,
-      tracks: item.rainRunoff?.tracks,
-      pavements: item.rainRunoff?.pavements,
-      stone: item.rainRunoff?.stone,
-      intensity: item.rainRunoff?.intensity,
-      lengthPipe: item.rainRunoff?.lengthPipe,
-      lengthTray: item.rainRunoff?.lengthTray,
-      velocityPipe: item.rainRunoff?.velocityPipe,
-      velocityTray: item.rainRunoff?.velocityTray,
-      timeInit: item.rainRunoff?.timeInit,
-      place: item.rainRunoff?.place?.name,
-      condition: item.rainRunoff?.condition?.name,
+      roof: item.rainRunoff?.roof || 0,
+      cobblestone: item.rainRunoff?.cobblestone || 0,
+      ground: item.rainRunoff?.ground || 0,
+      lawns: item.rainRunoff?.lawns || 0,
+      tracks: item.rainRunoff?.tracks || 0,
+      pavements: item.rainRunoff?.pavements || 0,
+      stone: item.rainRunoff?.stone || 0,
+      intensity: item.rainRunoff?.intensity || 0,
+      lengthPipe: item.rainRunoff?.lengthPipe || 0,
+      lengthTray: item.rainRunoff?.lengthTray || 0,
+      velocityPipe: item.rainRunoff?.velocityPipe || 0,
+      velocityTray: item.rainRunoff?.velocityTray || 0,
+      timeInit: item.rainRunoff?.timeInit || 0,
+      place: item.rainRunoff?.place?.name || '',
+      condition: item.rainRunoff?.condition?.name || '',
     },
     shouldUnregister: false,
   });
@@ -64,17 +64,19 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
       ? item.rainRunoff.condition.id
       : +data.condition[0];
 
+    console.log(item.rainRunoff);
+
     if (item.rainRunoff) {
       await updateRainRunoffs({
         ...data,
         id: item.rainRunoff.id,
-        roof: data.roof,
-        cobblestone: data.cobblestone,
-        ground: data.ground,
-        lawns: data.lawns,
-        tracks: data.tracks,
-        pavements: data.pavements,
-        stone: data.stone,
+        roof: data.roof || 0,
+        cobblestone: data.cobblestone || 0,
+        ground: data.ground || 0,
+        lawns: data.lawns || 0,
+        tracks: data.tracks || 0,
+        pavements: data.pavements || 0,
+        stone: data.stone || 0,
         place: { id: placeId, name: '' },
         condition: { id: conditionId, name: '' },
         flow: 0,

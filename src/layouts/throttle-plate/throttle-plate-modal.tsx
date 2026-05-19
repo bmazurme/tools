@@ -17,8 +17,8 @@ export default function ThrottlePlateModal({ item, open, setOpen }: ModalProps) 
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
     defaultValues: {
-      flowRate: item.throttlePlate?.flowRate,
-      excessHead: item.throttlePlate?.excessHead,
+      flowRate: item.throttlePlate?.flowRate || 0,
+      excessHead: item.throttlePlate?.excessHead || 0,
     },
   });
 
