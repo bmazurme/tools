@@ -7,7 +7,7 @@ import useAppToaster from '../../hooks/use-app-toaster';
 import { useGetRainRoofsItemMutation } from '../../store';
 import { rainRoofsItemSelector, setRainRoofs } from '../../store/slices/rain-roofs-slice';
 import RainRoofTemplate from './rain-roof-template';
-import { isValidItemId } from '../is-valid-item-id';
+import { isValidItemId } from '../../utils/is-valid-item-id';
 
 export default function RainRoofTemplateLayout() {
   const dispatch = useAppDispatch();
