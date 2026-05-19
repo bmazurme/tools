@@ -1,0 +1,27 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 300px;
+  justify-content: flex-start;
+}
+.flowRate {
+  composes: base;
+  width: 100px;
+}
+.excessHead {
+  composes: base;
+  width: 100px;
+}
+.diameter {
+  composes: base;
+  width: 100px;
+}
+
