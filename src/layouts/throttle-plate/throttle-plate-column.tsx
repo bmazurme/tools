@@ -104,41 +104,6 @@ export default function ThrottlePlateColumn({ children, blockId, length }: Colum
           >
             <Latex>{LATEX.diameter}</Latex>
           </Text>
-          {/* <Text
-            variant="code-1"
-            title="Максимальный часовой расход горячей воды, м3"
-            className={style.maxHotWaterPerHour}
-          >
-            <Latex>{LATEX.maxHotWaterPerHour}</Latex>
-          </Text>
-          <Text
-            variant="code-1"
-            title="Средний часовой расход горячей воды, м3"
-            className={style.avgHotWaterPerHour}
-          >
-            <Latex>{LATEX.avgHotWaterPerHour}</Latex>
-          </Text>
-          <Text
-            variant="code-1"
-            title="Потери тепла трубопроводами на расчетном участке, кВт"
-            className={style.hwPipelineHeatLoss}
-          >
-            <Latex>{LATEX.hwPipelineHeatLoss}</Latex>
-          </Text>
-          <Text
-            variant="code-1"
-            title=""
-            className={style.meanHourlyHeatForHotWater}
-          >
-            <Latex>{LATEX.meanHourlyHeatForHotWater}</Latex>
-          </Text>
-          <Text
-            variant="code-1"
-            title=""
-            className={style.maxHourlyHeatForHotWater}
-          >
-            <Latex>{LATEX.maxHourlyHeatForHotWater}</Latex>
-          </Text> */}
         </div>
       </Column>
       <ul className="column_list">

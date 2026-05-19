@@ -6,6 +6,4 @@ type ResultType = {
   value?: number;
 }[];
 
-export const getFieldsConfig = (): ResultType => [
-
-];
+export const getFieldsConfig = (): ResultType => [];

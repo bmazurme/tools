@@ -12,11 +12,6 @@ import {
   blocksSelector, itemsSelector, useRefreshBlocksMutation,
 } from '../../store';
 import { TARGET_TYPE } from '../../config';
-// import ColumnFooter from '../../components/column/column-footer';
-// import { getFieldsConfig } from './get-fields-config';
-// import ColumnFooterFields from '../../components/column-footer-fields/column-footer-fields';
-
-// import style from './heat-consumption-column.module.css';
 
 type ThrottlePlateBlockProps = { block: BlockType; index: number };
 
@@ -101,14 +96,6 @@ export default function ThrottlePlateBlock({ block, index }: ThrottlePlateBlockP
 
   const blockItems = items.filter((x) => x.block.id === block.id);
 
-  // const { sumAvg, sumMax } = useMemo(() => {
-  //   const avg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
-  //   const max = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
-  //   return { sumAvg: avg, sumMax: max };
-  // }, [items, block.id]);
-
-  // const fieldConfig = useMemo(() => getFieldsConfig(sumAvg, sumMax), [sumAvg, sumMax]);
-
   return (
     <div
       ref={ref}
@@ -121,15 +108,6 @@ export default function ThrottlePlateBlock({ block, index }: ThrottlePlateBlockP
         length={blockItems.length}
       >
         {returnItemsForColumn(blockItems)}
-        {/* {blockItems.length > 0
-        && (
-          <ColumnFooter>
-            <ColumnFooterFields
-              fieldConfig={fieldConfig}
-              style={style}
-            />
-          </ColumnFooter>
-        )} */}
       </Column>
     </div>
   );

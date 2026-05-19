@@ -13,7 +13,6 @@ type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => 
 
 export default function ThrottlePlateModal({ item, open, setOpen }: ModalProps) {
   const [updateThrottlePlate] = useUpdateThrottlePlateMutation();
-  // console.log(item);
   const {
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
@@ -25,7 +24,6 @@ export default function ThrottlePlateModal({ item, open, setOpen }: ModalProps) 
 
   const onSubmit = async (data: FormPayload) => {
     try {
-      // console.log({ ...item.throttlePlate, ...data });
       await updateThrottlePlate({ ...item.throttlePlate, ...data }).unwrap();
       setOpen(false);
     } catch (error) {
