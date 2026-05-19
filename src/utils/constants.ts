@@ -13,7 +13,9 @@ export const { VITE_API_URL = 'http://localhost:3000' } = import.meta.env;
 export const { VITE_TOKEN = '2f47d503901842298d06b55c9ba625b4' } = import.meta.env;
 
 export const LATEX = {
+  q: '$q$',
   q5: '$q_{5}$',
+  diameter: '$d_{0}$',
   q20: '$q_{20}$',
   n: '$n$',
   Qr: '$Q_{r}$',
@@ -37,6 +39,7 @@ export const LATEX = {
   m2: '$\\text{м}^{2}$',
   tc: '$t^{c}$',
   th: '$t^{h}$',
+  excessHead: '$h_{др}$',
   maxHotWaterPerHour: '$q_{hr}^h$',
   avgHotWaterPerHour: '$q_{T}^h$',
   hwPipelineHeatLoss: '$Q^{ht}$',
@@ -52,5 +55,6 @@ export const LATEX = {
     q5: '$q_5=4^n\\cdot q_{20}$',
     QhT: '$Q_{T}^{h}=1,16\\cdot q_{T}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
     Qhhr: '$Q_{hr}^{h}=1,16\\cdot q_{hr}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
+    throttlePlate: '$\\Large d_0=\\sqrt[4]{\\frac{3,6q^2}{d_{др}}}$',
   },
 };
