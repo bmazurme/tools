@@ -4,6 +4,7 @@ import RainRunoffTemplate from '../rain-runoff-template-layout';
 import RainRoofTemplateLayout from '../rain-roof-template-layout';
 import NotFoundLayout from '../not-found-layout';
 import HeatConsumptionLayout from '../heat-consumption-template-layout';
+import ThrottlePlateLayout from '../throttle-plate-template-layout';
 
 export default function DynamicTemplateLayout() {
   const { typeId } = useParams();
@@ -12,6 +13,7 @@ export default function DynamicTemplateLayout() {
     'rain-runoff': RainRunoffTemplate,
     'rain-roof': RainRoofTemplateLayout,
     'heat-consumption': HeatConsumptionLayout,
+    'throttle-plate': ThrottlePlateLayout,
   }[typeId!] || NotFoundLayout;
 
   return (
