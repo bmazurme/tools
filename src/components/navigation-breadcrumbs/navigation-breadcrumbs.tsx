@@ -21,6 +21,7 @@ export default function NavigationBreadcrumbs() {
     add: 'Добавить',
     edit: 'Редактировать',
     subscriptions: 'Подписка',
+    settings: 'Настройки',
     'rain-roof': 'Расчёт дождевых вод с кровли',
     'rain-runoff': 'Расчёт дождевых вод с территории',
     'heat-consumption': 'Расчет тепла для приготовления горячей воды',

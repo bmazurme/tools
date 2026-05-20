@@ -15,7 +15,7 @@ const typesApiEndpoints = typesApi
     endpoints: (builder) => ({
       getTypes: builder.mutation<Type[], void>({
         query: () => ({
-          url: '/types',
+          url: '/api/v1/types',
           method: 'GET',
         }),
         invalidatesTags: ['Types'],

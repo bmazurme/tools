@@ -26,15 +26,14 @@ export default function DocumentAddLayout() {
     refetchOnMountOrArgChange: true,
   });
   const availableTypes = useAppSelector(usersAvailableTypesSelector);
+
   const [createDocument] = useCreateDocumentMutation();
   const navigate = useNavigate();
   const { projectId } = useParams();
   const {
     control, handleSubmit, register, formState: { errors },
   } = useForm<FormPayload>({
-    defaultValues: {
-      name: '', type: '',
-    },
+    defaultValues: { name: '', type: '' },
   });
 
   const onSubmit = async ({ name, type }: FormPayload) => {
@@ -47,7 +46,7 @@ export default function DocumentAddLayout() {
   };
 
   useEffect(() => {
-    if (data && data.length > 0) {
+    if (data) {
       dispatch(setAvailableTypes({
         availableTypes: data,
       }));
