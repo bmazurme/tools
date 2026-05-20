@@ -13,8 +13,10 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 export default function SettingsLayout() {
   const [isUpdating, setIsUpdating] = useState(false);
   const dispatch = useAppDispatch();
+
   const { types } = useAppSelector(typesSelector);
   const availableTypes = useAppSelector(usersAvailableTypesSelector);
+
   const { showError } = useAppToaster();
   const [getTypes] = useGetTypesMutation();
   const [addTypeToUser] = useAddTypeToUserMutation();
