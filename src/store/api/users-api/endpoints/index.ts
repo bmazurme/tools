@@ -15,21 +15,21 @@ const usersApiEndpoints = usersApi
       // }),
       getUserSettings: builder.query<ModuleType[], void>({
         query: () => ({
-          url: '/users/settings',
+          url: '/api/v1/users/settings',
           method: 'GET',
         }),
         // providesTags: ['Users'],
       }),
       getUserByEmail: builder.mutation<UserType, string>({
         query: (email: string) => ({
-          url: `/users/email/${email}`,
+          url: `/api/v1/users/email/${email}`,
           method: 'GET',
         }),
         // invalidatesTags: ['Users'],
       }),
       updateUser: builder.mutation<UserType, UserType>({
         query: ({ id, status }: UserType) => ({
-          url: `/users/${id}`,
+          url: `/api/v1/users/${id}`,
           method: 'PATCH',
           body: { status },
         }),
@@ -37,7 +37,7 @@ const usersApiEndpoints = usersApi
       }),
       toggleTheme: builder.mutation<UserType, { isDark: boolean }>({
         query: (data: { isDark: boolean }) => ({
-          url: '/users/theme',
+          url: '/api/v1/users/theme',
           method: 'PATCH',
           body: data,
         }),
@@ -46,7 +46,7 @@ const usersApiEndpoints = usersApi
 
       addTypeToUser: builder.mutation<ModuleType[], number>({
         query: (typeId: number) => ({
-          url: '/users/settings',
+          url: '/api/v1/users/settings',
           method: 'PUT',
           body: { typeId },
         }),
@@ -54,7 +54,7 @@ const usersApiEndpoints = usersApi
       }),
       removeTypeFromUser: builder.mutation<ModuleType[], number>({
         query: (typeId: number) => ({
-          url: '/users/settings',
+          url: '/api/v1/users/settings',
           method: 'DELETE',
           body: { typeId },
         }),
@@ -63,7 +63,7 @@ const usersApiEndpoints = usersApi
 
       toggleCompact: builder.mutation<UserType, { isCompact: boolean }>({
         query: (data: { isCompact: boolean }) => ({
-          url: '/users/sidebar',
+          url: '/api/v1/users/sidebar',
           method: 'PATCH',
           body: data,
         }),
