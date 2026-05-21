@@ -23,7 +23,7 @@ const baseQueryWithReauth: BaseQueryFn<
     }
 
     const refreshResult = await baseQuery({
-      url: '/auth/refresh', // эндпоинт для обновления токена
+      url: 'api/v1/auth/refresh', // эндпоинт для обновления токена
       method: 'POST',
       credentials: 'include',
     }, api, extraOptions);
