@@ -97,6 +97,11 @@ export default function MainPage() {
             </Card>
             <Card className={style.card} theme="normal" view="filled" size="l">
               <Text variant="subheader-3">Гидравлика</Text>
+              <div className={style.list}>
+                <Text variant="body-1">
+                  Расчёт диаметра отверстия дроссельной шайбы
+                </Text>
+              </div>
             </Card>
             <Card className={style.card} theme="normal" view="filled" size="l">
               <Text variant="subheader-3">Теплотехника</Text>
