@@ -8,7 +8,7 @@ const rainConditionsApiEndpoints = rainConditionsApi
     endpoints: (builder) => ({
       getRainConditions: builder.mutation<RainCondition[], void>({
         query: () => ({
-          url: '/api/v1/rain-conditions',
+          url: '/rain-conditions',
           method: 'GET',
         }),
         invalidatesTags: ['RainConditions'],

@@ -8,14 +8,14 @@ const rainRoofsApiEndpoints = rainRoofsApi
     endpoints: (builder) => ({
       getRainRoofs: builder.mutation<{ blocks: BlockType[] }, number>({
         query: (id: number) => ({
-          url: `/api/v1/rain-roofs/${id}`,
+          url: `/rain-roofs/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['RainRoofs'],
       }),
       createRainRoofItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
         query: (data: { block: { id: number }, index: number }) => ({
-          url: '/api/v1/rain-roofs',
+          url: '/rain-roofs',
           method: 'POST',
           body: data,
         }),
@@ -23,7 +23,7 @@ const rainRoofsApiEndpoints = rainRoofsApi
       }),
       updateRainRoofs: builder.mutation<RainRoof, RainRoof>({
         query: (data: RainRoof) => ({
-          url: `/api/v1/rain-roofs/${data.id}`,
+          url: `/rain-roofs/${data.id}`,
           method: 'PATCH',
           body: data,
         }),
@@ -32,14 +32,14 @@ const rainRoofsApiEndpoints = rainRoofsApi
 
       getRainRoofsItems: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
-          url: `/api/v1/rain-roofs/document/${id}`,
+          url: `/rain-roofs/document/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['RainRoofs'],
       }),
       getRainRoofsItem: builder.mutation<ItemType, number>({
         query: (id: number) => ({
-          url: `/api/v1/rain-roofs/${id}`,
+          url: `/rain-roofs/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['RainRoofs'],

@@ -13,7 +13,7 @@ const paymentsApiEndpoints = paymentsApi
     endpoints: (builder) => ({
       payments: builder.mutation<Subscriptions, void>({
         query: () => ({
-          url: '/api/v1/payments',
+          url: '/payments',
           method: 'GET',
         }),
         invalidatesTags: ['Payments'],

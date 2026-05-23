@@ -19,21 +19,21 @@ const authApiEndpoints = authApi
     endpoints: (builder) => ({
       signOut: builder.mutation<void, void>({
         query: () => ({
-          url: 'api/v1/auth/logout',
+          url: 'auth/logout',
           method: 'POST',
         }),
         invalidatesTags: ['Auth'],
       }),
       refresh: builder.mutation<LoginResponse, void>({
         query: () => ({
-          url: 'api/v1/auth/refresh',
+          url: 'auth/refresh',
           method: 'POST',
         }),
         invalidatesTags: ['Auth'],
       }),
       checkAuth: builder.query<CheckAuthResponse, void>({
         query: () => ({
-          url: 'api/v1/auth/check',
+          url: 'auth/check',
           method: 'GET',
         }),
         providesTags: ['Auth'],

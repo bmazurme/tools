@@ -14,7 +14,7 @@ const activitiesApiEndpoints = activitiesApi
     endpoints: (builder) => ({
       getActivities: builder.mutation<Activity[], void>({
         query: () => ({
-          url: '/api/v1/activities/user',
+          url: '/activities/user',
           method: 'GET',
         }),
         invalidatesTags: ['Activities'],

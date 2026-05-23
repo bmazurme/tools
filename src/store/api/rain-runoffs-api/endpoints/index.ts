@@ -8,7 +8,7 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
     endpoints: (builder) => ({
       createRainRunoffItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
         query: (data: { block: { id: number }, index: number }) => ({
-          url: '/api/v1/rain-runoffs',
+          url: '/rain-runoffs',
           method: 'POST',
           body: data,
         }),
@@ -16,7 +16,7 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
       }),
       updateRainRunoffs: builder.mutation<RainRunoff, RainRunoff>({
         query: (data: RainRunoff) => ({
-          url: `/api/v1/rain-runoffs/${data.id}`,
+          url: `/rain-runoffs/${data.id}`,
           method: 'PATCH',
           body: { ...data },
         }),
@@ -25,14 +25,14 @@ const rainRunoffsApiEndpoints = rainRunoffsApi
 
       getRainRunoffsItems: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
-          url: `/api/v1/rain-runoffs/document/${id}`,
+          url: `/rain-runoffs/document/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['RainRunoff'],
       }),
       getRainRunoffsItem: builder.mutation<ItemType, number>({
         query: (id: number) => ({
-          url: `/api/v1/rain-runoffs/${id}`,
+          url: `/rain-runoffs/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['RainRunoff'],

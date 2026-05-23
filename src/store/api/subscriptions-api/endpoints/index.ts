@@ -13,14 +13,14 @@ const subscriptionsApiEndpoints = subscriptionsApi
     endpoints: (builder) => ({
       getStatus: builder.mutation<Subscriptions, void>({
         query: () => ({
-          url: '/api/v1/subscriptions/status',
+          url: '/subscriptions/status',
           method: 'GET',
         }),
         invalidatesTags: ['Subscriptions'],
       }),
       renew: builder.mutation<void, { id: number }>({
         query: ({ id }) => ({
-          url: `/api/v1/subscriptions/${id}/renew`,
+          url: `/subscriptions/${id}/renew`,
           method: 'POST',
         }),
         invalidatesTags: ['Subscriptions'],
