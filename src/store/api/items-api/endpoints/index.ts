@@ -10,7 +10,7 @@ const itemsApiEndpoints = itemsApi
         query: ({
           block, id, index, name,
         }: ItemType) => ({
-          url: `/api/v1/items/${id}`,
+          url: `/items/${id}`,
           method: 'PATCH',
           body: {
             id, index, name, block: { id: block.id },
@@ -20,14 +20,14 @@ const itemsApiEndpoints = itemsApi
       }),
       deleteItem: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
-          url: `/api/v1/items/${id}`,
+          url: `/items/${id}`,
           method: 'DELETE',
         }),
         invalidatesTags: ['Items'],
       }),
       refreshItems: builder.mutation<ItemType[], ItemType[]>({
         query: (data: ItemType[]) => ({
-          url: '/api/v1/items',
+          url: '/items',
           method: 'PATCH',
           body: data,
         }),

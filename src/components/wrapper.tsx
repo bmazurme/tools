@@ -4,6 +4,7 @@ import { Skeleton } from '@gravity-ui/uikit';
 
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { SerializedError } from '@reduxjs/toolkit';
+
 import {
   useGetBlocksMutation, documentSelector, setItems,
 } from '../store';
@@ -18,7 +19,6 @@ interface WrapperProps {
   }>;
 }
 
-// вынести во wrapper
 export default function Wrapper({ children, getItems }: WrapperProps) {
   const { showError } = useAppToaster();
   const dispatch = useAppDispatch();

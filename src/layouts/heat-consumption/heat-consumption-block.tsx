@@ -104,6 +104,7 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
   const { sumAvg, sumMax } = useMemo(() => {
     const avg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
     const max = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
+
     return { sumAvg: avg, sumMax: max };
   }, [items, block.id]);
 

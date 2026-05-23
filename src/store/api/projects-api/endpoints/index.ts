@@ -19,28 +19,28 @@ const projectsApiEndpoints = projectsApi
     endpoints: (builder) => ({
       getProjectsByPage: builder.mutation<{ data: ProjectType[], total: number }, number>({
         query: (id: number) => ({
-          url: `/api/v1/projects/page/${id}`,
+          url: `/projects/page/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['Projects'],
       }),
       getProject: builder.mutation<ProjectType, number>({
         query: (id: number) => ({
-          url: `/api/v1/projects/${id}`,
+          url: `/projects/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['Projects'],
       }),
       removeProject: builder.mutation<TotalType, number>({
         query: (id: number) => ({
-          url: `/api/v1/projects/${id}`,
+          url: `/projects/${id}`,
           method: 'DELETE',
         }),
         invalidatesTags: ['Projects'],
       }),
       createProject: builder.mutation<ProjectType, FormPayload>({
         query: (data: FormPayload) => ({
-          url: '/api/v1/projects',
+          url: '/projects',
           method: 'POST',
           body: data,
         }),
@@ -49,21 +49,21 @@ const projectsApiEndpoints = projectsApi
         query: ({
           address, description, name, id,
         }: ProjectType) => ({
-          url: `/api/v1/projects/${id}`,
+          url: `/projects/${id}`,
           method: 'PATCH',
           body: { address, description, name },
         }),
       }),
       addUserToProject: builder.mutation<ProjectType, UpdateProjectUsers>({
         query: (data: UpdateProjectUsers) => ({
-          url: '/api/v1/projects/participants',
+          url: '/projects/participants',
           method: 'PATCH',
           body: data,
         }),
       }),
       removeUserFromProject: builder.mutation<ProjectType, UpdateProjectUsers>({
         query: ({ projectId, userId }: UpdateProjectUsers) => ({
-          url: '/api/v1/projects/participants',
+          url: '/projects/participants',
           method: 'DELETE',
           body: { projectId, userId },
         }),
