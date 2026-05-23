@@ -15,10 +15,10 @@ export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   const [updateRainRoofs] = useUpdateRainRoofsMutation();
   const { control, handleSubmit, reset } = useForm<FormPayload>({
     defaultValues: {
-      areaRoof: item.rainRoof?.areaRoof || 0,
-      areaFacade: item.rainRoof?.areaFacade || 0,
-      q20: item.rainRoof?.q20 || 0,
-      n: item.rainRoof?.n || 0,
+      areaRoof: item.rainRoof?.areaRoof,
+      areaFacade: item.rainRoof?.areaFacade,
+      q20: item.rainRoof?.q20,
+      n: item.rainRoof?.n,
     },
   });
 
