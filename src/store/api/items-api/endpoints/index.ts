@@ -27,7 +27,7 @@ const itemsApiEndpoints = itemsApi
       }),
       refreshItems: builder.mutation<ItemType[], ItemType[]>({
         query: (data: ItemType[]) => ({
-          url: '/items',
+          url: 'items',
           method: 'PATCH',
           body: data,
         }),
