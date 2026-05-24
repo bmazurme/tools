@@ -16,7 +16,7 @@ const blocksApiEndpoints = blocksApi
       }),
       updateBlock: builder.mutation<BlockType, BlockType>({
         query: ({ id, index, name }: BlockType) => ({
-          url: `/blocks/${id}`,
+          url: `blocks/${id}`,
           method: 'PATCH',
           body: { index, name },
         }),
@@ -24,14 +24,14 @@ const blocksApiEndpoints = blocksApi
       }),
       deleteBlock: builder.mutation<BlockType, number>({
         query: (id: number) => ({
-          url: `/blocks/${id}`,
+          url: `blocks/${id}`,
           method: 'DELETE',
         }),
         invalidatesTags: ['Blocks'],
       }),
       refreshBlocks: builder.mutation<BlockType[], { id: number, data: BlockType[] }>({
         query: ({ id, data }: { id: number, data: BlockType[] }) => ({
-          url: `/blocks/document/${id}`,
+          url: `blocks/document/${id}`,
           method: 'PATCH',
           body: data,
         }),
@@ -39,7 +39,7 @@ const blocksApiEndpoints = blocksApi
       }),
       getBlocks: builder.mutation<{ blocks: BlockType[] }, number>({
         query: (id: number) => ({
-          url: `/blocks/${id}`,
+          url: `blocks/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['Blocks'],
