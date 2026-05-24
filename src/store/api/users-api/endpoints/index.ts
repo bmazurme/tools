@@ -6,30 +6,23 @@ const usersApiEndpoints = usersApi
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      // getUserMe: builder.mutation<UserType, void>({
-      //   query: () => ({
-      //     url: '/users/me',
-      //     method: 'GET',
-      //   }),
-      //   invalidatesTags: ['Users'],
-      // }),
       getUserSettings: builder.query<ModuleType[], void>({
         query: () => ({
-          url: '/users/settings',
+          url: 'users/settings',
           method: 'GET',
         }),
         // providesTags: ['Users'],
       }),
       getUserByEmail: builder.mutation<UserType, string>({
         query: (email: string) => ({
-          url: `/users/email/${email}`,
+          url: `users/email/${email}`,
           method: 'GET',
         }),
         // invalidatesTags: ['Users'],
       }),
       updateUser: builder.mutation<UserType, UserType>({
         query: ({ id, status }: UserType) => ({
-          url: `/users/${id}`,
+          url: `users/${id}`,
           method: 'PATCH',
           body: { status },
         }),
@@ -37,7 +30,7 @@ const usersApiEndpoints = usersApi
       }),
       toggleTheme: builder.mutation<UserType, { isDark: boolean }>({
         query: (data: { isDark: boolean }) => ({
-          url: '/users/theme',
+          url: 'users/theme',
           method: 'PATCH',
           body: data,
         }),
@@ -45,7 +38,7 @@ const usersApiEndpoints = usersApi
       }),
       addTypeToUser: builder.mutation<ModuleType[], number>({
         query: (typeId: number) => ({
-          url: '/users/settings',
+          url: 'users/settings',
           method: 'PUT',
           body: { typeId },
         }),
@@ -53,7 +46,7 @@ const usersApiEndpoints = usersApi
       }),
       removeTypeFromUser: builder.mutation<ModuleType[], number>({
         query: (typeId: number) => ({
-          url: '/users/settings',
+          url: 'users/settings',
           method: 'DELETE',
           body: { typeId },
         }),
@@ -62,7 +55,7 @@ const usersApiEndpoints = usersApi
 
       toggleCompact: builder.mutation<UserType, { isCompact: boolean }>({
         query: (data: { isCompact: boolean }) => ({
-          url: '/users/sidebar',
+          url: 'users/sidebar',
           method: 'PATCH',
           body: data,
         }),
@@ -72,7 +65,6 @@ const usersApiEndpoints = usersApi
   });
 
 export const {
-  // useGetUserMeMutation,
   useGetUserByEmailMutation,
   useUpdateUserMutation,
   useToggleThemeMutation,
