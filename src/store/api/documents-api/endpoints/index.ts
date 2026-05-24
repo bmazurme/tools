@@ -14,7 +14,7 @@ const documentsApiEndpoints = documentsApi
     endpoints: (builder) => ({
       getDocumentsByPage: builder.mutation<DocumentResponse, DocumentRequest>({
         query: ({ id, project }: DocumentRequest) => ({
-          url: `/documents/${project}/page/${id}`,
+          url: `documents/${project}/page/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['Documents'],
@@ -29,7 +29,7 @@ const documentsApiEndpoints = documentsApi
       }),
       updateDocument: builder.mutation<DocumentType, { name: string; id: number }>({
         query: ({ name, id }) => ({
-          url: `/documents/${id}`,
+          url: `documents/${id}`,
           method: 'PATCH',
           body: { name },
         }),
@@ -37,14 +37,14 @@ const documentsApiEndpoints = documentsApi
       }),
       removeDocument: builder.mutation<TotalType, number>({
         query: (id: number) => ({
-          url: `/documents/${id}`,
+          url: `documents/${id}`,
           method: 'DELETE',
         }),
         invalidatesTags: ['Documents'],
       }),
       getDocument: builder.mutation<DocumentType, number>({
         query: (id: number) => ({
-          url: `/documents/${id}`,
+          url: `documents/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['Documents'],
