@@ -10,7 +10,7 @@ const throttlePlateEndpoints = throttlePlateApi
     endpoints: (builder) => ({
       createThrottlePlateItem: builder.mutation<ItemType, { block: { id: number }, index: number }>({
         query: (data: { block: { id: number }, index: number }) => ({
-          url: '/throttle-plates',
+          url: 'throttle-plates',
           method: 'POST',
           body: data,
         }),
@@ -18,21 +18,21 @@ const throttlePlateEndpoints = throttlePlateApi
       }),
       getThrottlePlateItems: builder.mutation<ItemType[], number>({
         query: (id: number) => ({
-          url: `/throttle-plates/document/${id}`,
+          url: `throttle-plates/document/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['ThrottlePlate'],
       }),
       getThrottlePlate: builder.mutation<{ blocks: BlockType[] }, number>({
         query: (id: number) => ({
-          url: `/throttle-plates/${id}`,
+          url: `throttle-plates/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['ThrottlePlate'],
       }),
       updateThrottlePlate: builder.mutation<ThrottlePlate, ThrottlePlate>({
         query: (data: ThrottlePlate) => ({
-          url: `/throttle-plates/${data.id}`,
+          url: `throttle-plates/${data.id}`,
           method: 'PATCH',
           body: data,
         }),
@@ -40,7 +40,7 @@ const throttlePlateEndpoints = throttlePlateApi
       }),
       getThrottlePlateItem: builder.mutation<ItemType, number>({
         query: (id: number) => ({
-          url: `/throttle-plates/${id}`,
+          url: `throttle-plates/${id}`,
           method: 'GET',
         }),
         invalidatesTags: ['ThrottlePlate'],
