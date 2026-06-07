@@ -5,6 +5,7 @@ import RainRoofTemplateLayout from '../rain-roof-template-layout';
 import NotFoundLayout from '../not-found-layout';
 import HeatConsumptionLayout from '../heat-consumption-template-layout';
 import ThrottlePlateLayout from '../throttle-plate-template-layout';
+import PipeDiameterCalculationLayout from '../pipe-diameter-calculation-template-layout';
 
 export default function DynamicTemplateLayout() {
   const { typeId } = useParams();
@@ -14,6 +15,7 @@ export default function DynamicTemplateLayout() {
     'rain-roof': RainRoofTemplateLayout,
     'heat-consumption': HeatConsumptionLayout,
     'throttle-plate': ThrottlePlateLayout,
+    'pipe-diameter-calculation': PipeDiameterCalculationLayout,
   }[typeId!] || NotFoundLayout;
 
   return (

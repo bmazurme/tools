@@ -22,6 +22,7 @@ const TRANSLATION_DICT: Record<string, string> = {
   'rain-runoff': 'Расчёт дождевых вод с территории',
   'heat-consumption': 'Расчет тепла для приготовления горячей воды',
   'throttle-plate': 'Расчёт диаметра отверстия дроссельной шайбы',
+  'pipe-diameter-calculation': 'Расчёт диаметра трубопровода',
 };
 
 // Капитализация первой буквы
