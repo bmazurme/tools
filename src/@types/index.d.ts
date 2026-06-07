@@ -64,6 +64,13 @@ type ThrottlePlate = {
   diameter: number;
 };
 
+type PipeDiameterCalculation = {
+  id: number;
+  flowRate: number;
+  velocity: number;
+  diameter: number;
+};
+
 type RainCondition = {
   id: number;
   name: string;
@@ -87,6 +94,7 @@ type ItemType = {
   rainRunoff?: RainRunoff;
   heatConsumption?: HeatConsumption;
   throttlePlate?: ThrottlePlate;
+  pipeDiameterCalculation?: PipeDiameterCalculation;
 };
 type RawBlockType = BlockType & { items: ItemType };
 
