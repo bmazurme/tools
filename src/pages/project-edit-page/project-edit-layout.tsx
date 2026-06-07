@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { PersonPlus, Minus } from '@gravity-ui/icons';
@@ -44,9 +44,9 @@ export default function ProjectEditLayout() {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  const onHandleOpenModal = () => {
+  const onHandleOpenModal = useCallback(() => {
     setIsOpen(true);
-  };
+  }, []);
 
   const { control, handleSubmit, reset } = useForm<FormPayload>({
     defaultValues: {
@@ -54,30 +54,30 @@ export default function ProjectEditLayout() {
     },
   });
 
-  const onSubmit = async (data: FormPayload) => {
+  const onSubmit = useCallback(async (data: FormPayload) => {
     try {
       await updateProject({ id: projectId!, ...data });
       navigate(`/project/${projectId}`);
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
-  };
+  }, [updateProject, projectId, navigate, showError]);
 
-  const onAddUserToProject = async (userId: number) => {
+  const onAddUserToProject = useCallback(async (userId: number) => {
     try {
       await addUserToProject({ projectId, userId });
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
-  };
+  }, [addUserToProject, projectId, showError]);
 
-  const onRemoveUserFromProject = async (userId: number) => {
+  const onRemoveUserFromProject = useCallback(async (userId: number) => {
     try {
       await removeUserFromProject({ projectId, userId });
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
-  };
+  }, [removeUserFromProject, projectId, showError]);
 
   useEffect(() => {
     const fetchData = async () => {

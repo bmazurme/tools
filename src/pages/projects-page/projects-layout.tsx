@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Button,
@@ -44,27 +44,30 @@ export default function ProjectsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingProjectId, setPendingProjectId] = useState<number | null>(null);
 
-  const openDeleteModal = (documentId: number) => {
+  const openDeleteModal = useCallback((documentId: number) => {
     setPendingProjectId(documentId);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const confirmDelete = async () => {
+  const confirmDelete = useCallback(async () => {
     if (pendingProjectId) {
       await removeProject(pendingProjectId);
       setIsModalOpen(false);
       setPendingProjectId(null);
       // getProjects(state.page);
     }
-  };
+  }, [pendingProjectId, removeProject]);
 
-  const cancelDelete = () => {
+  const cancelDelete = useCallback(() => {
     setIsModalOpen(false);
     setPendingProjectId(null);
-  };
+  }, []);
 
-  // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
-  const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
+  const getRowActions = useCallback((
+    item: TableDataItem,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _index: number,
+  ): TableActionConfig<TableDataItem>[] => [
     {
       text: 'Редактировать проект',
       handler: () => { navigate(`/project/${item.id}/edit`); },
@@ -77,17 +80,24 @@ export default function ProjectsPage() {
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
-  ];
+  ], [navigate, openDeleteModal]);
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = useCallback((name: string, value: string) => {
     setSearchParams({
       ...Object.fromEntries(searchParams),
       [name]: value,
     });
-  };
+  }, [searchParams, setSearchParams]);
 
-  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => setState((prevState) => ({ ...prevState, page, pageSize }));
-  const handleRowClick = (rowData: TableDataItem) => navigate(`/project/${rowData.id}`);
+  const handleUpdate: PaginationProps['onUpdate'] = useCallback(
+    (page, pageSize) => setState((prevState) => ({ ...prevState, page, pageSize })),
+    [],
+  );
+  const handleRowClick = useCallback(
+    (rowData: TableDataItem) => navigate(`/project/${rowData.id}`),
+    [navigate],
+  );
+  const onAddProjectClick = useCallback(() => navigate('add'), [navigate]);
 
   useEffect(() => {
     let isMounted = true;
@@ -120,7 +130,7 @@ export default function ProjectsPage() {
         <Button
           view="action"
           size="m"
-          onClick={() => navigate('add')}
+          onClick={onAddProjectClick}
         >
           <Icon data={Plus} size={18} />
           Добавить проект

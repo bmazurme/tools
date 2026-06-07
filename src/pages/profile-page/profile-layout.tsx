@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -23,6 +23,27 @@ import { profileFormConfig, type FormPayload } from './profile-form-config';
 
 import style from './profile.module.css';
 
+const formatDate = (postgresStr: string, hoursOffset = 3) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    // timeZone: 'Europe/Moscow', // Укажите нужный IANA timezone ID
+  };
+
+  const date = new Date(postgresStr);
+  date.setHours(date.getHours() + hoursOffset);
+
+  return new Intl.DateTimeFormat('ru-RU', options)
+    .format(date)
+    .replace(/\./g, '.') // Гарантируем точку как разделитель
+    .replace(',', ', '); // Добавляем пробел после запятой
+};
+
 export default function ProfileLayout() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -41,7 +62,7 @@ export default function ProfileLayout() {
     },
   });
 
-  const onSubmit = async (data: FormPayload) => {
+  const onSubmit = useCallback(async (data: FormPayload) => {
     try {
       await updateUser({ ...user!, status: data.status });
       showSuccess('Статус успешно обновлен', data.status);
@@ -49,28 +70,7 @@ export default function ProfileLayout() {
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
       showError(message, 'Ошибка при обновлении статуса');
     }
-  };
-
-  const formatDate = (postgresStr: string, hoursOffset = 3) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-      // timeZone: 'Europe/Moscow', // Укажите нужный IANA timezone ID
-    };
-
-    const date = new Date(postgresStr);
-    date.setHours(date.getHours() + hoursOffset);
-
-    return new Intl.DateTimeFormat('ru-RU', options)
-      .format(date)
-      .replace(/\./g, '.') // Гарантируем точку как разделитель
-      .replace(',', ', '); // Добавляем пробел после запятой
-  };
+  }, [updateUser, user, showSuccess, showError]);
 
   useEffect(() => {
     let isMounted = true;

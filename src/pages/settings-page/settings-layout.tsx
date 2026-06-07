@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Checkbox, Text } from '@gravity-ui/uikit';
 
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
@@ -23,7 +23,7 @@ export default function SettingsLayout() {
   const [removeTypeFromUser] = useRemoveTypeFromUserMutation();
   const { data } = useGetUserSettingsQuery();
 
-  const toggleType = async (typeId: number) => {
+  const toggleType = useCallback(async (typeId: number) => {
     if (isUpdating) return;
 
     setIsUpdating(true);
@@ -48,7 +48,7 @@ export default function SettingsLayout() {
     } finally {
       setIsUpdating(false);
     }
-  };
+  }, [isUpdating, availableTypes, removeTypeFromUser, addTypeToUser, dispatch, showError]);
 
   useEffect(() => {
     if (data && data.length > 0) {

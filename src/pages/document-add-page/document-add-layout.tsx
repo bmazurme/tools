@@ -1,6 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { Select, Text, TextInput } from '@gravity-ui/uikit';
@@ -36,14 +36,19 @@ export default function DocumentAddLayout() {
     defaultValues: { name: '', type: '' },
   });
 
-  const onSubmit = async ({ name, type }: FormPayload) => {
+  const onSubmit = useCallback(async ({ name, type }: FormPayload) => {
     const result = await createDocument({
       name,
       type,
       project: projectId!,
     });
     navigate(`/project/${projectId}/document/${result?.data?.id}/${result.data?.type.link}`);
-  };
+  }, [createDocument, projectId, navigate]);
+
+  const typeOptions = useMemo(
+    () => availableTypes.map(({ id, name }) => ({ id, value: id.toString(), content: name })),
+    [availableTypes],
+  );
 
   useEffect(() => {
     if (data) {
@@ -92,8 +97,7 @@ export default function DocumentAddLayout() {
                   validationState={errors?.type ? 'invalid' : undefined}
                   placeholder={isLoading ? 'Загрузка...' : 'Выберите вариант'}
                   disabled={isLoading}
-                    // eslint-disable-next-line max-len
-                  options={availableTypes.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
+                  options={typeOptions}
                 />
               )
           )}
