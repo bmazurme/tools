@@ -57,7 +57,7 @@ export * from './api/auth-api/endpoints/index';
 export * from './api/heat-consumption-api/endpoints/index';
 export * from './api/throttle-plate-api/endpoints/index';
 export * from './api/pipe-diameter-calculation-api/endpoints/index';
-export * from './api/chat-api/endpoints/index';
+// export * from './api/chat-api/endpoints/index';
 
 export * from './slices/index';
 
