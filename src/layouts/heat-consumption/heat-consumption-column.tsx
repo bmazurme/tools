@@ -1,6 +1,5 @@
-/* eslint-disable consistent-return */
 import { useDrop } from 'react-dnd';
-import type { ReactNode } from 'react';
+import { useCallback, useMemo, type ReactNode } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -41,19 +40,15 @@ export default function HeatConsumptionColumn({ children, blockId, length }: Col
     },
   });
 
-  const getBackgroundColor = () => {
-    if (isOver) {
-      if (canDrop) {
-        return 'var(--g-color-base-selection)';
-      } if (!canDrop) {
-        return 'rgb(255,188,188)';
-      }
-    } else {
+  const backgroundColor = useMemo(() => {
+    if (!isOver) {
       return '';
     }
-  };
 
-  const onHandleAddItem = async () => {
+    return canDrop ? 'var(--g-color-base-selection)' : 'rgb(255,188,188)';
+  }, [isOver, canDrop]);
+
+  const onHandleAddItem = useCallback(async () => {
     try {
       const item = await createItem({ block: { id: blockId }, index: length }).unwrap();
       dispatch(setItem({ item }));
@@ -61,13 +56,13 @@ export default function HeatConsumptionColumn({ children, blockId, length }: Col
       const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
       showError(message, 'Ошибка при обновлении статуса');
     }
-  };
+  }, [createItem, blockId, length, dispatch, showError]);
 
   return (
     <div
       ref={drop as unknown as React.RefObject<HTMLDivElement>}
       className="column"
-      style={{ backgroundColor: getBackgroundColor() }}
+      style={{ backgroundColor }}
     >
       <Column action={onHandleAddItem}>
         <div className="fields">

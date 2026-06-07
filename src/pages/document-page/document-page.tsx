@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Outlet, useParams } from 'react-router-dom';
 import { TextInput } from '@gravity-ui/uikit';
@@ -29,7 +29,7 @@ export default function DocumentPage() {
     defaultValues: { name: '' },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = useCallback(async () => {
     try {
       const { name } = getValues();
 
@@ -39,7 +39,7 @@ export default function DocumentPage() {
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
     }
-  };
+  }, [getValues, id, document, updateDocument, showError]);
 
   useEffect(() => {
     let isMounted = true;

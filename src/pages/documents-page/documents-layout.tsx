@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Button, Icon, Pagination, Text, withTableActions,
@@ -38,44 +38,54 @@ export default function DocumentsLayout() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pendingDocumentId, setPendingDocumentId] = useState<number | null>(null);
 
-  const openDeleteModal = (documentId: number) => {
+  const openDeleteModal = useCallback((documentId: number) => {
     setPendingDocumentId(documentId);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const confirmDelete = async () => {
+  const confirmDelete = useCallback(async () => {
     if (pendingDocumentId) {
       await removeDocument(pendingDocumentId);
       setIsModalOpen(false);
       setPendingDocumentId(null);
       // fetchData(state.page);
     }
-  };
+  }, [pendingDocumentId, removeDocument]);
 
-  const cancelDelete = () => {
+  const cancelDelete = useCallback(() => {
     setIsModalOpen(false);
     setPendingDocumentId(null);
-  };
+  }, []);
 
-  // eslint-disable-next-line max-len, @typescript-eslint/no-unused-vars
-  const getRowActions = (item: TableDataItem, _index: number): TableActionConfig<TableDataItem>[] => [
+  const getRowActions = useCallback((
+    item: TableDataItem,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _index: number,
+  ): TableActionConfig<TableDataItem>[] => [
     {
       text: 'Удалить',
       handler: () => openDeleteModal(item.id),
       theme: 'danger',
       icon: <Icon data={TrashBin} size={18} />,
     },
-  ];
+  ], [openDeleteModal]);
 
-  const handleChange = (name: string, value: string) => {
+  const handleChange = useCallback((name: string, value: string) => {
     setSearchParams({
       ...Object.fromEntries(searchParams),
       [name]: value,
     });
-  };
+  }, [searchParams, setSearchParams]);
 
-  const handleUpdate: PaginationProps['onUpdate'] = (page, pageSize) => setState((prevState) => ({ ...prevState, page, pageSize }));
-  const handleRowClick = (rowData: TableDataItem) => navigate(`document/${rowData.id}/${rowData.type.link}`);
+  const handleUpdate: PaginationProps['onUpdate'] = useCallback(
+    (page, pageSize) => setState((prevState) => ({ ...prevState, page, pageSize })),
+    [],
+  );
+  const handleRowClick = useCallback(
+    (rowData: TableDataItem) => navigate(`document/${rowData.id}/${rowData.type.link}`),
+    [navigate],
+  );
+  const onAddDocumentClick = useCallback(() => navigate('add'), [navigate]);
 
   useEffect(() => {
     let isMounted = true;
@@ -108,7 +118,7 @@ export default function DocumentsLayout() {
         <Button
           view="action"
           size="m"
-          onClick={() => navigate('add')}
+          onClick={onAddDocumentClick}
         >
           <Icon data={Plus} size={18} />
           Добавить документ

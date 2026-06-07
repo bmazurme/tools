@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -13,20 +13,21 @@ interface TemplateProps {
 }
 
 export default function HeatConsumptionTemplate({ data, title }: TemplateProps) {
-  const [formulaAvg, setFormulaAvg] = useState('');
-  const [formulaMax, setFormulaMax] = useState('');
-
-  useEffect(() => {
-    if (data) {
-      const {
-        th, tc, maxHotWaterPerHour,
-        avgHotWaterPerHour, hwPipelineHeatLoss,
-        meanHourlyHeatForHotWater, maxHourlyHeatForHotWater,
-      } = data;
-
-      setFormulaAvg(`$Q_{T}^{h}=1,16\\cdot ${avgHotWaterPerHour}\\cdot\\left(${th}-${tc}\\right)+${hwPipelineHeatLoss}=${meanHourlyHeatForHotWater}$`);
-      setFormulaMax(`$Q_{hr}^{h}=1,16\\cdot ${maxHotWaterPerHour}\\cdot\\left(${th}-${tc}\\right)+${hwPipelineHeatLoss}=${maxHourlyHeatForHotWater}$`);
+  const { formulaAvg, formulaMax } = useMemo(() => {
+    if (!data) {
+      return { formulaAvg: '', formulaMax: '' };
     }
+
+    const {
+      th, tc, maxHotWaterPerHour,
+      avgHotWaterPerHour, hwPipelineHeatLoss,
+      meanHourlyHeatForHotWater, maxHourlyHeatForHotWater,
+    } = data;
+
+    return {
+      formulaAvg: `$Q_{T}^{h}=1,16\\cdot ${avgHotWaterPerHour}\\cdot\\left(${th}-${tc}\\right)+${hwPipelineHeatLoss}=${meanHourlyHeatForHotWater}$`,
+      formulaMax: `$Q_{hr}^{h}=1,16\\cdot ${maxHotWaterPerHour}\\cdot\\left(${th}-${tc}\\right)+${hwPipelineHeatLoss}=${maxHourlyHeatForHotWater}$`,
+    };
   }, [data]);
 
   return (

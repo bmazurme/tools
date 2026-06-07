@@ -1,5 +1,6 @@
 /* eslint-disable no-return-await */
 /* eslint-disable react/jsx-props-no-spreading */
+import { useCallback, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Modal, TextInput, Select } from '@gravity-ui/uikit';
 
@@ -55,7 +56,7 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
     shouldUnregister: false,
   });
 
-  const onSubmit = async (data: FormPayload) => {
+  const onSubmit = useCallback(async (data: FormPayload) => {
     const placeId = (item.rainRunoff?.place?.id && item.rainRunoff?.place?.name === data.place)
       ? item.rainRunoff.place.id
       : +data.place[0];
@@ -82,29 +83,42 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
     }
 
     setOpen(false);
-  };
+  }, [item.rainRunoff, updateRainRunoffs, setOpen]);
 
-  const renderInput = (fieldConfig: (typeof FIELD_CONFIG)[number]) => (
-    <Controller
-      key={fieldConfig.name}
-      name={fieldConfig.name as keyof FormPayload}
-      rules={{
-        pattern: fieldConfig.pattern,
-        // required: fieldConfig.required,
-      }}
-      control={control}
-      render={({ field, fieldState }) => (
-        <TextInput
-          {...field}
-          {...fieldConfig}
-          value={`${field.value}`}
-          size="l"
-          type="text"
-          error={fieldState.error?.message}
-          className={fieldConfig?.column === 1 ? style.first : ''}
-        />
-      )}
-    />
+  const formFields = useMemo(
+    () => FIELD_CONFIG.map((fieldConfig) => (
+      <Controller
+        key={fieldConfig.name}
+        name={fieldConfig.name as keyof FormPayload}
+        rules={{
+          pattern: fieldConfig.pattern,
+          // required: fieldConfig.required,
+        }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <TextInput
+            {...field}
+            {...fieldConfig}
+            value={`${field.value}`}
+            size="l"
+            type="text"
+            error={fieldState.error?.message}
+            className={fieldConfig?.column === 1 ? style.first : ''}
+          />
+        )}
+      />
+    )),
+    [control],
+  );
+
+  const placeOptions = useMemo(
+    () => places.map(({ id, name }) => ({ id, value: id.toString(), content: name })),
+    [places],
+  );
+
+  const conditionOptions = useMemo(
+    () => conditions.map(({ id, name }) => ({ id, value: id.toString(), content: name })),
+    [conditions],
   );
 
   return (
@@ -129,7 +143,7 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
               errorMessage={fieldState.error?.message}
               validationState={errors?.place ? 'invalid' : undefined}
               onOpenChange={async () => await getPlaces()}
-              options={places.map(({ id, name }) => ({ id, value: id.toString(), content: name }))}
+              options={placeOptions}
             />
           )}
         />
@@ -147,14 +161,12 @@ export default function RainRunoffModal({ item, open, setOpen }: IRainRunoffModa
               errorMessage={fieldState.error?.message}
               validationState={errors?.condition ? 'invalid' : undefined}
               onOpenChange={async () => await getConditions()}
-              options={conditions.map(({ id, name }) => ({
-                id, value: id.toString(), content: name,
-              }))}
+              options={conditionOptions}
             />
           )}
         />
         <div className={style.grid}>
-          {FIELD_CONFIG.map(renderInput)}
+          {formFields}
         </div>
         <FormButtons onCancel={() => setOpen(false)} />
       </form>

@@ -1,10 +1,9 @@
-import type { ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 
-export default function ColumnFooter({ children }:
-  { children: ReactNode; }) {
-  return (
-    <div className="column_footer">
-      {children}
-    </div>
-  );
-}
+const ColumnFooter = memo(({ children }: { children: ReactNode }) => (
+  <div className="column_footer">
+    {children}
+  </div>
+));
+
+export default ColumnFooter;

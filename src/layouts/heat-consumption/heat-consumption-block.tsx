@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useCallback, useMemo, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import style from './heat-consumption-column.module.css';
 
 type HeatConsumptionBlockProps = { block: BlockType; index: number };
 
-export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBlockProps) {
+const HeatConsumptionBlock = memo(({ block, index }: HeatConsumptionBlockProps) => {
   const { id } = useParams();
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -86,27 +86,30 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
     }),
   });
 
-  const returnItemsForColumn = useCallback((itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
       key={item.id}
       index={idx}
       item={item}
     />
-  )), []);
+  ));
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
 
   drag(drop(ref));
 
-  const blockItems = items.filter((x) => x.block.id === block.id);
+  const blockItems = useMemo(
+    () => items.filter((x) => x.block.id === block.id),
+    [items, block.id],
+  );
 
   const { sumAvg, sumMax } = useMemo(() => {
     const avg = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.meanHourlyHeatForHotWater || 0), 0);
     const max = blockItems.reduce((a: number, x: ItemType) => a + Number(x.heatConsumption?.maxHourlyHeatForHotWater || 0), 0);
 
     return { sumAvg: avg, sumMax: max };
-  }, [items, block.id]);
+  }, [blockItems]);
 
   const fieldConfig = useMemo(() => getFieldsConfig(sumAvg, sumMax), [sumAvg, sumMax]);
 
@@ -134,4 +137,6 @@ export default function HeatConsumptionBlock({ block, index }: HeatConsumptionBl
       </Column>
     </div>
   );
-}
+});
+
+export default HeatConsumptionBlock;
