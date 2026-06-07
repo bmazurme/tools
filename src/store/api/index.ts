@@ -34,4 +34,4 @@ export * from './payments-api/endpoints/index';
 export * from './heat-consumption-api/endpoints/index';
 export * from './throttle-plate-api/endpoints/index';
 export * from './pipe-diameter-calculation-api/endpoints/index';
-export * from './chat-api/endpoints/index';
+// export * from './chat-api/endpoints/index';
