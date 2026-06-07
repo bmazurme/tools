@@ -1,6 +1,5 @@
-/* eslint-disable consistent-return */
+import { useCallback, useMemo, type ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
-import type { ReactNode } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -36,26 +35,23 @@ export default function RainRunoffColumn({ children, blockId, length }: ColumnTy
     },
   });
 
-  const getBackgroundColor = () => {
-    if (isOver) {
-      if (canDrop) {
-        return 'var(--g-color-base-selection)';
-      } if (!canDrop) {
-        return 'rgb(255,188,188)';
-      }
-    } else {
+  const backgroundColor = useMemo(() => {
+    if (!isOver) {
       return '';
     }
-  };
-  const onHandleAddItem = () => {
+
+    return canDrop ? 'var(--g-color-base-selection)' : 'rgb(255,188,188)';
+  }, [isOver, canDrop]);
+
+  const onHandleAddItem = useCallback(() => {
     createItem({ block: { id: blockId }, index: length });
-  };
+  }, [createItem, blockId, length]);
 
   return (
     <div
       ref={drop as unknown as React.RefObject<HTMLDivElement>}
       className="column"
-      style={{ backgroundColor: getBackgroundColor() }}
+      style={{ backgroundColor }}
     >
       <Column action={onHandleAddItem}>
         <div className="fields">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -12,42 +12,48 @@ interface TemplateProps {
 }
 
 export default function RainRunoffTemplate({ data, title }: TemplateProps) {
-  const [sumArea, setSumArea] = useState('');
-  const [formulaA, setFormulaA] = useState('');
-  const [formulaTr, setFormulaTr] = useState('');
-  const [formulaQr, setFormulaQr] = useState('');
-  const [formulaTcan, setFormulaTcan] = useState('');
-  const [formulaTcon, setFormulaTcon] = useState('');
-  const [formulaZmid, setFormulaZmid] = useState('');
+  const {
+    sumArea, formulaA, formulaTr, formulaQr, formulaTcan, formulaTcon, formulaZmid,
+  } = useMemo(() => {
+    if (!data) {
+      return {
+        sumArea: '',
+        formulaA: '',
+        formulaTr: '',
+        formulaQr: '',
+        formulaTcan: '',
+        formulaTcon: '',
+        formulaZmid: '',
+      };
+    }
 
-  useEffect(() => {
-    if (data) {
-      const {
-        roof, stone, lawns, tracks, ground, pavements, cobblestone, area, zMid, flow,
-        lengthPipe, velocityPipe, lengthTray, velocityTray,
-        intensity, n, p, mr, gamma, a, timeInit, timePipe, timeTray, timeSum,
-      } = data;
+    const {
+      roof, stone, lawns, tracks, ground, pavements, cobblestone, area, zMid, flow,
+      lengthPipe, velocityPipe, lengthTray, velocityTray,
+      intensity, n, p, mr, gamma, a, timeInit, timePipe, timeTray, timeSum,
+    } = data;
 
+    return {
       // Форматирование суммы площадей
-      setSumArea(`$F=${roof}+${stone}+${lawns}+${tracks}+${ground}+${pavements}+${cobblestone}=${area}\\space\\text{га}$`);
+      sumArea: `$F=${roof}+${stone}+${lawns}+${tracks}+${ground}+${pavements}+${cobblestone}=${area}\\space\\text{га}$`,
 
       // Формула для A
-      setFormulaA(`$A=${intensity}\\cdot20^{${n}}\\left(1+\\cfrac{lg${p}}{lg${mr}}\\right)^{${gamma}}=${a}$`);
+      formulaA: `$A=${intensity}\\cdot20^{${n}}\\left(1+\\cfrac{lg${p}}{lg${mr}}\\right)^{${gamma}}=${a}$`,
 
       // Формула для Qr
-      setFormulaQr(`$Q_{r}=\\cfrac{${zMid}\\cdot ${a}^{1.2}\\cdot ${area}}{${timeSum}^{1.2\\cdot${n}-0.1}}=${flow}\\space\\text{л/с}$`);
+      formulaQr: `$Q_{r}=\\cfrac{${zMid}\\cdot ${a}^{1.2}\\cdot ${area}}{${timeSum}^{1.2\\cdot${n}-0.1}}=${flow}\\space\\text{л/с}$`,
 
       // Формула для tr
-      setFormulaTr(`$t_r=${timeInit}+${timeTray}+${timePipe}=${timeSum}\\space\\text{мин}$`);
+      formulaTr: `$t_r=${timeInit}+${timeTray}+${timePipe}=${timeSum}\\space\\text{мин}$`,
 
       // Формула для t_can
-      setFormulaTcan(`$t_{can}=0,021\\sum\\frac{${lengthTray}}{${velocityTray}}=${timeTray}\\space\\text{мин}$`);
+      formulaTcan: `$t_{can}=0,021\\sum\\frac{${lengthTray}}{${velocityTray}}=${timeTray}\\space\\text{мин}$`,
 
       // Формула для t_p
-      setFormulaTcon(`$t_p=0,017\\sum\\frac{${lengthPipe}}{${velocityPipe}}=${timePipe}\\space\\text{мин}$`);
+      formulaTcon: `$t_p=0,017\\sum\\frac{${lengthPipe}}{${velocityPipe}}=${timePipe}\\space\\text{мин}$`,
 
       // Формула для Z_mid
-      setFormulaZmid(`$Z_{mid}=\\cfrac{0.224\\cdot${pavements}+0.145\\cdot${cobblestone}+0.125\\cdot${stone}+0.09\\cdot${tracks}+0.064\\cdot${ground}+0.038\\cdot${lawns}}{${area}}=${zMid}$`);
+      formulaZmid: `$Z_{mid}=\\cfrac{0.224\\cdot${pavements}+0.145\\cdot${cobblestone}+0.125\\cdot${stone}+0.09\\cdot${tracks}+0.064\\cdot${ground}+0.038\\cdot${lawns}}{${area}}=${zMid}$`,
 
       // PAVEMENTS: 0.224, // брусчатые мостовые и чёрные щебёночные покрытия дорог
       // COBBLESTONE: 0.145, // Булыжные мостовые
@@ -55,7 +61,7 @@ export default function RainRunoffTemplate({ data, title }: TemplateProps) {
       // TRACKS: 0.09, // Гравийные садово-парковые дорожки
       // GROUND: 0.064, // Грунтовые поверхности (спланированные)
       // LAWNS: 0.038, // Газоны
-    }
+    };
   }, [data]);
 
   return (

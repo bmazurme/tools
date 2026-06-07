@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useCallback, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ import { TARGET_TYPE } from '../../config';
 
 type ThrottlePlateBlockProps = { block: BlockType; index: number };
 
-export default function ThrottlePlateBlock({ block, index }: ThrottlePlateBlockProps) {
+const ThrottlePlateBlock = memo(({ block, index }: ThrottlePlateBlockProps) => {
   const { id } = useParams();
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -81,20 +81,23 @@ export default function ThrottlePlateBlock({ block, index }: ThrottlePlateBlockP
     }),
   });
 
-  const returnItemsForColumn = useCallback((itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
+  const returnItemsForColumn = (itms: ItemType[]) => itms.map((item: ItemType, idx: number) => (
     <Item
       key={item.id}
       index={idx}
       item={item}
     />
-  )), []);
+  ));
 
   const opacity = isDragging ? 0.4 : 1;
   const border = isDragging ? 'solid 1px var(--table-cell)' : 'none';
 
   drag(drop(ref));
 
-  const blockItems = items.filter((x) => x.block.id === block.id);
+  const blockItems = useMemo(
+    () => items.filter((x) => x.block.id === block.id),
+    [items, block.id],
+  );
 
   return (
     <div
@@ -111,4 +114,6 @@ export default function ThrottlePlateBlock({ block, index }: ThrottlePlateBlockP
       </Column>
     </div>
   );
-}
+});
+
+export default ThrottlePlateBlock;

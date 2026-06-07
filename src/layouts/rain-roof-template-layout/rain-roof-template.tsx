@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -12,18 +12,19 @@ interface TemplateProps {
 }
 
 export default function RainRoofTemplate({ data, title }: TemplateProps) {
-  const [formulaQ, setFormulaQ] = useState('');
-  const [formulaQ5, setFormulaQ5] = useState('');
-
-  useEffect(() => {
-    if (data) {
-      const {
-        flow, n, q5, q20, sumRoofArea,
-      } = data;
-
-      setFormulaQ(`$Q=\\cfrac{${sumRoofArea}\\cdot ${q5}}{10000}=${flow}\\space\\text{л/с}$`);
-      setFormulaQ5(`$q_5=4^{${n}}\\cdot ${q20}=${q5}$`);
+  const { formulaQ, formulaQ5 } = useMemo(() => {
+    if (!data) {
+      return { formulaQ: '', formulaQ5: '' };
     }
+
+    const {
+      flow, n, q5, q20, sumRoofArea,
+    } = data;
+
+    return {
+      formulaQ: `$Q=\\cfrac{${sumRoofArea}\\cdot ${q5}}{10000}=${flow}\\space\\text{л/с}$`,
+      formulaQ5: `$q_5=4^{${n}}\\cdot ${q20}=${q5}$`,
+    };
   }, [data]);
 
   return (

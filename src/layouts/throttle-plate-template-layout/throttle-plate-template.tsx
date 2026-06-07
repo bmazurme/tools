@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Text } from '@gravity-ui/uikit';
 import Latex from 'react-latex-next';
 
@@ -13,13 +13,13 @@ interface TemplateProps {
 }
 
 export default function ThrottlePlateTemplate({ data, title }: TemplateProps) {
-  const [formula, setFormula] = useState('');
-
-  useEffect(() => {
-    if (data) {
-      const { flowRate, excessHead, diameter } = data;
-      setFormula(`$\\large d_0=\\sqrt[4]{\\frac{(3,6 \\cdot ${flowRate})^2} {${excessHead}}} = ${diameter}$`);
+  const formula = useMemo(() => {
+    if (!data) {
+      return '';
     }
+
+    const { flowRate, excessHead, diameter } = data;
+    return `$\\large d_0=\\sqrt[4]{\\frac{(3,6 \\cdot ${flowRate})^2} {${excessHead}}} = ${diameter}$`;
   }, [data]);
 
   return (

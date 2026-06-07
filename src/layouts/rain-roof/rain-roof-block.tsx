@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useMemo, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import style from './rain-roof-column.module.css';
 
 type RainRoofBlockProps = { block: BlockType; index: number };
 
-export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
+const RainRoofBlock = memo(({ block, index }: RainRoofBlockProps) => {
   const { id } = useParams();
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -99,11 +99,15 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
 
   drag(drop(ref));
 
-  const blockItems = items.filter((x) => x.block.id === block.id);
+  const blockItems = useMemo(
+    () => items.filter((x) => x.block.id === block.id),
+    [items, block.id],
+  );
+
   const { sum } = useMemo(() => {
     const sumRain = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRoof?.flow || 0), 0);
     return { sum: sumRain };
-  }, [items, block.id]);
+  }, [blockItems]);
 
   const fieldConfig = useMemo(() => getFieldsConfig(sum), [sum]);
 
@@ -128,4 +132,6 @@ export default function RainRoofBlock({ block, index }: RainRoofBlockProps) {
       </Column>
     </div>
   );
-}
+});
+
+export default RainRoofBlock;

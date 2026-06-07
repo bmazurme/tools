@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { useMemo, useRef } from 'react';
+import { memo, useMemo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { useParams } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ import { getFieldsConfig } from './get-fields-config';
 
 import style from './rain-runoff-column.module.css';
 
-export default function RainRunoffBlock({ block, index }: { block: BlockType; index: number }) {
+const RainRunoffBlock = memo(({ block, index }: { block: BlockType; index: number }) => {
   const { id } = useParams();
   const [refreshBlocks] = useRefreshBlocksMutation();
   const { blocks } = useAppSelector(blocksSelector) ?? { blocks: [] };
@@ -98,11 +98,15 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
 
   drag(drop(ref));
 
-  const blockItems = items.filter((x) => x.block.id === block.id);
+  const blockItems = useMemo(
+    () => items.filter((x) => x.block.id === block.id),
+    [items, block.id],
+  );
+
   const { sum } = useMemo(() => {
     const sumRain = blockItems.reduce((a: number, x: ItemType) => a + Number(x.rainRunoff?.flow || 0), 0);
     return { sum: sumRain };
-  }, [items, block.id]);
+  }, [blockItems]);
 
   const fieldConfig = useMemo(() => getFieldsConfig(sum), [sum]);
 
@@ -128,4 +132,6 @@ export default function RainRunoffBlock({ block, index }: { block: BlockType; in
       </Column>
     </div>
   );
-}
+});
+
+export default RainRunoffBlock;

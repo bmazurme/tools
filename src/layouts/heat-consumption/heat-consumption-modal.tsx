@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Modal, TextInput } from '@gravity-ui/uikit';
 
@@ -27,7 +27,7 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
     },
   });
 
-  const onSubmit = async (data: FormPayload) => {
+  const onSubmit = useCallback(async (data: FormPayload) => {
     try {
       await updateHeatConsumption({ ...item.heatConsumption, ...data }).unwrap();
       setOpen(false);
@@ -35,7 +35,7 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
       // eslint-disable-next-line no-console
       console.error('Failed to update heat consumption:', error);
     }
-  };
+  }, [updateHeatConsumption, item.heatConsumption, setOpen]);
 
   const formFields = useMemo(
     () => FIELD_CONFIG.map((fieldConfig: FieldConfig) => (

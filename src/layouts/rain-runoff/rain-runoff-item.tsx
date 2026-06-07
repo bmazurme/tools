@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useRef, useState } from 'react';
+import {
+  memo, useCallback, useRef, useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { Controller, useForm } from 'react-hook-form';
@@ -25,11 +27,13 @@ interface IRainRunoffItem {
   index: number;
 }
 
-export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
+const RainRunoffItem = memo(({ item, index }: IRainRunoffItem) => {
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const linkToDetails = () => navigate(`${item.id}`);
+
+  const linkToDetails = useCallback(() => navigate(`${item.id}`), [navigate, item.id]);
+  const onEdit = useCallback(() => setIsModalOpen(true), []);
 
   const [updateItem] = useUpdateItemMutation();
   const [refreshItems] = useRefreshItemsMutation();
@@ -112,7 +116,7 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
   const opacity = isDragging ? 0.4 : 1;
   drag(drop(ref));
 
-  const onSubmit = async () => {
+  const onSubmit = useCallback(async () => {
     try {
       const { name } = getValues();
 
@@ -125,13 +129,13 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       // eslint-disable-next-line no-console
       console.error('Ошибка при обновлении проекта:', error);
     }
-  };
+  }, [getValues, item, index, updateItem]);
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
       <Item
         itemId={item.id}
-        editAction={() => setIsModalOpen(true)}
+        editAction={onEdit}
         detailAction={linkToDetails}
       >
         <ul className="fields">
@@ -171,4 +175,6 @@ export default function RainRunoffItem({ item, index }: IRainRunoffItem) {
       {isModalOpen && <RainRunoffModal item={item} open={isModalOpen} setOpen={setIsModalOpen} />}
     </li>
   );
-}
+});
+
+export default RainRunoffItem;
