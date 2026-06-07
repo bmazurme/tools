@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
-import { memo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
 import { Pencil, Person, ArrowRightFromSquare } from '@gravity-ui/icons';
@@ -15,10 +15,24 @@ const FullMenu = memo(() => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onSignOut = async () => {
+  const onSignOut = useCallback(async () => {
     await signOut();
     navigate('/');
-  };
+  }, [signOut, navigate]);
+
+  const items = useMemo(() => [
+    {
+      iconStart: <Icon size={16} data={Pencil} />,
+      action: () => navigate('/profile'),
+      text: 'Профиль',
+    },
+    {
+      iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
+      action: onSignOut,
+      text: 'Выйти',
+      theme: 'danger' as const,
+    },
+  ], [navigate, onSignOut]);
 
   return (
     <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
@@ -37,19 +51,7 @@ const FullMenu = memo(() => {
               <Icon data={Person} size={18} />
             </Button>
           )}
-          items={[
-            {
-              iconStart: <Icon size={16} data={Pencil} />,
-              action: () => navigate('/profile'),
-              text: 'Профиль',
-            },
-            {
-              iconStart: <Icon size={16} data={ArrowRightFromSquare} />,
-              action: onSignOut,
-              text: 'Выйти',
-              theme: 'danger',
-            },
-          ]}
+          items={items}
         />
       </div>
     </div>

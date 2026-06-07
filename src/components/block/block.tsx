@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { Button, Icon, TextInput } from '@gravity-ui/uikit';
 import { TrashBin } from '@gravity-ui/icons';
 import { Controller, useForm } from 'react-hook-form';
@@ -28,7 +28,7 @@ interface BlockProps {
   value: BlockType;
 }
 
-export default function Block({ blockId, value }: BlockProps) {
+const Block = memo(({ blockId, value }: BlockProps) => {
   const [updateBlock, { isLoading: isBlockUpdating }] = useUpdateBlockMutation();
   const [deleteBlock] = useDeleteBlockMutation();
   const { showError } = useAppToaster();
@@ -100,4 +100,6 @@ export default function Block({ blockId, value }: BlockProps) {
       )}
     </form>
   );
-}
+});
+
+export default Block;

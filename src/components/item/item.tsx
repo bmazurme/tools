@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import { useState, type ReactNode } from 'react';
+import { memo, useState, type ReactNode } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import { Minus, Pencil, Receipt } from '@gravity-ui/icons';
 
@@ -14,9 +14,9 @@ interface IItemProps {
   detailAction?: () => void;
 }
 
-export default function Item({
+const Item = memo(({
   children, itemId, editAction, detailAction,
-}: IItemProps) {
+}: IItemProps) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [deleteItem] = useDeleteItemMutation();
 
@@ -75,4 +75,6 @@ export default function Item({
       )}
     </>
   );
-}
+});
+
+export default Item;

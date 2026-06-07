@@ -1,12 +1,5 @@
-/* eslint-disable react/jsx-no-useless-fragment */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
-import {
-  useMemo,
-  type PropsWithChildren,
-} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useCallback, useMemo, type PropsWithChildren } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import {
   CaretLeft, CaretRight, FolderOpen, Gear, Moon, SquareBars, Sun,
@@ -14,6 +7,7 @@ import {
 
 import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcrumbs';
 import { block, Logo } from '../logo/logo';
+import ContentButton from './content-button';
 
 import useUser from '../../hooks/use-user';
 import { useAppDispatch } from '../../hooks';
@@ -27,29 +21,25 @@ import FullMenu from './full-menu';
 
 import style from './content.module.css';
 
-type ContentProps = {
-  sidebar?: boolean;
-};
+import type { ContentProps } from './content-props.type';
 
 const b = block('collapse-button');
 
-function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
+export default function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
   const dispatch = useAppDispatch();
   const { user } = useUser();
   const [toggleTheme] = useToggleThemeMutation();
   const [setCompact] = useToggleCompactMutation();
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const onToggleCompact = () => {
+  const onToggleCompact = useCallback(() => {
     dispatch(toggleCompactOptimistic({ isCompact: !user?.isCompact }));
     setCompact({ isCompact: !user?.isCompact });
-  };
+  }, [dispatch, setCompact, user?.isCompact]);
 
-  const handleThemeToggle = (isDark: boolean) => {
+  const handleThemeToggle = useCallback((isDark: boolean) => {
     dispatch(toggleThemeOptimistic({ isDark }));
     toggleTheme({ isDark });
-  };
+  }, [dispatch, toggleTheme]);
 
   const themeButtons = useMemo(() => (
     <>
@@ -61,7 +51,10 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
         aria-label="Светлая тема"
         onClick={() => handleThemeToggle(false)}
       >
-        <Icon data={Sun} size={16} />
+        <Icon
+          data={Sun}
+          size={16}
+        />
       </Button>
       <Button
         view="normal"
@@ -94,70 +87,32 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
           </div>
 
           <div className="gn-aside-header__footer">
-            {!user?.isCompact ? (
-              <button
-                aria-label="Проекты"
-                onClick={() => navigate('/projects')}
-                className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'} ${location.pathname.includes('project') && 'gn-composite-bar-item-active'}`}
-              >
-                <div className="gn-composite-bar-item__icon-place">
-                  <Icon data={SquareBars} size={18} />
-                </div>
-                <div className="gn-composite-bar-item__title" title="User Settings">
-                  <div className="gn-composite-bar-item__title-text">
-                    Проекты
-                  </div>
-                </div>
-              </button>
-            ) : (
-              <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
-                <div className="gn-composite-bar-item__icon-place">
-                  <Button
-                    view={location.pathname.includes('project') ? 'action' : 'flat'}
-                    size="l"
-                    onClick={() => navigate('/projects')}
-                    aria-label="Проекты"
-                  >
-                    <Icon data={SquareBars} size={18} />
-                  </Button>
-                </div>
-              </div>
-            )}
+            <ContentButton
+              isCompact={user!.isCompact}
+              icon={SquareBars}
+              link="/projects"
+              type="project"
+              label="Проекты"
+            />
           </div>
 
           <div className="gn-composite-bar" />
 
           <div className="gn-aside-header__footer">
-            {!user?.isCompact ? (
-              <button
-                aria-label="Настройки"
-                className={`gn-composite-bar-item  gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}
-                onClick={() => navigate('/settings')}
-              >
-                <div className="gn-composite-bar-item__icon-place">
-                  <Icon data={Gear} size={18} />
-                </div>
-                <div className="gn-composite-bar-item__title" title="Settings">
-                  <div className="gn-composite-bar-item__title-text">
-                    Настройки
-                  </div>
-                </div>
-              </button>
-            ) : (
-              <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
-                <div className="gn-composite-bar-item__icon-place">
-                  <Button
-                    view="flat"
-                    size="l"
-                    aria-label="Настройки"
-                    onClick={() => navigate('/settings')}
-                  >
-                    <Icon data={Gear} size={18} />
-                  </Button>
-                </div>
-              </div>
-            )}
-
+            {/* <ContentButton
+              isCompact={user!.isCompact}
+              icon={Sparkles}
+              link="/chat"
+              type="chat"
+              label="AI-ассистент"
+            /> */}
+            <ContentButton
+              isCompact={user!.isCompact}
+              icon={Gear}
+              link="/settings"
+              type="settings"
+              label="Настройки"
+            />
             {!user?.isCompact ? <CompactMenu /> : <FullMenu />}
           </div>
 
@@ -190,11 +145,9 @@ function Content({ children, sidebar = false }: PropsWithChildren & ContentProps
           </div>
         </div>
         <div className={style.board}>
-          <>{children}</>
+          {children}
         </div>
       </div>
     </div>
   );
 }
-
-export default Content;
