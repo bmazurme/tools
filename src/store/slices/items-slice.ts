@@ -6,6 +6,7 @@ import { rainRoofsApiEndpoints } from '../api/rain-roofs-api/endpoints/index';
 import { rainRunoffsApiEndpoints } from '../api/rain-runoffs-api/endpoints/index';
 import { heatConsumptionEndpoints } from '../api/heat-consumption-api/endpoints/index';
 import { throttlePlateEndpoints } from '../api/throttle-plate-api/endpoints/index';
+import { pipeDiameterCalculationEndpoints } from '../api/pipe-diameter-calculation-api/endpoints/index';
 
 import { type RootState } from '..';
 
@@ -126,6 +127,17 @@ const itemsSlice = createSlice({
           data: {
             items: state.data.items.map((x) => (x.throttlePlate!.id === payload.id
               ? { ...x, throttlePlate: payload }
+              : x)),
+          },
+        }),
+      )
+      .addMatcher(
+        pipeDiameterCalculationEndpoints.endpoints.updatePipeDiameterCalculation.matchFulfilled,
+        (state, { payload }) => ({
+          ...state,
+          data: {
+            items: state.data.items.map((x) => (x.pipeDiameterCalculation!.id === payload.id
+              ? { ...x, pipeDiameterCalculation: payload }
               : x)),
           },
         }),

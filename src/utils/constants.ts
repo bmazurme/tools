@@ -40,6 +40,9 @@ export const LATEX = {
   tc: '$t^{c}$',
   th: '$t^{h}$',
   excessHead: '$h_{др}$',
+  velocity: '$v$',
+  pipeLength: '$l$',
+  pipeDiameter: '$d$',
   maxHotWaterPerHour: '$q_{hr}^h$',
   avgHotWaterPerHour: '$q_{T}^h$',
   hwPipelineHeatLoss: '$Q^{ht}$',
@@ -56,5 +59,6 @@ export const LATEX = {
     QhT: '$Q_{T}^{h}=1,16\\cdot q_{T}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
     Qhhr: '$Q_{hr}^{h}=1,16\\cdot q_{hr}^h\\cdot\\left(t^h-t^c\\right)+Q^{ht}$',
     throttlePlate: '$\\Large d_0=\\sqrt[4]{\\frac{3,6q^2}{d_{др}}}$',
+    pipeDiameterCalculation: '$\\Large d=\\sqrt{\\cfrac{4q}{\\pi \\cdot v}}$',
   },
 };
