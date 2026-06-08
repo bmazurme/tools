@@ -16,6 +16,7 @@ import ProjectPage from './pages/project-page';
 import DocumentPage from './pages/document-page';
 import DocumentsPage from './pages/documents-page';
 import DocumentAddPage from './pages/document-add-page';
+import ChatPage from './pages/chat-page';
 
 import DynamicTypeLayout from './layouts/dynamic-type-layout';
 import DynamicTemplateLayout from './layouts/dynamic-template-layout';
@@ -59,6 +60,8 @@ function App() {
             <Route path=":id/:typeId/:itemId" element={<DynamicTemplateLayout />} />
           </Route>
         </Route>
+
+        <Route path="chat" element={(<ChatPage />)} />
 
         <Route path="signin" element={(<SigninPage />)} />
         <Route path="*" element={(<NotFoundPage />)} />
