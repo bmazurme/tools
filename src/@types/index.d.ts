@@ -71,6 +71,35 @@ type PipeDiameterCalculation = {
   diameter: number;
 };
 
+type HeatLossCalculation = {
+  id: number;
+  tIn: number;
+  tOut: number;
+  tStart: number;
+  tEnd: number;
+  flowRate: number;
+  velocity: number;
+  innerPipeDiameter: number;
+  outerPipeDiameter: number;
+  length: number;
+  thickness: number;
+  koefPipe: number;
+  koefInsulation: number;
+  viscosity: number;
+  re: number;
+  pr: number;
+  nu: number;
+  alpha: number;
+  alphaNar: number;
+  lambda: number;
+  resistance1: number;
+  resistance2: number;
+  resistanceInsulation1: number;
+  resistanceInsulation2: number;
+  k: number;
+  heatLoss: number;
+};
+
 type RainCondition = {
   id: number;
   name: string;
@@ -95,6 +124,7 @@ type ItemType = {
   heatConsumption?: HeatConsumption;
   throttlePlate?: ThrottlePlate;
   pipeDiameterCalculation?: PipeDiameterCalculation;
+  heatLossCalculation?: HeatLossCalculation;
 };
 type RawBlockType = BlockType & { items: ItemType };
 
