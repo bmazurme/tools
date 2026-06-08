@@ -132,12 +132,14 @@ export default function DocumentsLayout() {
           onRowClick={handleRowClick}
         />
 
-        <Pagination
-          page={state.page}
-          pageSize={state.pageSize}
-          total={total}
-          onUpdate={handleUpdate}
-        />
+        {total > state.pageSize && (
+          <Pagination
+            page={state.page}
+            pageSize={state.pageSize}
+            total={total}
+            onUpdate={handleUpdate}
+          />
+        )}
         {isModalOpen && (
           <ConfirmModal
             open={isModalOpen}
