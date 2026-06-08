@@ -2,7 +2,7 @@
 import { useCallback, useMemo, type PropsWithChildren } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import {
-  CaretLeft, CaretRight, FolderOpen, Gear, Moon, SquareBars, Sun,
+  CaretLeft, CaretRight, FolderOpen, Gear, Moon, Sparkles, SquareBars, Sun,
 } from '@gravity-ui/icons';
 
 import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcrumbs';
@@ -99,13 +99,14 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
           <div className="gn-composite-bar" />
 
           <div className="gn-aside-header__footer">
-            {/* <ContentButton
+            <ContentButton
               isCompact={user!.isCompact}
               icon={Sparkles}
               link="/chat"
               type="chat"
               label="AI-ассистент"
-            /> */}
+              disabled
+            />
             <ContentButton
               isCompact={user!.isCompact}
               icon={Gear}
