@@ -5,6 +5,7 @@ import RainRunoffLayout from '../rain-runoff/rain-runoff';
 import HeatConsumptionLayout from '../heat-consumption/heat-consumption';
 import ThrottlePlateLayout from '../throttle-plate/throttle-plate';
 import PipeDiameterCalculationLayout from '../pipe-diameter-calculation/pipe-diameter-calculation';
+import HeatLossCalculationLayout from '../heat-loss-calculation/heat-loss-calculation';
 
 import NotFoundLayout from '../not-found-layout';
 
@@ -17,6 +18,7 @@ export default function DynamicTypeLayout() {
     'heat-consumption': HeatConsumptionLayout,
     'throttle-plate': ThrottlePlateLayout,
     'pipe-diameter-calculation': PipeDiameterCalculationLayout,
+    'heat-loss-calculation': HeatLossCalculationLayout,
   }[typeId!] || NotFoundLayout;
 
   return (

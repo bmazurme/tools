@@ -1,0 +1,70 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 300px;
+  justify-content: flex-start;
+}
+.tIn {
+  composes: base;
+  width: 80px;
+}
+.tOut {
+  composes: base;
+  width: 80px;
+}
+.tStart {
+  composes: base;
+  width: 80px;
+}
+.tEnd {
+  composes: base;
+  width: 80px;
+}
+.flowRate {
+  composes: base;
+  width: 80px;
+}
+.innerPipeDiameter {
+  composes: base;
+  width: 80px;
+}
+.outerPipeDiameter {
+  composes: base;
+  width: 80px;
+}
+.length {
+  composes: base;
+  width: 80px;
+}
+.thickness {
+  composes: base;
+  width: 80px;
+}
+.koefPipe {
+  composes: base;
+  width: 80px;
+}
+.koefInsulation {
+  composes: base;
+  width: 80px;
+}
+.viscosity {
+  composes: base;
+  width: 100px;
+}
+.lambda {
+  composes: base;
+  width: 100px;
+}
+.alpha {
+  composes: base;
+  width: 100px;
+}
