@@ -18,7 +18,8 @@ import {
   heatConsumptionsApi,
   throttlePlateApi,
   pipeDiameterCalculationApi,
-  // chatApi,
+  heatLossCalculationApi,
+  chatApi,
 } from './api/index';
 
 import authReducer from './slices/auth-slice';
@@ -37,6 +38,7 @@ import rainConditionsReducer from './slices/rain-conditions-slice';
 import heatConsumptionReducer from './slices/heat-consumption-slice';
 import throttlePlateReducer from './slices/throttle-plate-slice';
 import pipeDiameterCalculationReducer from './slices/pipe-diameter-calculation-slice';
+import heatLossCalculationReducer from './slices/heat-loss-calculation-slice';
 // import paymentsReducer from './slices/payments-slice';
 
 export * from './api/projects-api/endpoints/index';
@@ -57,7 +59,8 @@ export * from './api/auth-api/endpoints/index';
 export * from './api/heat-consumption-api/endpoints/index';
 export * from './api/throttle-plate-api/endpoints/index';
 export * from './api/pipe-diameter-calculation-api/endpoints/index';
-// export * from './api/chat-api/endpoints/index';
+export * from './api/heat-loss-calculation-api/endpoints/index';
+export * from './api/chat-api/endpoints/index';
 
 export * from './slices/index';
 
@@ -79,6 +82,7 @@ export const store = configureStore({
     heatConsumption: heatConsumptionReducer,
     throttlePlate: throttlePlateReducer,
     pipeDiameterCalculation: pipeDiameterCalculationReducer,
+    heatLossCalculation: heatLossCalculationReducer,
     // payments: paymentsReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
@@ -97,7 +101,8 @@ export const store = configureStore({
     [heatConsumptionsApi.reducerPath]: heatConsumptionsApi.reducer,
     [throttlePlateApi.reducerPath]: throttlePlateApi.reducer,
     [pipeDiameterCalculationApi.reducerPath]: pipeDiameterCalculationApi.reducer,
-    // [chatApi.reducerPath]: chatApi.reducer,
+    [heatLossCalculationApi.reducerPath]: heatLossCalculationApi.reducer,
+    [chatApi.reducerPath]: chatApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -118,7 +123,8 @@ export const store = configureStore({
       heatConsumptionsApi.middleware,
       throttlePlateApi.middleware,
       pipeDiameterCalculationApi.middleware,
-      // chatApi.middleware,
+      heatLossCalculationApi.middleware,
+      chatApi.middleware,
     ),
 });
 
