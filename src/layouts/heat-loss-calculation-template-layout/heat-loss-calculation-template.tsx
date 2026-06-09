@@ -274,7 +274,7 @@ export default function HeatLossCalculationTemplate({ data, title }: TemplatePro
     const {
       nu, lambda, innerPipeDiameter, alpha,
     } = data;
-    return `$\\alpha=${nu} \\cdot \\cfrac{${lambda}}{${innerPipeDiameter}} = ${alpha} \\ Вт/(м^2\\times^\\circ\\text{C})$`;
+    return `$\\alpha=${nu} \\cdot \\cfrac{${lambda}}{${innerPipeDiameter / 1000}} = ${alpha} \\ Вт/(м^2\\times^\\circ\\text{C})$`;
   }, [data]);
 
   const rvnFormula = useMemo(() => {
