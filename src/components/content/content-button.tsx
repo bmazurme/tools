@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/button-has-type */
 import { memo, useCallback } from 'react';
@@ -11,10 +12,11 @@ interface ContentButtonProps {
   link: string;
   type: 'project' | 'settings' | 'chat';
   label: string;
+  disabled?: boolean;
 }
 
 const ContentButton = memo(({
-  isCompact, icon, link, label, type,
+  isCompact, icon, link, label, type, disabled,
 }: ContentButtonProps) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +32,7 @@ const ContentButton = memo(({
           aria-label={label}
           onClick={handleClick}
           className={`gn-composite-bar-item gn-footer-item ${!isCompact && 'gn-footer-item_compact'} ${isActive && 'gn-composite-bar-item-active'}`}
+          disabled={disabled}
         >
           <div className="gn-composite-bar-item__icon-place">
             <Icon data={icon} size={18} />
@@ -48,6 +51,7 @@ const ContentButton = memo(({
               size="l"
               onClick={handleClick}
               aria-label={label}
+              disabled={disabled}
             >
               <Icon data={icon} size={18} />
             </Button>

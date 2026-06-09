@@ -15,7 +15,8 @@ export { default as paymentsApi } from './payments-api/index';
 export { default as heatConsumptionsApi } from './heat-consumption-api/index';
 export { default as throttlePlateApi } from './throttle-plate-api/index';
 export { default as pipeDiameterCalculationApi } from './pipe-diameter-calculation-api/index';
-// export { default as chatApi } from './chat-api/index';
+export { default as heatLossCalculationApi } from './heat-loss-calculation-api/index';
+export { default as chatApi } from './chat-api/index';
 
 export * from './projects-api/endpoints/index';
 export * from './documents-api/endpoints/index';
@@ -34,4 +35,5 @@ export * from './payments-api/endpoints/index';
 export * from './heat-consumption-api/endpoints/index';
 export * from './throttle-plate-api/endpoints/index';
 export * from './pipe-diameter-calculation-api/endpoints/index';
-// export * from './chat-api/endpoints/index';
+export * from './heat-loss-calculation-api/endpoints/index';
+export * from './chat-api/endpoints/index';

@@ -101,10 +101,18 @@ export default function MainPage() {
                 <Text variant="body-1">
                   Расчёт диаметра отверстия дроссельной шайбы
                 </Text>
+                <Text variant="body-1">
+                  Расчёт диаметра трубопровода
+                </Text>
               </div>
             </Card>
             <Card className={style.card} theme="normal" view="filled" size="l">
               <Text variant="subheader-3">Теплотехника</Text>
+              <div className={style.list}>
+                <Text variant="body-1">
+                  Расчёт тепловых потерь
+                </Text>
+              </div>
             </Card>
           </div>
         </section>
