@@ -5,6 +5,8 @@ import { memo, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, Icon } from '@gravity-ui/uikit';
 
+import style from './content-button.module.css';
+
 type SVGIconData = React.ComponentProps<typeof Icon>['data'];
 interface ContentButtonProps {
   isCompact: boolean;
@@ -31,7 +33,7 @@ const ContentButton = memo(({
         <button
           aria-label={label}
           onClick={handleClick}
-          className={`gn-composite-bar-item gn-footer-item ${!isCompact && 'gn-footer-item_compact'} ${isActive && 'gn-composite-bar-item-active'}`}
+          className={`gn-composite-bar-item gn-footer-item ${!isCompact && 'gn-footer-item_compact'} ${isActive && 'gn-composite-bar-item-active'} ${disabled && style.disabled}`}
           disabled={disabled}
         >
           <div className="gn-composite-bar-item__icon-place">
