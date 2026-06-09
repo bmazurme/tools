@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@bem-react/classname": "^1.7.0",
+    "@gravity-ui/aikit": "^2.0.5",
     "@reduxjs/toolkit": "^2.11.0",
     "glob": "^9.3.5",
     "react": "^18.3.1",
