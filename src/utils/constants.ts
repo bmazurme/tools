@@ -9,6 +9,20 @@ export const ZERO_TO_HUNDRED_PATTERN = /^(0|[1-9][0-9]?|100)$/;
 // export const POSITIVE_NUMBER_PATTERN = /^[1-9]\d*(?:\.\d+)?$/;
 export const POSITIVE_NUMBER_PATTERN = /^(?:0(?:\.\d*)?|[1-9]\d*(?:\.\d+)?)$/;
 
+export const POSITIVE_1DP_PATTERN = /^(?:0(?:\.\d)?|[1-9]\d*(?:\.\d)?)$/;
+export const POSITIVE_2DP_PATTERN = /^(?:0(?:\.\d{1,2})?|[1-9]\d*(?:\.\d{1,2})?)$/;
+export const POSITIVE_3DP_PATTERN = /^(?:0(?:\.\d{1,3})?|[1-9]\d*(?:\.\d{1,3})?)$/;
+export const POSITIVE_4DP_PATTERN = /^(?:0(?:\.\d{1,4})?|[1-9]\d*(?:\.\d{1,4})?)$/;
+export const NUMBER_1DP_PATTERN = /^-?(?:0(?:\.\d)?|[1-9]\d*(?:\.\d)?)$/;
+
+export const TEMPERATURE_PATTERN = /^(?:0(?:\.\d)?|[1-9]\d?(?:\.\d)?|100(?:\.0)?)$/;
+export const STRICT_POSITIVE_1DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d)?|[1-9]\d*(?:\.\d)?)$/;
+export const STRICT_POSITIVE_2DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,2})?|[1-9]\d*(?:\.\d{1,2})?)$/;
+export const STRICT_POSITIVE_3DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,3})?|[1-9]\d*(?:\.\d{1,3})?)$/;
+export const STRICT_POSITIVE_4DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,4})?|[1-9]\d*(?:\.\d{1,4})?)$/;
+export const STRICT_POSITIVE_NUMBER_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d*)?|[1-9]\d*(?:\.\d+)?)$/;
+export const PRANDTL_PATTERN = /^(?:[1-9](?:\.\d{1,4})?|1[0-4](?:\.\d{1,4})?)$/;
+
 export const { VITE_API_URL = 'http://localhost:3000/api/v1' } = import.meta.env;
 export const { VITE_TOKEN = '2f47d503901842298d06b55c9ba625b4' } = import.meta.env;
 
