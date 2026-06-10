@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Button, Text } from '@gravity-ui/uikit';
+import { Button, Icon, Text } from '@gravity-ui/uikit';
+import { ArrowRight } from '@gravity-ui/icons';
 
 import style from './not-found-layout.module.css';
 
@@ -14,11 +15,13 @@ export default function NotFoundPage({ title, description, buttonLabel }: NotFou
 
   return (
     <div className={style.page}>
-      <Text variant="header-2">
+      <span className={style.code}>404</span>
+      <Text variant="header-1">
         {title}
       </Text>
       <Text
-        variant="header-1"
+        variant="body-2"
+        color="secondary"
         className={style.description}
       >
         {description}
@@ -26,9 +29,11 @@ export default function NotFoundPage({ title, description, buttonLabel }: NotFou
       <Button
         view="action"
         size="l"
+        className={style.button}
         onClick={() => navigate('/')}
       >
         {buttonLabel}
+        <Icon data={ArrowRight} size={18} />
       </Button>
     </div>
   );

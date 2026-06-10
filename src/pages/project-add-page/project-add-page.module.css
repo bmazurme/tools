@@ -16,20 +16,3 @@
   gap: 16px;
   width: 100%;
 }
-
-.member {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--g-color-line-generic);
-}
-
-.member:last-child {
-  border-bottom: none;
-}
-
-.empty {
-  margin: 0;
-}

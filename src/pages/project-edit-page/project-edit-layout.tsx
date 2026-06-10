@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { PersonPlus, Minus } from '@gravity-ui/icons';
 import {
-  Button, Icon, Select, TextInput, Text, User,
+  Button, Card, Icon, Select, TextInput, Text, User,
 } from '@gravity-ui/uikit';
 
 import AddUserModal from '../../components/add-user-modal/add-user-modal';
@@ -114,58 +114,64 @@ export default function ProjectEditLayout() {
 
   return (
     <div className="content">
-      <form
-        className="form mb"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <div className={style.header}>
         <BackButton />
-        <Text variant="header-1">Редактировать проект</Text>
-
-        {fields.map((input) => (
-          <Controller
-            key={input.name}
-            name={input.name as Exclude<keyof FormPayload, 'status'>}
-            rules={{
-              pattern: input.pattern,
-              required: input.required,
-            }}
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                {...input}
-                {...TEXT_INPUT_PROPS}
-                error={fieldState.error?.message}
-              />
-            )}
-          />
-        ))}
-
-        <Controller
-          name="status"
-          control={control}
-          render={({ field }) => (
-            <Select
-              placeholder="Выберите статус"
-              label="Статус"
-              size="l"
-              width="max"
-              onUpdate={field.onChange}
-              value={field.value}
-              options={statusOptions}
-            />
-          )}
-        />
-
         <Buttons
+          formId="project-edit-form"
+          size="m"
           isLoading={isUpdatingProject}
           isDisabled={isUpdatingProject}
         />
-      </form>
+      </div>
+      <Text variant="header-1">Редактировать проект</Text>
 
-      <div className="form">
+      <Card view="outlined" className={style.card}>
+        <form
+          id="project-edit-form"
+          className="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {fields.map((input) => (
+            <Controller
+              key={input.name}
+              name={input.name as Exclude<keyof FormPayload, 'status'>}
+              rules={{
+                pattern: input.pattern,
+                required: input.required,
+              }}
+              control={control}
+              render={({ field, fieldState }) => (
+                <TextInput
+                  {...field}
+                  {...input}
+                  {...TEXT_INPUT_PROPS}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+          ))}
+
+          <Controller
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <Select
+                placeholder="Выберите статус"
+                label="Статус"
+                size="l"
+                width="max"
+                onUpdate={field.onChange}
+                value={field.value}
+                options={statusOptions}
+              />
+            )}
+          />
+        </form>
+      </Card>
+
+      <Card view="outlined" className={style.card}>
         <div className={style.header}>
-          <Text variant="header-1">Участники</Text>
+          <Text variant="subheader-2">Участники</Text>
           <Button
             view="flat"
             size="l"
@@ -188,9 +194,9 @@ export default function ProjectEditLayout() {
             project={project!}
           />
         )}
-        {project?.participants.map((worker) => (
+        {project?.participants.length ? project.participants.map((worker) => (
           <div
-            className={style.item}
+            className={style.member}
             key={worker.id}
           >
             <User
@@ -211,8 +217,12 @@ export default function ProjectEditLayout() {
               />
             </Button>
           </div>
-        ))}
-      </div>
+        )) : (
+          <Text variant="body-2" color="secondary" className={style.empty}>
+            Участники не добавлены
+          </Text>
+        )}
+      </Card>
     </div>
   );
 }
