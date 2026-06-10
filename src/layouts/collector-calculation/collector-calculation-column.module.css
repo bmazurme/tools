@@ -1,0 +1,28 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 200px;
+  justify-content: flex-start;
+}
+.d1 { composes: base; width: 60px; }
+.d2 { composes: base; width: 60px; }
+.d3 { composes: base; width: 60px; }
+.d4 { composes: base; width: 60px; }
+.d5 { composes: base; width: 60px; }
+.d6 { composes: base; width: 60px; }
+.d7 { composes: base; width: 60px; }
+.d8 { composes: base; width: 60px; }
+.d9 { composes: base; width: 60px; }
+.d10 { composes: base; width: 60px; }
+.diameter {
+  composes: base;
+  width: 80px;
+}
