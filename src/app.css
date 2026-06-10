@@ -445,3 +445,30 @@
 .loader {
   justify-content: center;
 }
+
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+  }
+
+  .dialog {
+    padding: 20px 16px;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .fields {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 12px;
+  }
+
+  .dialog {
+    padding: 16px 12px;
+  }
+}

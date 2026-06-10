@@ -1,26 +1,62 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
-  Button, Icon, Pagination, Text, withTableActions,
+  Button, Icon, Label, Pagination, Text, withTableActions,
   type PaginationProps, Table, type TableActionConfig, type TableDataItem,
 } from '@gravity-ui/uikit';
-import { Plus, TrashBin } from '@gravity-ui/icons';
+import {
+  EllipsisVertical, FileText, Plus, TrashBin,
+} from '@gravity-ui/icons';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
-  documentsSelector, documentsTotalSelector, setDocuments, useGetDocumentsByPageMutation,
-  useRemoveDocumentMutation,
+  documentsSelector, documentsTotalSelector, projectSelector, setDocuments, setProject,
+  useGetDocumentsByPageMutation, useGetProjectMutation, useRemoveDocumentMutation,
 } from '../../store';
 import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 import useAppToaster from '../../hooks/use-app-toaster';
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 
+import style from './documents.module.css';
+
+function formatDate(iso?: string) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('ru-RU', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  });
+}
+
 const MyTable = withTableActions(Table);
 const columns = [
-  { id: 'name', name: 'Название документа', width: '100%' },
-  { id: 'type.name', name: 'Тип документа' },
-  { id: 'type.description', name: 'Описание' },
-  // { id: 'id', name: 'id' },
+  {
+    id: 'name',
+    name: 'Название документа',
+    width: '33.33%',
+    template: (item: TableDataItem) => (
+      <span className={style.nameCell}>
+        <Icon data={FileText} size={18} className={style.nameCellIcon} />
+        <Text variant="body-2">{item.name}</Text>
+      </span>
+    ),
+  },
+  {
+    id: 'type.name',
+    name: 'Тип документа',
+    width: '33.33%',
+    template: (item: TableDataItem) => (
+      <Label theme="info">{item.type?.name ?? '—'}</Label>
+    ),
+  },
+  {
+    id: 'updatedAt',
+    name: 'Обновлён',
+    width: '33.33%',
+    template: (item: TableDataItem) => (
+      <Text variant="caption-2" color="secondary">
+        {formatDate(item.updatedAt)}
+      </Text>
+    ),
+  },
 ];
 
 export default function DocumentsLayout() {
@@ -30,9 +66,11 @@ export default function DocumentsLayout() {
   const [searchParams, setSearchParams] = useSearchParams();
   const documents = useAppSelector(documentsSelector);
   const total = useAppSelector(documentsTotalSelector);
+  const project = useAppSelector(projectSelector);
   const navigate = useNavigate();
   const [state, setState] = useState({ page: Number(searchParams.get('page')) || 1, pageSize: 10 });
   const [getDocuments, { isLoading }] = useGetDocumentsByPageMutation();
+  const [getProject] = useGetProjectMutation();
   const [removeDocument] = useRemoveDocumentMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -111,18 +149,38 @@ export default function DocumentsLayout() {
     };
   }, [getDocuments, dispatch, state.page]);
 
+  useEffect(() => {
+    if (!projectId) return;
+
+    const fetchProject = async () => {
+      try {
+        const data = await getProject(Number(projectId)).unwrap();
+        dispatch(setProject({ project: data }));
+      } catch (error) {
+        showError(`${error}`, 'Ошибка при загрузке проекта');
+      }
+    };
+
+    fetchProject();
+  }, [getProject, dispatch, projectId]);
+
   return (
     <LayoutWrapper isLoading={isLoading}>
       <div className="content">
-        <Text variant="header-1">Документы</Text>
-        <Button
-          view="action"
-          size="m"
-          onClick={onAddDocumentClick}
-        >
-          <Icon data={Plus} size={18} />
-          Добавить документ
-        </Button>
+        <div className={style.titleRow}>
+          <Text variant="header-1">Документы</Text>
+          <Button
+            view="action"
+            size="m"
+            onClick={onAddDocumentClick}
+          >
+            <Icon data={Plus} size={18} />
+            Добавить документ
+          </Button>
+        </div>
+        <Text variant="body-2" color="secondary">
+          {project?.name ?? '—'}
+        </Text>
 
         <MyTable
           className="table"
@@ -130,6 +188,7 @@ export default function DocumentsLayout() {
           columns={columns}
           getRowActions={getRowActions}
           onRowClick={handleRowClick}
+          rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
         />
 
         {total > state.pageSize && (

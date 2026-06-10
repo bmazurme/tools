@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Breadcrumbs } from '@gravity-ui/uikit';
+import { Breadcrumbs, Icon } from '@gravity-ui/uikit';
+import { ChevronRight } from '@gravity-ui/icons';
 
 interface BreadcrumbItem {
   label: string;
@@ -24,6 +25,7 @@ const TRANSLATION_DICT: Record<string, string> = {
   'throttle-plate': 'Расчёт диаметра отверстия дроссельной шайбы',
   'pipe-diameter-calculation': 'Расчёт диаметра трубопровода',
   'heat-loss-calculation': 'Расчёт тепловых потерь',
+  'collector-calculation': 'Расчет коллектора',
 };
 
 // Капитализация первой буквы
@@ -56,7 +58,7 @@ export default function NavigationBreadcrumbs() {
   }, [location.pathname]);
 
   return (
-    <Breadcrumbs>
+    <Breadcrumbs separator={<Icon data={ChevronRight} size={12} />}>
       {breadcrumbItems.map((item) => (
         <Breadcrumbs.Item
           key={item.path}

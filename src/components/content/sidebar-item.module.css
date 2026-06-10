@@ -1,0 +1,12 @@
+.title {
+  max-width: 160px;
+  opacity: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.15s ease, max-width 0.2s ease;
+}
+
+.titleHidden {
+  max-width: 0;
+  opacity: 0;
+}

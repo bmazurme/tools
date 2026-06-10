@@ -15,3 +15,4 @@ export * from './heat-consumption-slice';
 export * from './throttle-plate-slice';
 export * from './pipe-diameter-calculation-slice';
 export * from './heat-loss-calculation-slice';
+export * from './collector-calculation-slice';

@@ -17,6 +17,8 @@ export { default as throttlePlateApi } from './throttle-plate-api/index';
 export { default as pipeDiameterCalculationApi } from './pipe-diameter-calculation-api/index';
 export { default as heatLossCalculationApi } from './heat-loss-calculation-api/index';
 export { default as chatApi } from './chat-api/index';
+export { default as collectorCalculationApi } from './collector-calculation-api/index';
+export { default as projectStatusApi } from './project-status-api/index';
 
 export * from './projects-api/endpoints/index';
 export * from './documents-api/endpoints/index';
@@ -37,3 +39,5 @@ export * from './throttle-plate-api/endpoints/index';
 export * from './pipe-diameter-calculation-api/endpoints/index';
 export * from './heat-loss-calculation-api/endpoints/index';
 export * from './chat-api/endpoints/index';
+export * from './collector-calculation-api/endpoints/index';
+export * from './project-status-api/endpoints/index';

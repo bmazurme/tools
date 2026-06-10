@@ -1,8 +1,8 @@
 /* eslint-disable react/button-has-type */
-import { useCallback, useMemo, type PropsWithChildren } from 'react';
+import { useCallback, type PropsWithChildren } from 'react';
 import { Button, Icon } from '@gravity-ui/uikit';
 import {
-  CaretLeft, CaretRight, FolderOpen, Gear, Moon, Sparkles, SquareBars, Sun,
+  CaretLeft, CaretRight, Droplet, Gear, Moon, /* Sparkles, */ SquareBars, Sun,
 } from '@gravity-ui/icons';
 
 import NavigationBreadcrumbs from '../navigation-breadcrumbs/navigation-breadcrumbs';
@@ -11,13 +11,12 @@ import ContentButton from './content-button';
 
 import useUser from '../../hooks/use-user';
 import { useAppDispatch } from '../../hooks';
+import useTheme from '../../hooks/use-theme';
 
 import {
-  useToggleCompactMutation, useToggleThemeMutation, toggleCompactOptimistic,
-  toggleThemeOptimistic,
+  useToggleCompactMutation, toggleCompactOptimistic,
 } from '../../store';
-import CompactMenu from './compact-menu';
-import FullMenu from './full-menu';
+import ProfileMenu from './profile-menu';
 
 import style from './content.module.css';
 
@@ -25,63 +24,44 @@ import type { ContentProps } from './content-props.type';
 
 const b = block('collapse-button');
 
+function LogoText() {
+  return (
+    <div className={style.logoText}>
+      <span className={style.logoTitle}>
+        tools
+        <span className={style.logoBrand}>.ntlstl</span>
+      </span>
+      <span className={style.logoSubtitle}>Инженерные расчеты</span>
+    </div>
+  );
+}
+
 export default function Content({ children, sidebar = false }: PropsWithChildren & ContentProps) {
   const dispatch = useAppDispatch();
   const { user } = useUser();
-  const [toggleTheme] = useToggleThemeMutation();
   const [setCompact] = useToggleCompactMutation();
+  const { isDark, toggle } = useTheme();
 
   const onToggleCompact = useCallback(() => {
     dispatch(toggleCompactOptimistic({ isCompact: !user?.isCompact }));
     setCompact({ isCompact: !user?.isCompact });
   }, [dispatch, setCompact, user?.isCompact]);
 
-  const handleThemeToggle = useCallback((isDark: boolean) => {
-    dispatch(toggleThemeOptimistic({ isDark }));
-    toggleTheme({ isDark });
-  }, [dispatch, toggleTheme]);
-
-  const themeButtons = useMemo(() => (
-    <>
-      <Button
-        view="normal"
-        size="m"
-        pin="round-clear"
-        selected={!user?.isDark}
-        aria-label="Светлая тема"
-        onClick={() => handleThemeToggle(false)}
-      >
-        <Icon
-          data={Sun}
-          size={16}
-        />
-      </Button>
-      <Button
-        view="normal"
-        size="m"
-        pin="clear-round"
-        selected={user?.isDark}
-        aria-label="Темная тема"
-        onClick={() => handleThemeToggle(true)}
-      >
-        <Icon data={Moon} size={16} />
-      </Button>
-    </>
-  ), [user?.isDark, handleThemeToggle]);
-
   return (
     <div className={style.page}>
       {sidebar
         && (
-        <div className={style.sidebar} style={{ width: user?.isCompact ? '56px' : '236px' }}>
+        <div className={`${style.sidebar} ${user?.isCompact ? style.sidebarCompact : ''}`}>
           <div className="gn-aside-header__header">
             <Logo
               compact={user?.isCompact}
-              icon={FolderOpen}
-              text="EnTool"
+              icon={Droplet}
+              iconSize={18}
+              text={LogoText}
               href="/projects"
               iconPlaceClassName="gn-aside-header__logo-icon-place"
-              buttonClassName="gn-logo__btn-logo gn-aside-header__logo-button"
+              iconClassName={style.logoIcon}
+              buttonClassName={`gn-logo__btn-logo gn-aside-header__logo-button ${style.logoButton}`}
               aria-label="Главная"
             />
           </div>
@@ -99,14 +79,14 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
           <div className="gn-composite-bar" />
 
           <div className="gn-aside-header__footer">
-            <ContentButton
+            {/* <ContentButton
               isCompact={user!.isCompact}
               icon={Sparkles}
               link="/chat"
               type="chat"
               label="AI-ассистент"
               disabled
-            />
+            /> */}
             <ContentButton
               isCompact={user!.isCompact}
               icon={Gear}
@@ -114,7 +94,7 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
               type="settings"
               label="Настройки"
             />
-            {!user?.isCompact ? <CompactMenu /> : <FullMenu />}
+            <ProfileMenu />
           </div>
 
           <button
@@ -130,7 +110,7 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
           </button>
         </div>
         )}
-      <div className="main">
+      <main className="main">
         <div className={style.header}>
           <div className={style.bar}>
             <div className={style.bread}>
@@ -141,14 +121,16 @@ export default function Content({ children, sidebar = false }: PropsWithChildren
               </div>
             </div>
             <div>
-              {themeButtons}
+              <Button view="flat" size="m" onClick={toggle} aria-label="Переключить тему">
+                <Icon data={isDark ? Sun : Moon} size={18} />
+              </Button>
             </div>
           </div>
         </div>
         <div className={style.board}>
           {children}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
