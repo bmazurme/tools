@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Button,
   Icon,
+  Label,
   Pagination,
   Table,
   Text,
@@ -11,7 +12,9 @@ import {
   type TableActionConfig,
   type TableDataItem,
 } from '@gravity-ui/uikit';
-import { Pencil, Plus, TrashBin } from '@gravity-ui/icons';
+import {
+  EllipsisVertical, FolderOpen, Pencil, Plus, TrashBin,
+} from '@gravity-ui/icons';
 
 import ConfirmModal from '../../components/confirm-modal/confirm-modal';
 
@@ -24,9 +27,79 @@ import { useGetProjectsByPageMutation } from '../../store/api';
 import useAppToaster from '../../hooks/use-app-toaster';
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 
+import style from './projects.module.css';
+
+function getProjectsLabel(n: number) {
+  if (n === 1) return 'проект';
+  if (n >= 2 && n <= 4) return 'проекта';
+  return 'проектов';
+}
+
+function formatDate(iso?: string) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('ru-RU', {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  });
+}
+
+type StatusTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'unknown';
+
+const STATUS_THEME_MAP: Record<string, StatusTheme> = {
+  активный: 'success',
+  архив: 'unknown',
+  черновик: 'warning',
+};
+
 const columns = [
-  { id: 'name', name: 'Название проекта', width: '100%' },
-  // { id: 'id', name: 'id', width: 60 },
+  {
+    id: 'name',
+    name: 'Название проекта',
+    width: '25%',
+    template: (item: TableDataItem) => (
+      <span className={style.nameCell}>
+        <Icon data={FolderOpen} size={18} className={style.nameCellIcon} />
+        <span className={style.nameCellText}>
+          <Text variant="body-2">{item.name}</Text>
+          {item.code && (
+            <Text variant="caption-2" color="secondary">{item.code}</Text>
+          )}
+        </span>
+      </span>
+    ),
+  },
+  {
+    id: 'documents',
+    name: 'Документы',
+    width: '25%',
+    template: (item: TableDataItem) => (
+      <Text variant="body-2" color="secondary">
+        {item.documents ?? '—'}
+      </Text>
+    ),
+  },
+  {
+    id: 'status',
+    name: 'Статус',
+    width: '25%',
+    template: (item: TableDataItem) => {
+      const status = item.status as ProjectStatus | null | undefined;
+
+      if (!status) return <Text variant="body-2" color="secondary">—</Text>;
+
+      const theme = STATUS_THEME_MAP[status.name.toLowerCase()] ?? 'normal';
+      return <Label theme={theme}>{status.name}</Label>;
+    },
+  },
+  {
+    id: 'updatedAt',
+    name: 'Обновлён',
+    width: '25%',
+    template: (item: TableDataItem) => (
+      <Text variant="caption-2" color="secondary">
+        {formatDate(item.updatedAt)}
+      </Text>
+    ),
+  },
 ];
 const MyTable = withTableActions(Table);
 
@@ -126,15 +199,22 @@ export default function ProjectsPage() {
   return (
     <LayoutWrapper isLoading={isLoading}>
       <div className="content">
-        <Text variant="header-1">Проекты</Text>
-        <Button
-          view="action"
-          size="m"
-          onClick={onAddProjectClick}
-        >
-          <Icon data={Plus} size={18} />
-          Добавить проект
-        </Button>
+        <div className={style.titleRow}>
+          <div className={style.titleGroup}>
+            <Text variant="header-1">Проекты</Text>
+          </div>
+          <Button
+            view="action"
+            size="m"
+            onClick={onAddProjectClick}
+          >
+            <Icon data={Plus} size={18} />
+            Добавить проект
+          </Button>
+        </div>
+        <Text variant="body-2" color="secondary">
+          {`${projects.length} ${getProjectsLabel(projects.length)}`}
+        </Text>
 
         <MyTable
           className="table"
@@ -142,6 +222,7 @@ export default function ProjectsPage() {
           columns={columns}
           getRowActions={getRowActions}
           onRowClick={handleRowClick}
+          rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
         />
 
         {total > state.pageSize && (

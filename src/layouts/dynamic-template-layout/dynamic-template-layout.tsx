@@ -7,6 +7,7 @@ import HeatConsumptionLayout from '../heat-consumption-template-layout';
 import ThrottlePlateLayout from '../throttle-plate-template-layout';
 import PipeDiameterCalculationLayout from '../pipe-diameter-calculation-template-layout';
 import HeatLossCalculationLayout from '../heat-loss-calculation-template-layout';
+import CollectorCalculationLayout from '../collector-calculation-template-layout';
 
 export default function DynamicTemplateLayout() {
   const { typeId } = useParams();
@@ -18,6 +19,7 @@ export default function DynamicTemplateLayout() {
     'throttle-plate': ThrottlePlateLayout,
     'pipe-diameter-calculation': PipeDiameterCalculationLayout,
     'heat-loss-calculation': HeatLossCalculationLayout,
+    'collector-calculation': CollectorCalculationLayout,
   }[typeId!] || NotFoundLayout;
 
   return (

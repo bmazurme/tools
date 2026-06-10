@@ -72,7 +72,7 @@ export default function SettingsLayout() {
   }, [getTypes]);
 
   return (
-    <LayoutWrapper isLoading={false}>
+    <LayoutWrapper>
       <div className="content">
         <Text variant="header-1">
           Настройки

@@ -14,29 +14,29 @@
 }
 .tc {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .th {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .maxHotWaterPerHour {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .avgHotWaterPerHour {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .hwPipelineHeatLoss {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .meanHourlyHeatForHotWater {
   composes: base;
-  width: 100px;
+  width: 80px;
 }
 .maxHourlyHeatForHotWater {
   composes: base;
-  width: 100px;
+  width: 80px;
 }

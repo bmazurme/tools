@@ -1,174 +1,284 @@
 .page {
-  /* min-height: 100vh; */
-  padding: 20px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--g-color-base-background);
+  color: var(--g-color-text-primary);
 }
+
+/* ─── Header ─────────────────────────────────────────────────── */
 
 .header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: var(--g-color-base-float-hover);
-  border-bottom: 1px solid var(--g-color-line-generic);
+  z-index: 100;
+  height: 64px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-}
-
-.contentWrapper {
-  flex: 1;
-  margin-top: 100px;
-  overflow-y: auto;
+  justify-content: space-between;
+  padding: 0 32px;
+  background-color: var(--g-color-base-background);
+  border-bottom: 1px solid var(--g-color-line-generic);
 }
 
 .logo {
-  flex: 1;
-}
-
-.navbar {
-  flex: 1;
-  text-align: right;
-}
-
-/* Стили для главного баннера */
-.hero {
-  text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 16px;
-  margin-bottom: 40px;
-}
-
-.heroContent {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.heroTitle {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.heroDescription {
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-.heroDescription > *:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.ctaButton {
-  width: fit-content;
-  margin: 0 auto;
-}
-
-/* Стили для секции модулей */
-.modulesSection {
-  padding: 0 20px 60px; /* Увеличен нижний отступ до 60 px вместо 40 px */
-}
-
-.sectionTitle {
-  text-align: center;
-  margin-bottom: 40px; /* Увеличен отступ снизу до 40 px вместо 30 px */
-  font-weight: 600;
-}
-
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 24px;
-  margin-top: 20px;
-}
-
-.card {
-  min-height: 180px;
-  border-radius: 12px;
-  padding: 24px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.list {
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-/* Стили для футера */
+.logoBrand {
+  color: var(--g-color-base-brand);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── Main ────────────────────────────────────────────────────── */
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Hero ────────────────────────────────────────────────────── */
+
+.heroWrap {
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 32px 56px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.eyebrow {
+  align-self: flex-start;
+  color: var(--g-color-base-brand);
+  background-color: var(--g-color-private-brand-100-solid);
+}
+
+.eyebrow :global(.g-label__content) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.heroTitle {
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.heroSub {
+  color: var(--g-color-text-secondary);
+  margin: 0;
+}
+
+.heroDesc {
+  color: var(--g-color-text-secondary);
+  margin: 0;
+}
+
+.heroCta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.heroStats {
+  display: flex;
+  gap: 32px;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--g-color-line-generic);
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.heroStatValue {
+  color: var(--g-color-base-brand);
+}
+
+.heroStatLabel {
+  color: var(--g-color-text-secondary);
+}
+
+.heroPlaceholder {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--g-color-base-generic) 0,
+    var(--g-color-base-generic) 8px,
+    var(--g-color-base-background) 8px,
+    var(--g-color-base-background) 16px
+  );
+  border: 1px solid var(--g-color-line-generic);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroPlaceholderText {
+  color: var(--g-color-text-hint);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Modules ─────────────────────────────────────────────────── */
+
+.modulesWrap {
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.modulesHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modulesTitle {
+  margin: 0;
+}
+
+.modulesHint {
+  color: var(--g-color-text-hint);
+  letter-spacing: 0.04em;
+}
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 16px;
+}
+
+.moduleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--g-color-line-generic);
+  /* background-color: var(--g-color-base-float); */
+  transition: border-color 0.15s ease;
+}
+
+.moduleCard:hover {
+  border-color: var(--g-color-line-brand);
+}
+
+.moduleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background-color: var(--g-color-private-brand-100-solid);
+  color: var(--g-color-base-brand);
+  flex-shrink: 0;
+}
+
+.calcList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.calcRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.calcDot {
+  flex-shrink: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--g-color-text-brand);
+  margin-top: 8px;
+}
+
+.calcText {
+  color: var(--g-color-text-secondary);
+}
+
+/* ─── Footer ──────────────────────────────────────────────────── */
+
 .footer {
-  text-align: center;
-  /* padding: 40px 20px; */
+  border-top: 1px solid var(--g-color-line-generic);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 32px;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .disclaimer {
-  color: var(--g-color-text-secondary);
-  text-align: center;
-  font-size: 1rem; /* Немного увеличен размер текста */
-  line-height: 1.6; /* Улучшена читаемость за счёт увеличенного межстрочного интервала */
-  max-width: 800px;
-  margin: 0 auto; /* Центрирование текста в пределах максимальной ширины */
+  color: var(--g-color-text-hint);
+  max-width: 560px;
 }
 
-/* Адаптивность */
-@media (max-width: 1024px) {
-  .header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-  
-  .navbar {
-    text-align: center;
-    width: 100%;
-  }
-  
-  .hero {
-    padding: 30px 15px;
-  }
-  
-  .cardsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
+.copyright {
+  color: var(--g-color-text-hint);
+  white-space: nowrap;
 }
 
-@media (max-width: 767px) {
-  .page {
-    padding: 10px;
-  }
-  
-  .header {
-    padding: 10px 15px;
-  }
-  
-  .hero {
-    padding: 20px 10px;
-  }
-  
-  .heroTitle {
-    font-size: 1.8rem;
-  }
-  
-  .cardsGrid {
+/* ─── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .heroWrap {
     grid-template-columns: 1fr;
-    gap: 15px;
+    padding: 40px 20px 32px;
+    gap: 32px;
   }
-  
-  .card {
-    padding: 18px;
+
+  .heroPlaceholder {
+    display: none;
+  }
+
+  .header {
+    padding: 0 20px;
+  }
+
+  .modulesWrap {
+    padding: 0 20px 40px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
   }
 }

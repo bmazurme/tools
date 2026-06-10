@@ -2,8 +2,10 @@ import projectsApi from '../index';
 
 type FormPayload = {
   name: string;
+  code: string;
   description: string;
   address: string;
+  status?: { id: number };
 };
 
 type UpdateProjectUsers = {
@@ -45,13 +47,15 @@ const projectsApiEndpoints = projectsApi
           body: data,
         }),
       }),
-      updateProject: builder.mutation<ProjectType, FormPayload& { id: number }>({
+      updateProject: builder.mutation<ProjectType, FormPayload & { id: number }>({
         query: ({
-          address, description, name, id,
-        }: ProjectType) => ({
+          address, code, description, name, status, id,
+        }) => ({
           url: `projects/${id}`,
           method: 'PATCH',
-          body: { address, description, name },
+          body: {
+            address, code, description, name, ...(status ? { status } : {}),
+          },
         }),
       }),
       addUserToProject: builder.mutation<ProjectType, UpdateProjectUsers>({

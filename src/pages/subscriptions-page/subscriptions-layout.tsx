@@ -35,7 +35,7 @@ export default function SubscriptionsLayout() {
   };
 
   return (
-    <LayoutWrapper isLoading={false}>
+    <LayoutWrapper>
       <div className="content">
         <Text variant="header-1">Подписка</Text>
 

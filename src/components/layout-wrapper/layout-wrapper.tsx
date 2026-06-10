@@ -3,7 +3,7 @@ import { Loader } from '@gravity-ui/uikit';
 
 import style from './layout-wrapper.module.css';
 
-interface PropsLayoutWrapper extends PropsWithChildren { isLoading: boolean }
+interface PropsLayoutWrapper extends PropsWithChildren { isLoading?: boolean }
 
 export default function LayoutWrapper({ children, isLoading = false }: PropsLayoutWrapper) {
   return (

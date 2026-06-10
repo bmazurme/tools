@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import {
   Button, Text, TextInput, Icon, Checkbox,
 } from '@gravity-ui/uikit';
-import { Circle } from '@gravity-ui/icons';
+import { Calendar } from '@gravity-ui/icons';
 
 import {
   activitiesSelector, setActivities, useGetActivitiesMutation,
@@ -143,7 +143,7 @@ export default function ProfileLayout() {
         </form>
 
         <div className={style.block}>
-          <Text variant="header-1">
+          <Text variant="subheader-2">
             Подписка
           </Text>
           <Checkbox
@@ -165,16 +165,17 @@ export default function ProfileLayout() {
         </div>
 
         <div className={style.block}>
-          <Text variant="header-1">
+          <Text variant="subheader-2">
             Активность
           </Text>
 
           <ul className={style.activities}>
             {activities?.map((x) => (
               <li key={x.id} className={style.activity}>
-                <Icon data={Circle} />
+                <Icon data={Calendar} size={16} className={style.activityIcon} />
                 <div className={style.description}>
-                  {`${x.description} - ${formatDate(x.createdAt)}`}
+                  <Text variant="body-2">{x.description}</Text>
+                  <Text variant="caption-2" color="hint">{formatDate(x.createdAt)}</Text>
                 </div>
               </li>
             ))}

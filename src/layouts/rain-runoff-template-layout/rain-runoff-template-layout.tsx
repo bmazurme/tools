@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Skeleton } from '@gravity-ui/uikit';
+import TemplateWrapper from '../../components/template-wrapper/template-wrapper';
 
 import RainRunoffTemplate from './rain-runoff-template';
 import { rainRunoffsItemSelector, setRainRunOffs, useGetRainRunoffsItemMutation } from '../../store';
@@ -35,15 +35,13 @@ export default function RainRunoffDetailPage() {
   }, [itemId]);
 
   return (
-    item?.rainRunoff
-      ? (
+    <TemplateWrapper isLoading={!item?.rainRunoff}>
+      {() => (
         <RainRunoffTemplate
           data={item.rainRunoff}
           title={item.name}
         />
-      )
-      : (
-        <Skeleton className="layout-loader" />
-      )
+      )}
+    </TemplateWrapper>
   );
 }

@@ -1,0 +1,28 @@
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nameCellIcon {
+  color: var(--g-color-text-secondary);
+}
+
+.nameCellText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

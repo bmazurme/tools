@@ -44,7 +44,7 @@ const AppWithProviders = () => (
   </BrowserRouter>
 );
 
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && 0) {
   root.render(
     <StrictMode>
       <AppWithProviders />

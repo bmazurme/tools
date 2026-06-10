@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Skeleton } from '@gravity-ui/uikit';
+import TemplateWrapper from '../../components/template-wrapper/template-wrapper';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import useAppToaster from '../../hooks/use-app-toaster';
@@ -36,15 +36,13 @@ export default function PipeDiameterCalculationTemplateLayout() {
   }, [itemId]);
 
   return (
-    item?.pipeDiameterCalculation
-      ? (
+    <TemplateWrapper isLoading={!item?.pipeDiameterCalculation}>
+      {() => (
         <PipeDiameterCalculationTemplate
           data={item.pipeDiameterCalculation}
           title={item.name}
         />
-      )
-      : (
-        <Skeleton className="layout-loader" />
-      )
+      )}
+    </TemplateWrapper>
   );
 }

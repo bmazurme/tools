@@ -56,23 +56,48 @@
 }
 
 .board {
-  /* display: flex; */
-  /* justify-content: center; */
   flex-grow: 1;
   width: 100%;
   overflow-y: auto;
   height: calc(100vh - 40px);
   box-sizing: border-box;
-  padding: 20px;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .board {
+    padding: 6px;
+    height: calc(100vh - 40px);
+  }
+
+  .header {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board {
+    padding: 8px;
+  }
 }
 
 .sidebar {
   display: flex;
   flex-direction: column;
   width: 236px;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.2s ease;
 }
-.compact {
+
+.sidebarCompact {
   width: 56px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
 }
 
 .menu {
@@ -90,4 +115,40 @@
 .gn-aside-header__logo-button, .gn-aside-header__logo-icon-place {
   height: var(--gn-aside-header-item-icon-background-size, var(--_--item-icon-background-size));
   width: var(--gn-aside-header-min-width);
+}
+
+.logoButton {
+  gap: 8px;
+}
+
+.logoIcon {
+  background-color: var(--g-color-base-brand);
+  color: var(--g-color-text-light-primary);
+  border-radius: 6px;
+  padding: 7px;
+  box-sizing: content-box;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.logoTitle {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.logoBrand {
+  color: var(--g-color-base-brand);
+}
+
+.logoSubtitle {
+  font-size: 11px;
+  color: var(--g-color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

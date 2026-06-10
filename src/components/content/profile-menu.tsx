@@ -2,14 +2,15 @@
 /* eslint-disable react/button-has-type */
 import { memo, useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, Icon, DropdownMenu } from '@gravity-ui/uikit';
+import { Icon, DropdownMenu } from '@gravity-ui/uikit';
 import { Pencil, Person, ArrowRightFromSquare } from '@gravity-ui/icons';
 
 import useUser from '../../hooks/use-user';
-
 import { useSignOutMutation } from '../../store';
 
-const FullMenu = memo(() => {
+import sidebarItemStyle from './sidebar-item.module.css';
+
+const ProfileMenu = memo(() => {
   const { user } = useUser();
   const [signOut] = useSignOutMutation();
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ const FullMenu = memo(() => {
     await signOut();
     navigate('/');
   }, [signOut, navigate]);
+
+  const isActive = location.pathname.includes('profile');
 
   const items = useMemo(() => [
     {
@@ -35,27 +38,29 @@ const FullMenu = memo(() => {
   ], [navigate, onSignOut]);
 
   return (
-    <div className={`gn-composite-bar-item gn-footer-item ${!user?.isCompact && 'gn-footer-item_compact'}`}>
-      <div className="gn-composite-bar-item__icon-place">
-        <DropdownMenu
-          popupProps={{
-            placement: 'right',
-          }}
-          renderSwitcher={(props) => (
-            <Button
-              {...props}
-              view={location.pathname.includes('profile') ? 'action' : 'flat'}
-              size="l"
-              aria-label="Профиль"
-            >
-              <Icon data={Person} size={18} />
-            </Button>
-          )}
-          items={items}
-        />
-      </div>
-    </div>
+    <DropdownMenu
+      popupProps={{
+        placement: 'right',
+      }}
+      renderSwitcher={(props) => (
+        <button
+          {...props}
+          aria-label="Профиль"
+          className={`gn-composite-bar-item gn-footer-item gn-footer-item_compact ${isActive ? 'gn-composite-bar-item-active' : ''}`}
+        >
+          <div className="gn-composite-bar-item__icon-place">
+            <Icon data={Person} size={18} />
+          </div>
+          <div className={`gn-composite-bar-item__title ${sidebarItemStyle.title} ${user?.isCompact ? sidebarItemStyle.titleHidden : ''}`}>
+            <div className="gn-composite-bar-item__title-text">
+              Профиль
+            </div>
+          </div>
+        </button>
+      )}
+      items={items}
+    />
   );
 });
 
-export default FullMenu;
+export default ProfileMenu;

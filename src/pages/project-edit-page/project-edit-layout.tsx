@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { PersonPlus, Minus } from '@gravity-ui/icons';
 import {
-  Button, Icon, TextInput, Text, User,
+  Button, Icon, Select, TextInput, Text, User,
 } from '@gravity-ui/uikit';
 
 import AddUserModal from '../../components/add-user-modal/add-user-modal';
@@ -16,6 +16,7 @@ import {
   projectSelector,
   setProject, useAddUserToProjectMutation, useGetProjectMutation,
   useUpdateProjectMutation, useRemoveUserFromProjectMutation,
+  useGetProjectStatusesMutation,
 } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import useAppToaster from '../../hooks/use-app-toaster';
@@ -26,8 +27,10 @@ import useUser from '../../hooks/use-user';
 
 type FormPayload = {
   name: string;
+  code: string;
   description: string;
   address: string;
+  status: string[];
 };
 
 export default function ProjectEditLayout() {
@@ -40,9 +43,13 @@ export default function ProjectEditLayout() {
   const [updateProject, { isLoading: isUpdatingProject }] = useUpdateProjectMutation();
   const [addUserToProject] = useAddUserToProjectMutation();
   const [removeUserFromProject] = useRemoveUserFromProjectMutation();
+  const [getProjectStatuses] = useGetProjectStatusesMutation();
+  const [statuses, setStatuses] = useState<ProjectStatus[]>([]);
   const project = useAppSelector(projectSelector);
   const navigate = useNavigate();
   const { user } = useUser();
+
+  const statusOptions = statuses.map(({ id, name }) => ({ value: id.toString(), content: name }));
 
   const onHandleOpenModal = useCallback(() => {
     setIsOpen(true);
@@ -50,13 +57,19 @@ export default function ProjectEditLayout() {
 
   const { control, handleSubmit, reset } = useForm<FormPayload>({
     defaultValues: {
-      name: '', description: '', address: '',
+      name: '', code: '', description: '', address: '', status: [],
     },
   });
 
   const onSubmit = useCallback(async (data: FormPayload) => {
+    const { status, ...rest } = data;
+
     try {
-      await updateProject({ id: projectId!, ...data });
+      await updateProject({
+        id: projectId!,
+        ...rest,
+        ...(status?.length ? { status: { id: Number(status[0]) } } : {}),
+      });
       navigate(`/project/${projectId}`);
     } catch (error) {
       showError(`${error}`, 'Ошибка при обновлении проекта');
@@ -81,10 +94,17 @@ export default function ProjectEditLayout() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const projectStatuses = await getProjectStatuses().unwrap();
+      setStatuses(projectStatuses);
+
       if (projectId) {
         const result = await getProject(projectId).unwrap();
-        const { name = '', description = '', address = '' } = result || {};
-        reset({ name, description, address });
+        const {
+          name = '', code = '', description = '', address = '', status,
+        } = result || {};
+        reset({
+          name, code, description, address, status: status ? [status.id.toString()] : [],
+        });
         dispatch(setProject({ project: result }));
       }
     };
@@ -104,7 +124,7 @@ export default function ProjectEditLayout() {
         {fields.map((input) => (
           <Controller
             key={input.name}
-            name={input.name as keyof FormPayload}
+            name={input.name as Exclude<keyof FormPayload, 'status'>}
             rules={{
               pattern: input.pattern,
               required: input.required,
@@ -120,6 +140,22 @@ export default function ProjectEditLayout() {
             )}
           />
         ))}
+
+        <Controller
+          name="status"
+          control={control}
+          render={({ field }) => (
+            <Select
+              placeholder="Выберите статус"
+              label="Статус"
+              size="l"
+              width="max"
+              onUpdate={field.onChange}
+              value={field.value}
+              options={statusOptions}
+            />
+          )}
+        />
 
         <Buttons
           isLoading={isUpdatingProject}

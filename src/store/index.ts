@@ -20,6 +20,8 @@ import {
   pipeDiameterCalculationApi,
   heatLossCalculationApi,
   chatApi,
+  collectorCalculationApi,
+  projectStatusApi,
 } from './api/index';
 
 import authReducer from './slices/auth-slice';
@@ -39,6 +41,7 @@ import heatConsumptionReducer from './slices/heat-consumption-slice';
 import throttlePlateReducer from './slices/throttle-plate-slice';
 import pipeDiameterCalculationReducer from './slices/pipe-diameter-calculation-slice';
 import heatLossCalculationReducer from './slices/heat-loss-calculation-slice';
+import collectorCalculationReducer from './slices/collector-calculation-slice';
 // import paymentsReducer from './slices/payments-slice';
 
 export * from './api/projects-api/endpoints/index';
@@ -61,6 +64,8 @@ export * from './api/throttle-plate-api/endpoints/index';
 export * from './api/pipe-diameter-calculation-api/endpoints/index';
 export * from './api/heat-loss-calculation-api/endpoints/index';
 export * from './api/chat-api/endpoints/index';
+export * from './api/collector-calculation-api/endpoints/index';
+export * from './api/project-status-api/endpoints/index';
 
 export * from './slices/index';
 
@@ -83,6 +88,7 @@ export const store = configureStore({
     throttlePlate: throttlePlateReducer,
     pipeDiameterCalculation: pipeDiameterCalculationReducer,
     heatLossCalculation: heatLossCalculationReducer,
+    collectorCalculation: collectorCalculationReducer,
     // payments: paymentsReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
@@ -103,6 +109,8 @@ export const store = configureStore({
     [pipeDiameterCalculationApi.reducerPath]: pipeDiameterCalculationApi.reducer,
     [heatLossCalculationApi.reducerPath]: heatLossCalculationApi.reducer,
     [chatApi.reducerPath]: chatApi.reducer,
+    [collectorCalculationApi.reducerPath]: collectorCalculationApi.reducer,
+    [projectStatusApi.reducerPath]: projectStatusApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -125,6 +133,8 @@ export const store = configureStore({
       pipeDiameterCalculationApi.middleware,
       heatLossCalculationApi.middleware,
       chatApi.middleware,
+      collectorCalculationApi.middleware,
+      projectStatusApi.middleware,
     ),
 });
 
