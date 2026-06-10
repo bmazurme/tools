@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
-  Button, Icon, Label, Pagination, Text, withTableActions,
+  Button, Card, Icon, Label, Pagination, Text, withTableActions,
   type PaginationProps, Table, type TableActionConfig, type TableDataItem,
 } from '@gravity-ui/uikit';
 import {
@@ -27,30 +27,45 @@ function formatDate(iso?: string) {
 }
 
 const MyTable = withTableActions(Table);
+
+type LabelTheme = 'normal' | 'info' | 'success' | 'warning' | 'danger' | 'unknown';
+
+const TYPE_THEME_MAP: Record<string, LabelTheme> = {
+  теплотехника: 'warning',
+  водоотведение: 'info',
+  гидравлика: 'success',
+  водоснабжение: 'info',
+};
+
 const columns = [
   {
     id: 'name',
     name: 'Название документа',
-    width: '33.33%',
+    width: '50%',
     template: (item: TableDataItem) => (
       <span className={style.nameCell}>
         <Icon data={FileText} size={18} className={style.nameCellIcon} />
-        <Text variant="body-2">{item.name}</Text>
+        <span className={style.nameCellText}>
+          <Text variant="body-2">{item.name}</Text>
+          <Text variant="caption-2" color="hint" className={style.mono}>{`DOC-${item.id}`}</Text>
+        </span>
       </span>
     ),
   },
   {
     id: 'type.name',
     name: 'Тип документа',
-    width: '33.33%',
-    template: (item: TableDataItem) => (
-      <Label theme="info">{item.type?.name ?? '—'}</Label>
-    ),
+    width: '35%',
+    template: (item: TableDataItem) => {
+      const typeName = item.type?.name as string | undefined;
+      const theme = typeName ? (TYPE_THEME_MAP[typeName.toLowerCase()] ?? 'normal') : 'normal';
+      return <Label theme={theme}>{typeName ?? '—'}</Label>;
+    },
   },
   {
     id: 'updatedAt',
     name: 'Обновлён',
-    width: '33.33%',
+    width: '15%',
     template: (item: TableDataItem) => (
       <Text variant="caption-2" color="secondary">
         {formatDate(item.updatedAt)}
@@ -182,14 +197,17 @@ export default function DocumentsLayout() {
           {project?.name ?? '—'}
         </Text>
 
-        <MyTable
-          className="table"
-          data={documents}
-          columns={columns}
-          getRowActions={getRowActions}
-          onRowClick={handleRowClick}
-          rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
-        />
+        <Card view="outlined" className={style.tableCard}>
+          <MyTable
+            className="table"
+            width="max"
+            data={documents}
+            columns={columns}
+            getRowActions={getRowActions}
+            onRowClick={handleRowClick}
+            rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
+          />
+        </Card>
 
         {total > state.pageSize && (
           <Pagination

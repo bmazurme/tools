@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <Content>
       <NotFoundLayout
-        title="404 — Страница не найдена"
+        title="Страница не найдена"
         description="К сожалению, запрошенная страница не существует."
         buttonLabel="Вернуться на главную"
       />

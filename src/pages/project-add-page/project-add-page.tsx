@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import { Select, Text, TextInput } from '@gravity-ui/uikit';
+import {
+  Card, Select, Text, TextInput,
+} from '@gravity-ui/uikit';
 
 import Content from '../../components/content/content';
 import BackButton from '../../components/back-button/back-button';
@@ -13,6 +15,8 @@ import fields from './project-add-page.fields';
 import { useCreateProjectMutation, useGetProjectStatusesMutation } from '../../store';
 import { TEXT_INPUT_PROPS } from '../../config';
 import useAppToaster from '../../hooks/use-app-toaster';
+
+import style from './project-add-page.module.css';
 
 type FormPayload = {
   name: string;
@@ -61,51 +65,58 @@ export default function ProjectAddPage() {
 
   return (
     <Content sidebar>
-      <form className="content" onSubmit={handleSubmit(onSubmit)}>
-        <BackButton />
-
-        <Text variant="header-1">Добавить проект</Text>
-        {fields.map((input) => (
-          <Controller
-            key={input.name}
-            name={input.name as Exclude<keyof FormPayload, 'status'>}
-            rules={{
-              pattern: input.pattern,
-              required: input.required,
-            }}
-            control={control}
-            render={({ field, fieldState }) => (
-              <TextInput
-                {...field}
-                {...input}
-                {...TEXT_INPUT_PROPS}
-                error={fieldState.error?.message}
-              />
-            )}
+      <div className="content">
+        <div className={style.header}>
+          <BackButton />
+          <Buttons
+            formId="project-add-form"
+            size="m"
+            isLoading={isCreatingProject}
+            isDisabled={isCreatingProject}
           />
-        ))}
+        </div>
+        <Text variant="header-1">Добавить проект</Text>
 
-        <Controller
-          name="status"
-          control={control}
-          render={({ field }) => (
-            <Select
-              placeholder="Выберите статус"
-              label="Статус"
-              size="l"
-              width="max"
-              onUpdate={field.onChange}
-              value={field.value}
-              options={statusOptions}
+        <Card view="outlined" className={style.card}>
+          <form id="project-add-form" className="form" onSubmit={handleSubmit(onSubmit)}>
+            {fields.map((input) => (
+              <Controller
+                key={input.name}
+                name={input.name as Exclude<keyof FormPayload, 'status'>}
+                rules={{
+                  pattern: input.pattern,
+                  required: input.required,
+                }}
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextInput
+                    {...field}
+                    {...input}
+                    {...TEXT_INPUT_PROPS}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
+            ))}
+
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  placeholder="Выберите статус"
+                  label="Статус"
+                  size="l"
+                  width="max"
+                  onUpdate={field.onChange}
+                  value={field.value}
+                  options={statusOptions}
+                />
+              )}
             />
-          )}
-        />
-
-        <Buttons
-          isLoading={isCreatingProject}
-          isDisabled={isCreatingProject}
-        />
-      </form>
+          </form>
+        </Card>
+      </div>
     </Content>
   );
 }

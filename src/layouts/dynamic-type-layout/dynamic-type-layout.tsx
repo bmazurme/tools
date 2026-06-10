@@ -25,7 +25,7 @@ export default function DynamicTypeLayout() {
 
   return (
     <LayoutComponent
-      title="404 — Страница не найдена"
+      title="Страница не найдена"
       description="К сожалению, запрошенный документ не существует."
       buttonLabel="Вернуться на главную"
     />

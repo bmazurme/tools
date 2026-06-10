@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Checkbox, Text } from '@gravity-ui/uikit';
+import { Card, Switch, Text } from '@gravity-ui/uikit';
 
 import LayoutWrapper from '../../components/layout-wrapper/layout-wrapper';
 import {
@@ -9,6 +9,8 @@ import {
 import useAppToaster from '../../hooks/use-app-toaster';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 // import BrokenComponent from '../../components/broken-component/broken-component';
+
+import style from './settings.module.css';
 
 export default function SettingsLayout() {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -77,19 +79,34 @@ export default function SettingsLayout() {
         <Text variant="header-1">
           Настройки
         </Text>
-        <Text variant="subheader-2">
-          Модули
-        </Text>
-        {types.map((x) => (
-          <Checkbox
-            key={x.id}
-            content={x.name}
-            size="m"
-            disabled={isUpdating}
-            checked={availableTypes?.some((type) => type.id === x.id)}
-            onChange={() => toggleType(x.id)}
-          />
-        ))}
+        <Card view="outlined" className={style.card}>
+          <Text variant="subheader-2">
+            Модули
+          </Text>
+          <Text variant="body-2" color="secondary" className={style.description}>
+            Выберите модули, доступные в вашем рабочем пространстве.
+          </Text>
+          {types.map((x) => {
+            const isConnected = availableTypes?.some((type) => type.id === x.id);
+
+            return (
+              <div key={x.id} className={style.row}>
+                <div className={style.rowText}>
+                  <Text variant="body-2">{x.name}</Text>
+                  <Text variant="caption-2" color="hint">
+                    {isConnected ? 'Подключён' : 'Не подключён'}
+                  </Text>
+                </div>
+                <Switch
+                  size="m"
+                  disabled={isUpdating}
+                  checked={isConnected}
+                  onUpdate={() => toggleType(x.id)}
+                />
+              </div>
+            );
+          })}
+        </Card>
         {/* <BrokenComponent /> */}
       </div>
     </LayoutWrapper>

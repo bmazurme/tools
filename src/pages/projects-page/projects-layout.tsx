@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Button,
+  Card,
   Icon,
   Label,
   Pagination,
@@ -54,14 +55,14 @@ const columns = [
   {
     id: 'name',
     name: 'Название проекта',
-    width: '25%',
+    width: '55%',
     template: (item: TableDataItem) => (
       <span className={style.nameCell}>
         <Icon data={FolderOpen} size={18} className={style.nameCellIcon} />
         <span className={style.nameCellText}>
           <Text variant="body-2">{item.name}</Text>
           {item.code && (
-            <Text variant="caption-2" color="secondary">{item.code}</Text>
+            <Text variant="caption-2" color="hint" className={style.mono}>{item.code}</Text>
           )}
         </span>
       </span>
@@ -70,7 +71,7 @@ const columns = [
   {
     id: 'documents',
     name: 'Документы',
-    width: '25%',
+    width: '15%',
     template: (item: TableDataItem) => (
       <Text variant="body-2" color="secondary">
         {item.documents ?? '—'}
@@ -80,7 +81,7 @@ const columns = [
   {
     id: 'status',
     name: 'Статус',
-    width: '25%',
+    width: '15%',
     template: (item: TableDataItem) => {
       const status = item.status as ProjectStatus | null | undefined;
 
@@ -93,7 +94,7 @@ const columns = [
   {
     id: 'updatedAt',
     name: 'Обновлён',
-    width: '25%',
+    width: '15%',
     template: (item: TableDataItem) => (
       <Text variant="caption-2" color="secondary">
         {formatDate(item.updatedAt)}
@@ -216,14 +217,17 @@ export default function ProjectsPage() {
           {`${projects.length} ${getProjectsLabel(projects.length)}`}
         </Text>
 
-        <MyTable
-          className="table"
-          data={projects}
-          columns={columns}
-          getRowActions={getRowActions}
-          onRowClick={handleRowClick}
-          rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
-        />
+        <Card view="outlined" className={style.tableCard}>
+          <MyTable
+            className="table"
+            width="max"
+            data={projects}
+            columns={columns}
+            getRowActions={getRowActions}
+            onRowClick={handleRowClick}
+            rowActionsIcon={<Icon data={EllipsisVertical} size={16} />}
+          />
+        </Card>
 
         {total > state.pageSize && (
           <Pagination

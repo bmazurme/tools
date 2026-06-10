@@ -26,3 +26,12 @@
   flex-direction: column;
   gap: 2px;
 }
+
+.mono {
+  font-family: var(--g-font-family-monospace);
+}
+
+.tableCard {
+  overflow: hidden;
+  width: 100%;
+}
