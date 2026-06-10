@@ -39,8 +39,8 @@ export default function RainRoofTemplateLayout() {
     <TemplateWrapper isLoading={!item?.rainRoof}>
       {() => (
         <RainRoofTemplate
-          data={item.rainRoof}
-          title={item.name}
+          data={item!.rainRoof!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>

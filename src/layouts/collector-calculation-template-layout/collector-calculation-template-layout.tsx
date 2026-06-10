@@ -39,8 +39,8 @@ export default function CollectorCalculationTemplateLayout() {
     <TemplateWrapper isLoading={!item?.collectorCalculation}>
       {() => (
         <CollectorCalculationTemplate
-          data={item.collectorCalculation}
-          title={item.name}
+          data={item!.collectorCalculation!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>

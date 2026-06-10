@@ -39,8 +39,8 @@ export default function HeatLossCalculationTemplateLayout() {
     <TemplateWrapper isLoading={!item?.heatLossCalculation}>
       {() => (
         <HeatLossCalculationTemplate
-          data={item.heatLossCalculation}
-          title={item.name}
+          data={item!.heatLossCalculation!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>
