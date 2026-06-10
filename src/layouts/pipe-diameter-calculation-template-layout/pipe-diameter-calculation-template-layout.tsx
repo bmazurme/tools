@@ -39,8 +39,8 @@ export default function PipeDiameterCalculationTemplateLayout() {
     <TemplateWrapper isLoading={!item?.pipeDiameterCalculation}>
       {() => (
         <PipeDiameterCalculationTemplate
-          data={item.pipeDiameterCalculation}
-          title={item.name}
+          data={item!.pipeDiameterCalculation!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>

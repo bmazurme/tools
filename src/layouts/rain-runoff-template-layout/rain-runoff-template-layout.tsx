@@ -38,8 +38,8 @@ export default function RainRunoffDetailPage() {
     <TemplateWrapper isLoading={!item?.rainRunoff}>
       {() => (
         <RainRunoffTemplate
-          data={item.rainRunoff}
-          title={item.name}
+          data={item!.rainRunoff!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>

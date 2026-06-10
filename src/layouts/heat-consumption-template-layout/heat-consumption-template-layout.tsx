@@ -39,8 +39,8 @@ export default function HeatConsumptionLayout() {
     <TemplateWrapper isLoading={!item?.heatConsumption}>
       {() => (
         <HeatConsumptionTemplate
-          data={item.heatConsumption}
-          title={item.name}
+          data={item!.heatConsumption!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>

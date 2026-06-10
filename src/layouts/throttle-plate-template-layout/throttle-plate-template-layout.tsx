@@ -39,8 +39,8 @@ export default function ThrottlePlateTemplateLayout() {
     <TemplateWrapper isLoading={!item?.throttlePlate}>
       {() => (
         <ThrottlePlateTemplate
-          data={item.throttlePlate}
-          title={item.name}
+          data={item!.throttlePlate!}
+          title={item!.name}
         />
       )}
     </TemplateWrapper>
