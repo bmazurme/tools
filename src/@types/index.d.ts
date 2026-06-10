@@ -100,6 +100,21 @@ type HeatLossCalculation = {
   heatLoss: number;
 };
 
+type CollectorCalculation = {
+  id: number;
+  d1: number;
+  d2: number;
+  d3: number;
+  d4: number;
+  d5: number;
+  d6: number;
+  d7: number;
+  d8: number;
+  d9: number;
+  d10: number;
+  diameter: number;
+};
+
 type RainCondition = {
   id: number;
   name: string;
@@ -125,6 +140,7 @@ type ItemType = {
   throttlePlate?: ThrottlePlate;
   pipeDiameterCalculation?: PipeDiameterCalculation;
   heatLossCalculation?: HeatLossCalculation;
+  collectorCalculation?: CollectorCalculation;
 };
 type RawBlockType = BlockType & { items: ItemType };
 
@@ -141,13 +157,23 @@ type UserType = {
 
 type TotalType = { total: number };
 
+type ProjectStatus = {
+  id: number;
+  name: string;
+  description?: string;
+};
+
 type ProjectType = {
   id: number;
   name: string;
+  code: string;
   description: string;
   address: string;
   participants: UserType[];
   creator: { id: number };
+  status?: ProjectStatus | null;
+  updatedAt?: string;
+  documents?: number;
 };
 
 type ModuleType = {
