@@ -37,7 +37,7 @@ export default function DocumentPage() {
         await updateDocument({ id: Number(id!), name });
       }
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении проекта');
+      showError(error, 'Ошибка при обновлении проекта');
     }
   }, [getValues, id, document, updateDocument, showError]);
 
@@ -52,7 +52,7 @@ export default function DocumentPage() {
 
         dispatch(setDocument({ document: result }));
       } catch (error) {
-        showError(`${error}`);
+        showError(error, 'Ошибка при загрузке документа');
       }
     };
 
