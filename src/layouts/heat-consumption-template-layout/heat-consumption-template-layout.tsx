@@ -27,8 +27,7 @@ export default function HeatConsumptionLayout() {
         const data = await getHeatConsumptionItem(+id).unwrap();
         dispatch(setHeatConsumption({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 
