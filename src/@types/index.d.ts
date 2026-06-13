@@ -100,6 +100,18 @@ type HeatLossCalculation = {
   heatLoss: number;
 };
 
+type MeterType = 'vane' | 'turbine';
+
+type CalculationMeter = {
+  id: number;
+  meterType: MeterType;
+  diameter: number;
+  flowRate: number;
+  resistance: number;
+  resistanceManual?: number | null;
+  pressureLoss: number;
+};
+
 type CollectorCalculation = {
   id: number;
   d1: number;
@@ -141,6 +153,7 @@ type ItemType = {
   pipeDiameterCalculation?: PipeDiameterCalculation;
   heatLossCalculation?: HeatLossCalculation;
   collectorCalculation?: CollectorCalculation;
+  calculationMeter?: CalculationMeter;
 };
 type RawBlockType = BlockType & { items: ItemType };
 

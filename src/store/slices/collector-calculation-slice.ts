@@ -31,4 +31,5 @@ export const {
 } = collectorCalculationSlice.actions;
 export default collectorCalculationSlice.reducer;
 export const collectorCalculationSelector = (state: RootState) => state.collectorCalculation.data;
+// eslint-disable-next-line max-len
 export const collectorCalculationItemSelector = (state: RootState) => state.collectorCalculation.collectorCalculation;

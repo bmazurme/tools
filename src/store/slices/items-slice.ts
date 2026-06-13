@@ -9,6 +9,7 @@ import { throttlePlateEndpoints } from '../api/throttle-plate-api/endpoints/inde
 import { pipeDiameterCalculationEndpoints } from '../api/pipe-diameter-calculation-api/endpoints/index';
 import { heatLossCalculationEndpoints } from '../api/heat-loss-calculation-api/endpoints/index';
 import { collectorCalculationEndpoints } from '../api/collector-calculation-api/endpoints/index';
+import { calculationMeterEndpoints } from '../api/calculation-meter-api/endpoints/index';
 
 import { type RootState } from '..';
 
@@ -162,6 +163,17 @@ const itemsSlice = createSlice({
           data: {
             items: state.data.items.map((x) => (x.collectorCalculation!.id === payload.id
               ? { ...x, collectorCalculation: payload }
+              : x)),
+          },
+        }),
+      )
+      .addMatcher(
+        calculationMeterEndpoints.endpoints.updateCalculationMeter.matchFulfilled,
+        (state, { payload }) => ({
+          ...state,
+          data: {
+            items: state.data.items.map((x) => (x.calculationMeter!.id === payload.id
+              ? { ...x, calculationMeter: payload }
               : x)),
           },
         }),
