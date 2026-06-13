@@ -53,8 +53,7 @@ export default function ThrottlePlateColumn({ children, blockId, length }: Colum
       const item = await createItem({ block: { id: blockId }, index: length }).unwrap();
       dispatch(setItem({ item }));
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(message, 'Ошибка при обновлении статуса');
+      showError(error, 'Ошибка при обновлении статуса');
     }
   }, [createItem, blockId, length, dispatch, showError]);
 
