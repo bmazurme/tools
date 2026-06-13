@@ -7,6 +7,7 @@ import ThrottlePlateLayout from '../throttle-plate/throttle-plate';
 import PipeDiameterCalculationLayout from '../pipe-diameter-calculation/pipe-diameter-calculation';
 import HeatLossCalculationLayout from '../heat-loss-calculation/heat-loss-calculation';
 import CollectorCalculationLayout from '../collector-calculation/collector-calculation';
+import CalculationMeterLayout from '../calculation-meter/calculation-meter';
 
 import NotFoundLayout from '../not-found-layout';
 
@@ -21,6 +22,7 @@ export default function DynamicTypeLayout() {
     'pipe-diameter-calculation': PipeDiameterCalculationLayout,
     'heat-loss-calculation': HeatLossCalculationLayout,
     'collector-calculation': CollectorCalculationLayout,
+    'calculation-meter': CalculationMeterLayout,
   }[typeId!] || NotFoundLayout;
 
   return (

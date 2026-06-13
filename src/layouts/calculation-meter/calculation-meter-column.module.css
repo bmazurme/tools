@@ -1,0 +1,34 @@
+.base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.id {
+  composes: base;
+  width: 40px;
+}
+.name {
+  composes: base;
+  width: 300px;
+  justify-content: flex-start;
+}
+.meterType {
+  composes: base;
+  width: 120px;
+}
+.diameter {
+  composes: base;
+  width: 80px;
+}
+.flowRate {
+  composes: base;
+  width: 100px;
+}
+.resistance {
+  composes: base;
+  width: 100px;
+}
+.pressureLoss {
+  composes: base;
+  width: 100px;
+}

@@ -19,6 +19,7 @@ export { default as heatLossCalculationApi } from './heat-loss-calculation-api/i
 export { default as chatApi } from './chat-api/index';
 export { default as collectorCalculationApi } from './collector-calculation-api/index';
 export { default as projectStatusApi } from './project-status-api/index';
+export { default as calculationMeterApi } from './calculation-meter-api/index';
 
 export * from './projects-api/endpoints/index';
 export * from './documents-api/endpoints/index';
@@ -41,3 +42,4 @@ export * from './heat-loss-calculation-api/endpoints/index';
 export * from './chat-api/endpoints/index';
 export * from './collector-calculation-api/endpoints/index';
 export * from './project-status-api/endpoints/index';
+export * from './calculation-meter-api/endpoints/index';

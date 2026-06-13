@@ -13,8 +13,7 @@ export default function useTheme() {
   const dispatch = useAppDispatch();
   const [toggleThemeMutation] = useToggleThemeMutation();
 
-  const [localIsDark, setLocalIsDark] = useState<boolean>(() =>
-    localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
+  const [localIsDark, setLocalIsDark] = useState<boolean>(() => localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
 
   useEffect(() => {
     if (user) {

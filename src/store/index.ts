@@ -22,6 +22,7 @@ import {
   chatApi,
   collectorCalculationApi,
   projectStatusApi,
+  calculationMeterApi,
 } from './api/index';
 
 import authReducer from './slices/auth-slice';
@@ -42,6 +43,7 @@ import throttlePlateReducer from './slices/throttle-plate-slice';
 import pipeDiameterCalculationReducer from './slices/pipe-diameter-calculation-slice';
 import heatLossCalculationReducer from './slices/heat-loss-calculation-slice';
 import collectorCalculationReducer from './slices/collector-calculation-slice';
+import calculationMeterReducer from './slices/calculation-meter-slice';
 // import paymentsReducer from './slices/payments-slice';
 
 export * from './api/projects-api/endpoints/index';
@@ -66,6 +68,7 @@ export * from './api/heat-loss-calculation-api/endpoints/index';
 export * from './api/chat-api/endpoints/index';
 export * from './api/collector-calculation-api/endpoints/index';
 export * from './api/project-status-api/endpoints/index';
+export * from './api/calculation-meter-api/endpoints/index';
 
 export * from './slices/index';
 
@@ -89,6 +92,7 @@ export const store = configureStore({
     pipeDiameterCalculation: pipeDiameterCalculationReducer,
     heatLossCalculation: heatLossCalculationReducer,
     collectorCalculation: collectorCalculationReducer,
+    calculationMeter: calculationMeterReducer,
     // payments: paymentsReducer,
     [authApi.reducerPath]: authApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
@@ -111,6 +115,7 @@ export const store = configureStore({
     [chatApi.reducerPath]: chatApi.reducer,
     [collectorCalculationApi.reducerPath]: collectorCalculationApi.reducer,
     [projectStatusApi.reducerPath]: projectStatusApi.reducer,
+    [calculationMeterApi.reducerPath]: calculationMeterApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -135,6 +140,7 @@ export const store = configureStore({
       chatApi.middleware,
       collectorCalculationApi.middleware,
       projectStatusApi.middleware,
+      calculationMeterApi.middleware,
     ),
 });
 

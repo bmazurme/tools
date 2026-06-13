@@ -11,8 +11,7 @@ interface ThemeWrapperProps {
 export default function ThemeWrapper({ children }: ThemeWrapperProps) {
   const { user } = useUser();
 
-  const [localIsDark, setLocalIsDark] = useState<boolean>(() =>
-    localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
+  const [localIsDark, setLocalIsDark] = useState<boolean>(() => localStorage.getItem(THEME_STORAGE_KEY) === 'dark');
 
   useEffect(() => {
     if (user) {

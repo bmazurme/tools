@@ -21,6 +21,7 @@ export const STRICT_POSITIVE_2DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,2})?|[1-9
 export const STRICT_POSITIVE_3DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,3})?|[1-9]\d*(?:\.\d{1,3})?)$/;
 export const STRICT_POSITIVE_4DP_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d{1,4})?|[1-9]\d*(?:\.\d{1,4})?)$/;
 export const STRICT_POSITIVE_NUMBER_PATTERN = /^(?!0*\.?0+$)(?:0(?:\.\d*)?|[1-9]\d*(?:\.\d+)?)$/;
+export const OPTIONAL_STRICT_POSITIVE_6DP_PATTERN = /^$|^(?!0*\.?0+$)(?:0(?:\.\d{1,6})?|[1-9]\d*(?:\.\d{1,6})?)$/;
 export const PRANDTL_PATTERN = /^(?:[1-9](?:\.\d{1,4})?|1[0-4](?:\.\d{1,4})?)$/;
 
 export const { VITE_API_URL = 'http://localhost:3000/api/v1' } = import.meta.env;
@@ -104,6 +105,7 @@ export const LATEX = {
     Rvn: '$R_{вн}=\\cfrac{1}{\\pi\\cdot d_{тр}\\cdot \\alpha_{вн}}$',
     k: '$k=\\cfrac{1}{R_{вн} + \\Sigma R_{сл} + R_{нар}}$',
     collectorCalculation: '$D_{\\text{к}} = \\sqrt{d_1^2 + d_2^2 + d_3^2 + d_4^2 + d_5^2 + d_6^2 + d_7^2 + d_8^2 + d_9^2 + d_{10}^2}$',
+    calculationMeterPressureLoss: '$\\Delta H=S \\cdot q^2$',
   },
   collectorD1: '$d_1$',
   collectorD2: '$d_2$',
@@ -116,4 +118,7 @@ export const LATEX = {
   collectorD9: '$d_9$',
   collectorD10: '$d_{10}$',
   collectorDiameter: '$D_{\\text{к}}$',
+  meterDiameter: '$D_y$',
+  resistance: '$S$',
+  pressureLoss: '$\\Delta H$',
 };
