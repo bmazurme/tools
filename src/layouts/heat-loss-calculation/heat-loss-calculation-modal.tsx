@@ -7,6 +7,7 @@ import { useUpdateHeatLossCalculationMutation } from '../../store';
 import { FIELD_CONFIG, type FieldConfig } from './field-config';
 import { FormButtons } from '../../components/form-buttons/form-buttons';
 import ModalHeader from '../../components/modal-header/modal-header';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 import style from './heat-loss-calculation-modal.module.css';
 
@@ -15,6 +16,7 @@ type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => 
 
 export default function HeatLossCalculationModal({ item, open, setOpen }: ModalProps) {
   const [updateHeatLossCalculation] = useUpdateHeatLossCalculationMutation();
+  const { showError } = useAppToaster();
   const {
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
@@ -42,10 +44,9 @@ export default function HeatLossCalculationModal({ item, open, setOpen }: ModalP
       await updateHeatLossCalculation({ ...item.heatLossCalculation, ...data }).unwrap();
       setOpen(false);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to update heat loss calculation:', error);
+      showError(error, 'Ошибка при обновлении расчета теплопотерь');
     }
-  }, [updateHeatLossCalculation, item.heatLossCalculation, setOpen]);
+  }, [updateHeatLossCalculation, item.heatLossCalculation, setOpen, showError]);
 
   const formFields = useMemo(
     () => FIELD_CONFIG.map((fieldConfig: FieldConfig) => (
