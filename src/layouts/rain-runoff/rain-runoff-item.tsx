@@ -12,6 +12,7 @@ import RainRunoffModal from './rain-runoff-modal';
 
 import { TARGET_TYPE } from '../../config';
 import { useAppSelector } from '../../hooks';
+import useAppToaster from '../../hooks/use-app-toaster';
 import {
   itemsSelector,
   useRefreshItemsMutation,
@@ -31,6 +32,7 @@ const RainRunoffItem = memo(({ item, index }: IRainRunoffItem) => {
   const navigate = useNavigate();
   const { items } = useAppSelector(itemsSelector) ?? { items: [] };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showError } = useAppToaster();
 
   const linkToDetails = useCallback(() => navigate(`${item.id}`), [navigate, item.id]);
   const onEdit = useCallback(() => setIsModalOpen(true), []);
@@ -126,10 +128,9 @@ const RainRunoffItem = memo(({ item, index }: IRainRunoffItem) => {
         });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Ошибка при обновлении проекта:', error);
+      showError(error, 'Ошибка при обновлении элемента');
     }
-  }, [getValues, item, index, updateItem]);
+  }, [getValues, item, index, updateItem, showError]);
 
   return (
     <li ref={ref} className="item" style={{ opacity }}>
