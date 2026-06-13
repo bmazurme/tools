@@ -22,7 +22,7 @@ export default function SubscriptionsLayout() {
 
       showSuccess('Подписка успешно продлена', `до ${localString}`);
     } catch (error) {
-      showError(`${error}`, 'Ошибка при продлении подписки');
+      showError(error, 'Ошибка при продлении подписки');
     }
   };
   const createSubscription = async () => {
@@ -30,7 +30,7 @@ export default function SubscriptionsLayout() {
       await sendPay().unwrap() as unknown as { id: number| null, endDate: string };
       showSuccess('Подписка успешно создана');
     } catch (error) {
-      showError(`${error}`, 'Ошибка при создании подписки');
+      showError(error, 'Ошибка при создании подписки');
     }
   };
 
