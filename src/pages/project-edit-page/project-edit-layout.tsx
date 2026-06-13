@@ -72,7 +72,7 @@ export default function ProjectEditLayout() {
       });
       navigate(`/project/${projectId}`);
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении проекта');
+      showError(error, 'Ошибка при обновлении проекта');
     }
   }, [updateProject, projectId, navigate, showError]);
 
@@ -80,7 +80,7 @@ export default function ProjectEditLayout() {
     try {
       await addUserToProject({ projectId, userId });
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении проекта');
+      showError(error, 'Ошибка при обновлении проекта');
     }
   }, [addUserToProject, projectId, showError]);
 
@@ -88,7 +88,7 @@ export default function ProjectEditLayout() {
     try {
       await removeUserFromProject({ projectId, userId });
     } catch (error) {
-      showError(`${error}`, 'Ошибка при обновлении проекта');
+      showError(error, 'Ошибка при обновлении проекта');
     }
   }, [removeUserFromProject, projectId, showError]);
 
