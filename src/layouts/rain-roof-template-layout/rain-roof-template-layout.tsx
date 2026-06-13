@@ -27,8 +27,7 @@ export default function RainRoofTemplateLayout() {
         const data = await getRainRoofItem(+id).unwrap();
         dispatch(setRainRoofs({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 
