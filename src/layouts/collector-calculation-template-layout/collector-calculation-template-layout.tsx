@@ -27,8 +27,7 @@ export default function CollectorCalculationTemplateLayout() {
         const data = await getCollectorCalculationItem(+id).unwrap();
         dispatch(setCollectorCalculation({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 
