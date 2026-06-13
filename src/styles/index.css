@@ -384,6 +384,7 @@
 
     --g-color-text-brand: var(--g-color-private-brand-600-solid);
     --g-color-text-brand-heavy: var(--g-color-private-brand-700-solid);
+    --g-color-text-brand-contrast: var(--g-color-text-light-primary);
     --g-color-text-link: var(--g-color-private-brand-550-solid);
     --g-color-text-link-hover: var(--g-color-private-brand-700-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-700-solid);

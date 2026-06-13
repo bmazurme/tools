@@ -67,8 +67,7 @@ export default function ProfileLayout() {
       await updateUser({ ...user!, status: data.status });
       showSuccess('Статус успешно обновлен', data.status);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(message, 'Ошибка при обновлении статуса');
+      showError(error, 'Ошибка при обновлении статуса');
     }
   }, [updateUser, user, showSuccess, showError]);
 
@@ -89,8 +88,7 @@ export default function ProfileLayout() {
         dispatch(setActivities({ activities: data1.data }));
         dispatch(setStatus(data2.data));
       } catch (error) {
-        // dispatch(setError({ error: error.message }));
-        showError(`${error}`);
+        showError(error, 'Ошибка при загрузке профиля');
       }
     };
 

@@ -153,7 +153,7 @@ export default function DocumentsLayout() {
         dispatch(setDocuments(data));
       } catch (error) {
         // dispatch(setError({ error: error.message }));
-        showError(`${error}`, 'Ошибка при загрузке документов');
+        showError(error, 'Ошибка при загрузке документов');
       }
     };
 
@@ -172,7 +172,7 @@ export default function DocumentsLayout() {
         const data = await getProject(Number(projectId)).unwrap();
         dispatch(setProject({ project: data }));
       } catch (error) {
-        showError(`${error}`, 'Ошибка при загрузке проекта');
+        showError(error, 'Ошибка при загрузке проекта');
       }
     };
 

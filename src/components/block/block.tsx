@@ -45,8 +45,7 @@ const Block = memo(({ blockId, value }: BlockProps) => {
         await updateBlock({ ...value, name });
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(message, 'Ошибка при обновлении статуса');
+      showError(error, 'Ошибка при обновлении статуса');
     }
   };
   const onHandleConfirmDelete = () => {

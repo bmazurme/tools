@@ -27,8 +27,7 @@ export default function HeatLossCalculationTemplateLayout() {
         const data = await getHeatLossCalculationItem(+id).unwrap();
         dispatch(setHeatLossCalculation({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 

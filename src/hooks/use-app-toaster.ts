@@ -1,4 +1,5 @@
 import { useToaster } from '@gravity-ui/uikit';
+import getErrorMessage from '../utils/get-error-message';
 
 const useAppToaster = () => {
   const { add: addToast } = useToaster();
@@ -12,10 +13,10 @@ const useAppToaster = () => {
     });
   };
 
-  const showError = (error: string | Error, customTitle = 'Ошибка при загрузке данных') => {
+  const showError = (error: unknown, customTitle = 'Ошибка при загрузке данных') => {
     addToast({
       title: customTitle,
-      content: `${error}`,
+      content: getErrorMessage(error),
       theme: 'danger',
       name: 'error',
     });

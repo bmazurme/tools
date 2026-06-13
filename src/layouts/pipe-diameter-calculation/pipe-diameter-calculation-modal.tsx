@@ -7,12 +7,14 @@ import { useUpdatePipeDiameterCalculationMutation } from '../../store';
 import { FIELD_CONFIG, type FieldConfig } from './field-config';
 import { FormButtons } from '../../components/form-buttons/form-buttons';
 import ModalHeader from '../../components/modal-header/modal-header';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 type FormPayload = ItemType & PipeDiameterCalculation;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
 
 export default function PipeDiameterCalculationModal({ item, open, setOpen }: ModalProps) {
   const [updatePipeDiameterCalculation] = useUpdatePipeDiameterCalculationMutation();
+  const { showError } = useAppToaster();
   const {
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
@@ -27,10 +29,9 @@ export default function PipeDiameterCalculationModal({ item, open, setOpen }: Mo
       await updatePipeDiameterCalculation({ ...item.pipeDiameterCalculation, ...data }).unwrap();
       setOpen(false);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to update pipe diameter calculation:', error);
+      showError(error, 'Ошибка при обновлении расчета диаметра труб');
     }
-  }, [updatePipeDiameterCalculation, item.pipeDiameterCalculation, setOpen]);
+  }, [updatePipeDiameterCalculation, item.pipeDiameterCalculation, setOpen, showError]);
 
   const formFields = useMemo(
     () => FIELD_CONFIG.map((fieldConfig: FieldConfig) => (

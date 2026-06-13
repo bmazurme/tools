@@ -7,12 +7,14 @@ import { useUpdateHeatConsumptionMutation } from '../../store';
 import { FIELD_CONFIG, type FieldConfig } from './field-config';
 import { FormButtons } from '../../components/form-buttons/form-buttons';
 import ModalHeader from '../../components/modal-header/modal-header';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 type FormPayload = ItemType & HeatConsumption;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
 
 export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps) {
   const [updateHeatConsumption] = useUpdateHeatConsumptionMutation();
+  const { showError } = useAppToaster();
   const {
     control, handleSubmit, reset,
   } = useForm<FormPayload>({
@@ -32,10 +34,9 @@ export default function HeatConsumptionModal({ item, open, setOpen }: ModalProps
       await updateHeatConsumption({ ...item.heatConsumption, ...data }).unwrap();
       setOpen(false);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to update heat consumption:', error);
+      showError(error, 'Ошибка при обновлении теплопотребления');
     }
-  }, [updateHeatConsumption, item.heatConsumption, setOpen]);
+  }, [updateHeatConsumption, item.heatConsumption, setOpen, showError]);
 
   const formFields = useMemo(
     () => FIELD_CONFIG.map((fieldConfig: FieldConfig) => (

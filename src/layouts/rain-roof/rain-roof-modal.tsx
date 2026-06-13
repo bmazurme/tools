@@ -7,12 +7,14 @@ import { useUpdateRainRoofsMutation } from '../../store';
 import { FIELD_CONFIG } from './field-config';
 import { FormButtons } from '../../components/form-buttons/form-buttons';
 import ModalHeader from '../../components/modal-header/modal-header';
+import useAppToaster from '../../hooks/use-app-toaster';
 
 type FormPayload = ItemType & RainRoof;
 type ModalProps = { item: (ItemType); open: boolean; setOpen: (val: boolean) => void };
 
 export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
   const [updateRainRoofs] = useUpdateRainRoofsMutation();
+  const { showError } = useAppToaster();
   const { control, handleSubmit, reset } = useForm<FormPayload>({
     defaultValues: {
       areaRoof: item.rainRoof?.areaRoof,
@@ -24,11 +26,10 @@ export default function RainRoofModal({ item, open, setOpen }: ModalProps) {
 
   const onSubmit = async (data: FormPayload) => {
     try {
-      await updateRainRoofs({ ...item.rainRoof, ...data });
+      await updateRainRoofs({ ...item.rainRoof, ...data }).unwrap();
       setOpen(false);
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to update heat consumption:', error);
+      showError(error, 'Ошибка при обновлении расчета кровли');
     }
   };
 

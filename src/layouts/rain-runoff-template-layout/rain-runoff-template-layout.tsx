@@ -26,8 +26,7 @@ export default function RainRunoffDetailPage() {
         const data = await getRainRunoffsItem(+id).unwrap();
         dispatch(setRainRunOffs({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 

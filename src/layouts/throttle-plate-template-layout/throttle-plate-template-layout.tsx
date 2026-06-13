@@ -27,8 +27,7 @@ export default function ThrottlePlateTemplateLayout() {
         const data = await getThrottlePlateItem(+id).unwrap();
         dispatch(setThrottlePlate({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 

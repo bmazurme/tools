@@ -59,7 +59,7 @@ export default function ProjectAddPage() {
       }) as unknown as { data: ProjectType };
       navigate(`/project/${project.id}`);
     } catch (error) {
-      showError(`${error}`, 'Ошибка при создании проекта');
+      showError(error, 'Ошибка при создании проекта');
     }
   };
 

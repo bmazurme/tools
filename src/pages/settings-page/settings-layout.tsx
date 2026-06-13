@@ -45,8 +45,7 @@ export default function SettingsLayout() {
         availableTypes: result,
       }));
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Ошибка при изменении типа';
-      showError(message, 'Не удалось обновить настройки');
+      showError(error, 'Не удалось обновить настройки');
     } finally {
       setIsUpdating(false);
     }
@@ -66,8 +65,7 @@ export default function SettingsLayout() {
         const result = await getTypes().unwrap();
         dispatch(setTypes(result));
       } catch (e) {
-        const message = e instanceof Error ? e.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка при обновлении статуса');
+        showError(e, 'Ошибка при обновлении статуса');
       }
     };
     fetchOptions();

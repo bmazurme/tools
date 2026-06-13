@@ -27,8 +27,7 @@ export default function PipeDiameterCalculationTemplateLayout() {
         const data = await getPipeDiameterCalculationItem(+id).unwrap();
         dispatch(setPipeDiameterCalculation({ item: data }));
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-        showError(message, 'Ошибка');
+        showError(error, 'Ошибка');
       }
     };
 

@@ -185,8 +185,7 @@ export default function ProjectsPage() {
 
         dispatch(setProjects(data));
       } catch (error) {
-        // dispatch(setError({ error: error.message }));
-        showError(`${error}`, 'Ошибка при загрузке проектов');
+        showError(error, 'Ошибка при загрузке проектов');
       }
     };
 
