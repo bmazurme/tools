@@ -130,8 +130,7 @@ const PipeDiameterCalculationItem = memo(({ item, index }: IPipeDiameterCalculat
         });
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Неизвестная ошибка';
-      showError(message, 'Ошибка');
+      showError(error, 'Ошибка');
     }
   }, [getValues, item, index, updateItem, showError]);
 
